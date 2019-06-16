@@ -41,5 +41,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 # Built with love & neoan3?
 
-Blua.blue is written as neoan3 components. We are currently working on integrating blua.blue in the neoan3-cli to be included with your neoan3 projects.
+Blua.blue is written as [neoan3](https://github.com/sroehrl/neoan3/) components. We are currently working on integrating blua.blue in the neoan3-cli to be included with your neoan3 projects.
 
