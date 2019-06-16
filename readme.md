@@ -1,3 +1,6 @@
+![blua.blue](asset/img/blua-blue-logo.png)
+# Content Enablement Platform
+
 ## Requirements
 
 PHP7
