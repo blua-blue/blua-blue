@@ -1,0 +1,23 @@
+html{
+  min-height: 100%;
+}
+
+body{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main{
+  flex: 1;
+}
+.border-bottom{
+  border-bottom: 1px solid;
+}
+
+/*Breadcrumb*/
+$breadcrumb-item-color:hsl(171, 100%, 41%);
+
+$primary: rgb(12, 13, 241);
+
+@import "../../node_modules/bulma/bulma";
+

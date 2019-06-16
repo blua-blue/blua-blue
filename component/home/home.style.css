@@ -1,0 +1,17 @@
+.start-bg:after {
+    background: url({{base}}asset/img/content-is-king-large.jpg) no-repeat;
+    background-size: cover;
+    content:"";
+    opacity:.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    z-index: -1;
+}
+.logo{
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}

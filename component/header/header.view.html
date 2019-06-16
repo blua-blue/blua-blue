@@ -1,0 +1,47 @@
+<div id="header">
+    <nav class="navbar has-background-primary is-spaced" >
+        <div class="navbar-brand">
+            <div>
+                <h2 class="title has-text-white ">&lt; read /></h2>
+            </div>
+
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-item" style="flex:1">
+                <div class="field  has-text-white " style="flex:1">
+                    <div class="control is-flex" style="flex:1">
+                        <label class=" is-inline" for="search">&lt;read article =</label>
+                        <input id="search" type="text" class="input is-inline is-rounded is-small" v-model="text" placeholder="search..." style="flex:1">
+                        <span> /></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+    <section class="section" v-if="searchResults.length>0&&text!==''" v-bind:style="{display:'block'}" style="display: none">
+        <div class="columns is-multiline">
+            <div class=" column is-one-quarter" v-for="article in searchResults">
+                <article class="message is-info">
+                    <div class="message-header">
+                        <p>{{article.category.name}}</p>
+                    </div>
+                    <div class="message-body">
+                        <div class="title">{{article.name}}</div>
+                        <div>
+                            {{article.teaser}}
+                        </div>
+                        <a v-bind:href="'{{base}}article/'+article.slug+'/'">Read</a>
+                    </div>
+
+                </article>
+            </div>
+
+
+        </div>
+
+    </section>
+</div>
+
+

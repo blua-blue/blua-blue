@@ -1,0 +1,19 @@
+<div>
+    <div class="box" v-for="(article,i) in articles">
+        <div class="columns">
+            <div class="column">
+
+                <a v-bind:href="'{{base}}article/'+article.slug+'/'">{{article.name}}</a>
+            </div>
+            <div class="column is-one-quarter">
+                <i class="fas" v-bind:class="{'fa-check has-text-success':article.publish_date,'fa-times':!article.publish_date}"></i>
+                <span>Published</span>
+                <i class="fas" v-bind:class="{'fa-eye has-text-success':article.is_public===1,'fa-eye-slash has-text-warning':article.is_public===0}"></i>
+            </div>
+            <div class="column is-narrow">
+                <a class="button is-small" v-bind:href="'{{base}}write/'+article.id"><i class="far fa-edit"></i></a>
+            </div>
+        </div>
+
+    </div>
+</div>

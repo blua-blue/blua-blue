@@ -1,0 +1,90 @@
+<section class="main section ">
+    <div class="container ">
+        <div class="columns">
+            <div class="column">
+
+                <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">{{category.name}}</a></li>
+                        <li><a href="#">{{name}}</a></li>
+                    </ul>
+                </nav>
+                <article>
+                    <h1 class="title has-text-primary">{{name}}</h1>
+                    <h1 class="subtitle ">{{teaser}}</h1>
+                    <div class="content">
+                        {{renderedContent}}
+                    </div>
+
+                </article>
+                <div id="login-form"></div>
+            </div>
+            <div class="column is-one-quarter">
+
+                <div class="">
+                    <div class="media ">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <p>
+                                <strong>{{author.user_name}}</strong>
+                                <small>@{{author.user_name}}</small>
+                            </p>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                            <button class="button is-small is-outlined">more...</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-bottom has-margin-top-3">
+                    <span class="title is-5 has-text-primary">Keywords</span>
+
+                </div>
+                <div class="has-margin-top-3">
+                    <span class="tag is-light">PHP</span>
+                    <span class="tag is-light">JavaScript</span>
+                </div>
+                <div class="border-bottom has-margin-top-3">
+                    <span class="title is-5 has-text-primary">On topic</span>
+                </div>
+
+                <div >
+                    <div class="card has-margin-top-3">
+                        <div class="card-content">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-footer-item">
+                                <small>@author-handle</small>
+                            </div>
+                            <div class="card-footer-item">
+                                <a href="#">read</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card has-margin-top-3">
+                        <div class="card-content">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-footer-item">
+                                <small>@author-handle</small>
+                            </div>
+                            <div class="card-footer-item">
+                                <a href="#">read</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

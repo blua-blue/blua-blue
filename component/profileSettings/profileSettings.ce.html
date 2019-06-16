@@ -1,0 +1,50 @@
+<div class="columns">
+    <div class="column">
+        <aside class="menu">
+            <template v-for="(menu,topic) in navigation">
+                <p class="menu-label">
+                    {{topic}}
+                </p>
+                <ul class="menu-list">
+                    <li v-for="item in menu"><a v-bind:class="{'is-active':currentNavigation===item.slug}" v-on:click="currentNavigation=item.slug">{{item.name}}</a></li>
+                </ul>
+            </template>
+
+        </aside>
+    </div>
+    <div class="column is-four-fifths" v-if="user.id">
+        <form v-on:submit.prevent="updateEmail" v-if="currentNavigation === 'email'">
+            <div class="message is-danger" v-if="!user.email.confirm_date&&!warnings.email">
+                <div class="message-body">
+                    Your email is not confirmed! You will not be able to
+                    <ul>
+                        <li>- Use the public API</li>
+                        <li>- Comment or rate articles</li>
+                        <li>- Publish articles</li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="message is-info" v-if="warnings.email">
+                <div class="message-body">Please check your inbox</div>
+            </div>
+            <h2 class="subtitle">Update email</h2>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <div class="control" >
+                            <input type="email" v-model.trim="user.email.email" class="input">
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-narrow">
+                    <div class="control">
+                        <button class="button" type="submit" v-bind:disabled="disabled">Send confirmation</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

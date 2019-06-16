@@ -1,0 +1,63 @@
+<section class="main section" id="posting">
+    <form v-on:submit.prevent="create">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <div class="control">
+                            <label for="name" class="label">Title</label>
+                            <input type="text" id="name" class="input" required v-model="article.name">
+                        </div>
+
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <label for="teaser" class="label">Teaser</label>
+                            <textarea id="teaser" class="textarea" placeholder="max 255 character" required v-model="article.teaser"></textarea>
+                        </div>
+
+                    </div>
+                    <div v-for="section in article.content">
+                        <editor id="new-post-editor" v-model="section.content"></editor>
+                    </div>
+
+                </div>
+                <div class="column is-one-third">
+                    <label for="category" class="label">Category</label>
+                    <div class="select">
+
+                        <select id="category" required v-model="article.category_id">
+                            <option v-for="category in categories" v-bind:value="category.id">{{category.name}}</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="keywords" class="label">Keywords</label>
+                        <input type="text" class="input" id="keywords" v-model="article.keywords" placeholder="separate by comma">
+                    </div>
+                    <div class="field">
+                        <label class="checkbox">
+                            <input type="checkbox" v-model="article.public">
+                            Appear in search & make public
+                        </label>
+                    </div>
+                    <article class="message is-primary">
+                        <div class="message-body">
+                            This article is currently:
+                            <strong v-if="article.isDraft">drafted</strong>
+                            <strong v-else>published</strong>
+                        </div>
+                    </article>
+                    <div>
+                        <button type="submit" v-on:click="article.isDraft = true" class="button is-info">Save</button>
+                        <button type="submit" v-on:click="article.isDraft = false" class="button is-primary">Save & publish</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </form>
+
+</section>
