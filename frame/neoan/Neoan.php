@@ -12,22 +12,32 @@ use Neoan3\Core\Serve;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Neoan extends Serve {
-    private $credentials = [];
-    private $developmentMode = true;
-    protected $currentAuth = false;
+    private   $credentials     = [];
+    private   $developmentMode = true;
+    protected $currentAuth     = false;
 
     function __construct() {
-        if (!$this->developmentMode) {
+        if(!$this->developmentMode) {
             Cache::setCaching('+2 hours');
         }
         // SETUP
         /*
          * Sharing projects oe.g via GitHub? Hide credentials and place them OUTSIDE of your server's web-root.
          * Here we are storing credentials in a JSON file.
+         * ['db'=>
+         *  ['name'=>'your_database','assumes_uuid'=>true,'password'=>'Password','user'=>'dbUser'],
+         * 'stateless'=>'SecretKey'
+         * 'mail'=>
+         *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password']
+         * ]
+         *
          * */
         $credentialFile = dirname(dirname(path)) . '/credentials/credentials.json';
-        if(file_exists($credentialFile)){
+        if(file_exists($credentialFile)) {
             $this->credentials = json_decode(file_get_contents($credentialFile), true);
+        } else {
+            print('SETUP: No credentials found. Please check README for instructions and/or change '.__FILE__.' starting at line '.(__LINE__-4).' ');
+            die();
         }
 
 
@@ -50,12 +60,11 @@ class Neoan extends Serve {
     function vueComponent($element, $params = []) {
         $params['base'] = base;
         $path = path . '/component/' . $element . '/' . $element . '.ce.';
-        if (file_exists($path . $this->viewExt)) {
-            $this->footer .= '<template id="' . $element . '">' .
-                $this->fileContent($path . $this->viewExt, $params) .
-                '</template>';
+        if(file_exists($path . $this->viewExt)) {
+            $this->footer .= '<template id="' . $element . '">' . $this->fileContent($path . $this->viewExt, $params) .
+                             '</template>';
         }
-        if (file_exists($path . 'js')) {
+        if(file_exists($path . 'js')) {
             $this->js .= $this->fileContent($path . 'js', $params);
         }
 
@@ -69,11 +78,12 @@ class Neoan extends Serve {
 
     function output($params = []) {
         parent::output($params);
-        if (!$this->developmentMode) {
+        if(!$this->developmentMode) {
             Cache::write();
         }
     }
-    function newMail(){
+
+    function newMail() {
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host = $this->credentials['mail']['host'];
@@ -88,26 +98,26 @@ class Neoan extends Serve {
     private function setUpDb() {
         try {
             Db::setEnvironment($this->credentials['db']);
-        } catch (DbException $e) {
+        } catch(DbException $e) {
             echo "Warning: Database connection failed.";
         }
     }
 
     function constants() {
         return [
-            'base' => [base],
-            'link' => [
+            'base'       => [base],
+            'link'       => [
                 [
                     'sizes' => '32x32',
-                    'type' => 'image/png',
-                    'rel' => 'icon',
-                    'href' => 'asset/img/blua-blue-icon-32x32.png'
+                    'type'  => 'image/png',
+                    'rel'   => 'icon',
+                    'href'  => 'asset/img/blua-blue-icon-32x32.png'
                 ]
             ],
-            'meta' => [
+            'meta'       => [
                 ['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1']
             ],
-            'js' => [
+            'js'         => [
                 ['src' => 'https://use.fontawesome.com/releases/v5.3.1/js/all.js'],
                 ['src' => base . 'asset/tinymce/js/tinymce/tinymce.min.js'],
                 ['src' => base . 'node_modules/vue/dist/vue.js'],

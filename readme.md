@@ -9,12 +9,18 @@ PHP7
 
 [nodeJS & npm](https://nodejs.org)
 
+[neoan3-cli](https://www.npmjs.com/package/neoan3-cli)
+
 
 ## Installation
 
 Download the repository @ https://github.com/blua-blue/blua-blue
 
-Change the "RewriteBase" in the .htaccess file (or create a route-script for Nginx)
+1. Change the "RewriteBase" in the .htaccess file (or create a route-script for Nginx)
+2. Run `composer install`
+3. Run `npm install`
+4. Create [Credentials](#credentials) 
+5. Run `neoan3 migrate models up`
 
 ### Credentials
 Credentials are expected to be in a folder "credentials" as a sibling to the web-root. 
@@ -26,6 +32,37 @@ _neoan3-apps/stateless_ https://github.com/sroehrl/neoan3-stateless
 
 _phpmailer_ https://github.com/PHPMailer/PHPMailer
 
+*Example:*
+
+```JSON
+{"db": {
+  "name": "your_db",
+  "assumes_uuid": true,
+  "password": "yourPassword",
+  "user": "phpDbUser"
+
+  },
+"stateless": "yourSEcretKey",
+"mail": {
+  "host": "mail.example.com",
+  "username": "some@example.com",
+  "password": "MailSMTPpassword"
+  }
+}
+```
+Don't have access outside of the project? Alternatively, you can create a private function in the frame and set
+`$this->credentials` with an array supplying these credentials. However, be aware that when using credentials in your project, sharing the codebase becomes a security consideration.
+```PHP
+$this->credentials = [
+    'db'=>[...],
+    ...
+]
+```
+
+
+> You might have to provide additional settings depending on your services. 
+> Additional mailing-setup can be managed in the function newMail() (in the neoan-frame) and within your credentials when dealing with database-credentials.
+> Please see the respective documentation for these packages.
 
 ### License
 
