@@ -7,6 +7,7 @@ use Neoan3\Apps\Db;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
 use Neoan3\Apps\Stateless;
+use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\UserModel;
@@ -46,14 +47,17 @@ class Profile extends Unicore {
         // 1. Email
         if($user['email']['email'] !== $userModel['email']['email'] || empty($userModel['email']['confirm_date'])){
             Db::user_email(['delete_date'=>'.'],['user_id'=>'$'.$userModel['id']]);
-            $hash = Ops::hash(32);
+            $hash = Ops::hash(30);
             Db::ask('user_email',[
                 'user_id'=>'$'.$userModel['id'],
                 'email'=>$user['email']['email'],
                 'confirm_code'=>$hash
             ]);
             $verify = new Verify();
-            $verify->confirmEmail($user['email']['email'],$hash);
+            $trySending = $verify->confirmEmail($user['email']['email'],$hash);
+            if(!$trySending['success']){
+                throw new RouteException('Email could not be sent',500);
+            }
         }
 
     }

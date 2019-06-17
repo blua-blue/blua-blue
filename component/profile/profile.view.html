@@ -4,6 +4,10 @@
             <li v-for="tab in tabs" v-bind:class="{'is-active':currentTab===tab.hash}"><a v-on:click.prevent="setHash(tab.hash)">{{tab.name}}</a></li>
         </ul>
     </div>
-    <article-list v-if="currentTab==='articles'" v-bind:author="author"></article-list>
+    <div class="articles" v-if="currentTab==='articles'">
+        <a href="{{base}}write/" class="button is-primary"><span class="icon is-small"><i class="fas fa-plus"></i></span> <span>new article</span></a>
+        <article-list v-bind:author="author"></article-list>
+    </div>
+
     <profile-settings v-if="currentTab==='settings'" ></profile-settings>
 </section>
