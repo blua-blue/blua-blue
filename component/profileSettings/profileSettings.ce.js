@@ -22,7 +22,7 @@ Vue.component('profileSettings',{
             api.put('profile',this.user).then(res=>{
                 this.warnings.email = true;
                 this.disabled = false;
-            })
+            }).catch(err=>alert('We were unable to send to this email address'));
         }
     },
     mounted(){

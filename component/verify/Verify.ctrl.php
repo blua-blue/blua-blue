@@ -47,9 +47,9 @@ class Verify extends Neoan {
             $mail->Body = 'Please visit the following link to verify your email: '.$link;
             $mail->send();
         } catch (Exception $e) {
-            var_dump($e->getMessage());
-            die();
+            return ['success'=>false,'error'=>$e->getMessage()];
         }
+        return ['success'=>true];
     }
 
 
