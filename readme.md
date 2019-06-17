@@ -1,5 +1,13 @@
+>NOT RELEASED! Current state is stable but lacks certain functionality. Please see Issues.
+
 ![blua.blue](asset/img/blua-blue-logo.png)
 # Content Enablement Platform
+Stateles (JWT) hybrid (frontend & headless) CMS built with
+
+- PHP ( [neoan3](https://github.com/sroehrl/neoan3) )
+- MySQL
+- [Vue](https://vuejs.org) (administration & optional frontend)
+- [Bulma](https://bulma.io) (administration & optional frontend)
 
 ## Requirements
 
