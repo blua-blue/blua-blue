@@ -5,6 +5,7 @@ namespace Neoan3\Model;
 
 
 use Neoan3\Apps\Db;
+use Neoan3\Apps\Ops;
 
 class ArticleModel extends IndexModel {
     static function byId($id){
@@ -29,7 +30,18 @@ class ArticleModel extends IndexModel {
     }
 
     static function find($condition){
-        
+        $articles = [];
+        foreach($condition as $key => $value){
+            if(strpos($key,'_id')!== false || $key == 'id'){
+                $condition[$key] = '$'.$value;
+            }
+        }
+        $ids = Db::easy('article.id',$condition);
+        foreach($ids as $id){
+            $articles[] = self::byId($id['id']);
+        }
+
+        return $articles;
     }
 
 }

@@ -3,10 +3,14 @@
 
 namespace Neoan3\Components;
 
+use Neoan3\Apps\Db;
 use Neoan3\Apps\Ops;
+use Neoan3\Apps\Stateless;
+use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
+use Neoan3\Model\IndexModel;
 
 class Article extends Unicore {
     private $vueElements = ['login'];
@@ -43,12 +47,69 @@ class Article extends Unicore {
         }
         $this->article = $article;
 
-
     }
     private function notFound(){
         $no = new NotFound();
         $no->init();
         exit();
+    }
+    /* API */
+    private function asApi() {
+        new Neoan();
+    }
+    function getArticle($condition){
+        $this->asApi();
+        $jwt = Stateless::restrict();
+        $article = IndexModel::first(ArticleModel::find($condition));
+        if(!empty($article) && $article['author_user_id'] === $jwt['jti'] || (!empty($article['publish_date'])&&$article['is_public']===1)){
+            return $article;
+        }
+        throw new RouteException('Not found or no permission',404);
+    }
+    function postArticle($article){
+        $this->asApi();
+        $jwt = Stateless::restrict();
+        if (isset($article['id'])) {
+            $oldArticle = ArticleModel::byId($article['id']);
+            if(empty($oldArticle) || $oldArticle['author_user_id'] !== $jwt['jti']){
+                throw new RouteException('no permission',403);
+            }
+            // ensure rights to update
+            $articleId = $article['id'];
+        } else {
+            $slug = Ops::toKebabCase($article['name']);
+            $exists = Db::ask('>SELECT id FROM article WHERE slug LIKE CONCAT({{slug}},"%")',['slug'=>$slug]);
+            if(!empty($exists)){
+                $slug = $slug . '-'.(count($exists)+1);
+            }
+            $articleId = Db::uuid()->uuid;
+            Db::article([
+                            'id' => '$' . $articleId,
+                            'author_user_id' => '$' . $jwt['jti'],
+                            'name' => $article['name'],
+                            'slug' =>$slug,
+                            'teaser' => $article['teaser'],
+                            'category_id' => '$' . $article['category_id'],
+                            'is_public' => $article['public'],
+                            'publish_date' => $article['isDraft'] ? '' : '.'
+                        ]);
+        }
+        foreach ($article['content'] as $i =>$content) {
+            $contentRow = [
+                'article_id' => '$' . $articleId,
+                'sort' => $i+1,
+                'content' => '=' . $content['content']
+            ];
+            if(isset($content['id'])){
+                Db::article_content($contentRow,['id'=>'$'.$content['id']]);
+            } else {
+                Db::article_content($contentRow);
+            }
+
+        }
+
+
+        return ['id'=>$articleId];
     }
 
 }
