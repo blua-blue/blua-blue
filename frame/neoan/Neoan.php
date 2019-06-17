@@ -101,7 +101,7 @@ class Neoan extends Serve {
                     'sizes' => '32x32',
                     'type' => 'image/png',
                     'rel' => 'icon',
-                    'href' => 'asset/neoan-favicon.png'
+                    'href' => 'asset/img/blua-blue-icon-32x32.png'
                 ]
             ],
             'meta' => [
