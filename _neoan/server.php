@@ -11,9 +11,7 @@ class ServerRoute {
         $this->appLevel = dirname(__DIR__);
         $this->queryString = $_SERVER["REQUEST_URI"];
         $this->pureUri = strtok($this->queryString, '?');
-//        var_dump(explode('/',$this->pureUri));
         $this->request = preg_replace('/^\//', '', $this->pureUri);
-//        var_dump($this->request);
         return $this;
     }
     private function writeAction($subtract = '') {
