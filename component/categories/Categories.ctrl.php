@@ -9,7 +9,7 @@ use Neoan3\Model\CategoryModel;
 use Neoan3\Apps\Db;
 
 class Categories extends Neoan {
-    function getCategories($params){
+    function getCategories(){
         return CategoryModel::listAll();
     }
 
@@ -17,6 +17,10 @@ class Categories extends Neoan {
         $jwt = Stateless::restrict('user');
         Db::ask('category',['name'=>$obj['name']]);
         return ['request'=>'sent'];
+    }
+    function deleteCategories($obj){
+        $jwt = Stateless::restrict('user');
+        Db::category(['delete_date'=>'.'],['id'=>'$'. $obj['id']]);
     }
 
 }

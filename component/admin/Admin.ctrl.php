@@ -8,7 +8,8 @@ use Neoan3\Core\Unicore;
 class Admin extends Unicore {
     function init() {
         $this->uni('neoan')
-             ->vueComponent('admin')
+            ->vueComponent('categories')
+            ->vueComponent('admin')
              ->hook('main', 'admin')
              ->output();
     }
