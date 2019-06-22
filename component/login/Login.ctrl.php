@@ -30,18 +30,25 @@ class Login extends Neoan {
         if(empty($user)) {
             throw new RouteException('Wrong credentials', 401);
         }
-
+        $user = $user[0];
         $password = Db::easy(
             'user_password.password',
-            ['^delete_date', 'user_id' => '$' . $user[0]['id']]
+            ['^delete_date', 'user_id' => '$' . $user['id']]
         );
         if(empty($password) || !password_verify($credentials['password'],$password[0]['password'])){
             throw new RouteException('Wrong credentials', 401);
         }
-        $jwt = Stateless::assign($user[0]['id'],'user',['exp'=>time()+(2*60*60*1000)]);
+        // prepare roles/scopes
+        $scope = ['user'];
+        if($user['user_type'] !== 'user'){
+            $scope[] = $user['user_type'];
+        }
+
+
+        $jwt = Stateless::assign($user['id'],$scope,['exp'=>time()+(2*60*60*1000)]);
         // For hybrid auth
-        Session::login($user[0]['id']);
-        return ['token'=>$jwt,'user'=>$user[0]];
+        Session::login($user['id'],$user['roles'],$user['user_type']);
+        return ['token'=>$jwt,'user'=>$user];
     }
 
     function deleteLogin(){
