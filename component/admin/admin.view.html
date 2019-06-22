@@ -4,7 +4,6 @@
             <li v-for="tab in tabs" v-bind:class="{'is-active':currentTab===tab.hash}"><a v-on:click.prevent="setHash(tab.hash)">{{tab.name}}</a></li>
         </ul>
     </div>
-    <category-list v-if="currentTab==='categories'">
-
-    </category-list>
+    <user-list v-if="currentTab==='users'"></user-list>
+    <category-list v-if="currentTab==='categories'"></category-list>
 </section>

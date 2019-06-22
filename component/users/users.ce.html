@@ -1,0 +1,17 @@
+<div>
+    <div class="columns">
+        <div class="column">
+            <input type="text" placeholder="search user" v-model="search" class="input">
+        </div>
+    </div>
+    <div>{{totalPages}}</div>
+    <nav class="pagination is-small" role="navigation" aria-label="pagination">
+        <a class="pagination-previous">Previous</a>
+        <a class="pagination-next">Next page</a>
+        <ul class="pagination-list">
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+        </ul>
+    </nav>
+</div>
