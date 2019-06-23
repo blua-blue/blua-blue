@@ -8,7 +8,7 @@ use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 
 class Admin extends Unicore {
-    private $components = ['categories','users','admin'];
+    private $components = ['categories','users','articleList','admin'];
     function init() {
         $this->uni('neoan')
             ->callback($this,'setup')
