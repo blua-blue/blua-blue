@@ -51,6 +51,7 @@ class Neoan extends Serve {
         new Session();
         parent::__construct();
 
+        $this->vueComponent('cookieLaw');
         $this->includeElement('header');
         $this->hook('header', 'header');
         $this->hook('footer', 'footer');
@@ -63,6 +64,9 @@ class Neoan extends Serve {
         if(file_exists($path . $this->viewExt)) {
             $this->footer .= '<template id="' . $element . '">' . $this->fileContent($path . $this->viewExt, $params) .
                              '</template>';
+        }
+        if(file_exists($path . $this->styleExt)) {
+            $this->style .= $this->fileContent($path . $this->styleExt, $params);
         }
         if(file_exists($path . 'js')) {
             $this->js .= $this->fileContent($path . 'js', $params);
@@ -102,6 +106,7 @@ class Neoan extends Serve {
             echo "Warning: Database connection failed.";
         }
     }
+
 
     function constants() {
         return [

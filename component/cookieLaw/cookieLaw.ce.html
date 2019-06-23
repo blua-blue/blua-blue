@@ -1,0 +1,11 @@
+<div class="cookie-overlay columns" v-if="!accepted">
+    <div class="column">
+        <p class="subtitle">Free cookies!</p>
+        <p>This site uses cookies to ensure functionality. We all know this, but the EU wants you to click an additional button. Enjoy.</p>
+        <p>(For those of you concerned about real issues regarding privacy, please read our <a href="{{base}}terms-conditions/" target="_blank">Terms & Conditions</a>)</p>
+    </div>
+    <div class="column is-narrow">
+        <button class="button" @click="dismiss">Dismiss</button>
+    </div>
+
+</div>
