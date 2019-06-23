@@ -2,7 +2,9 @@ new Vue({
     el:'#header',
     data:{
         text:'',
-        searchResults:[]
+        searchResults:[],
+        menuIsOpen:false,
+        dropdownIsOpen:false
     },
     watch:{
         text: function (newV,oldV) {
@@ -13,6 +15,12 @@ new Vue({
         this.debounceSearch = _.debounce(this.ajaxSearch,300);
     },
     methods:{
+        toggleMenu(){
+            this.menuIsOpen = !this.menuIsOpen;
+        },
+        toggleDropdown(){
+            this.dropdownIsOpen = !this.dropdownIsOpen;
+        },
         ajaxSearch:function(){
             api.get('search?q='+this.text).then(res=>{
                 this.searchResults = res.data;

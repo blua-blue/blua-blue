@@ -35,7 +35,7 @@ new Vue({
     methods:{
         create(){
             let obj = this.article;
-            api.post('write',obj).then(res=>{
+            api.post('article',obj).then(res=>{
                 this.article.id = res.data.id;
             }).catch(err=>{
 
