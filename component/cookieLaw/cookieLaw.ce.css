@@ -1,0 +1,10 @@
+.cookie-overlay{
+    margin:7px;
+    position:absolute;
+    top:50vh;
+    left:0;
+    right: 0;
+    background: rgba(238, 237, 245, 0.9);
+    z-index: 99;
+    border: 1px solid;
+}
