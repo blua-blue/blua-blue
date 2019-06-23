@@ -18,7 +18,8 @@ class Users extends Neoan {
         $response['total'] = (int) IndexModel::first(
             Db::ask('>SELECT COUNT(*) as total FROM user WHERE delete_date IS NULL')
         )['total'];
-        $users = Db::easy('user.id', ['^delete_date'], ['limit' => [$start, $limit]]);
+//        Db::debug();
+        $users = Db::easy('user.id', ['^delete_date','user_name'=>'{ LIKE "%'.$obj['nameFilter'].'%" }'], ['limit' => [$start, $limit]]);
         foreach ($users as $user) {
             $response['users'][] = UserModel::byId($user['id']);
         }
