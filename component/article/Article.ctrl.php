@@ -65,6 +65,13 @@ class Article extends Unicore {
     private function asApi() {
         new Neoan();
     }
+
+    /**
+     * @param $condition
+     *
+     * @return array|mixed
+     * @throws RouteException
+     */
     function getArticle($condition){
         $this->asApi();
         $jwt = Stateless::restrict();
