@@ -14,13 +14,14 @@ use Neoan3\Model\IndexModel;
 
 class Article extends Unicore {
     private $vueElements = ['login'];
-    private $article;
+    private $content;
+    private $view = 'article';
 
     function init() {
         $this->uni('neoan')
              ->callback($this, 'vueElements')
              ->callback($this, 'getContext')
-             ->hook('main', 'article',$this->article)
+             ->hook('main', $this->view,$this->content)
              ->output();
     }
 
@@ -35,23 +36,30 @@ class Article extends Unicore {
     }
     function getContext(){
         if(!sub(1)){
-            $this->notFound();
+            $this->general();
+            return true;
         }
         $article = ArticleModel::bySlug(sub(1));
         if(empty($article) || $article['is_public'] !== 1 || empty($article['publish_date'])){
-            $this->notFound();
+            $this->general();
         }
         $article['renderedContent'] = '';
         foreach ($article['content'] as $content){
             $article['renderedContent'] .= $content['content'];
         }
-        $this->article = $article;
+        $this->content = $article;
+        return true;
 
     }
-    private function notFound(){
-        $no = new NotFound();
-        $no->init();
-        exit();
+    private function general(){
+        $this->view = 'overview';
+        $articleList = new ArticleList();
+        $newest = $articleList->getArticleList(['limit'=>30]);
+        $this->content['cards'] = '';
+        foreach($newest as $post){
+            $this->content['cards'] .= Ops::embraceFromFile('/component/article/card.html',$post);
+        }
+
     }
     /* API */
     private function asApi() {
