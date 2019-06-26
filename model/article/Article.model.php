@@ -12,6 +12,10 @@ class ArticleModel extends IndexModel {
         $tables = ['content'];
         $article = parent::first(Db::easy('article.* #article.insert_date:inserted',['id'=>'$'.$id]));
         if(!empty($article)){
+            $article['image'] = [];
+            if(!empty($article['image_id'])){
+                $article['image'] = ImageModel::undeletedById($article['image_id']);
+            }
             $article['author'] = parent::first(Db::easy('user.*',['id'=>'$'.$article['author_user_id']]));
             $article['category'] = parent::first(Db::easy('category.*',['id'=>'$'.$article['category_id']]));
             foreach($tables as $table){

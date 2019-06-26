@@ -6,6 +6,9 @@ new Vue({
             isDraft:true,
             name:'',
             teaser:'',
+            image:{
+                path:''
+            },
             content:[
                 {content:''}
             ],
@@ -21,22 +24,43 @@ new Vue({
     created(){
         console.log('{{loadedArticleId}}');
         if('{{loadedArticleId}}' !== ''){
-            api.get('write?id={{loadedArticleId}}').then(res=>{
-                this.article = res.data;
-                this.article.isDraft = !res.data.publish_date;
-                this.article.public = res.data.is_public;
-            }).catch(err=>{
-                // not allowed
-            })
+            this.loadArticle('{{loadedArticleId}}');
         }
         console.log('{{loadedArticleId}}');
         api.get('categories?all').then(res => {this.categories = res.data});
     },
     methods:{
+        loadArticle(id){
+            api.get('write?id='+id).then(res=>{
+                this.article = res.data;
+                if(Array.isArray(res.data.image)){
+                    this.article.image = {path:''}
+                } else if(res.data.image.path.substring(0,4) !== 'http'){
+                    this.article.image.path = '{{base}}'+res.data.image.path;
+                }
+                this.article.isDraft = !res.data.publish_date;
+                this.article.public = res.data.is_public;
+                console.log(this.article);
+            }).catch(err=>{
+                // not allowed
+            })
+        },
+        changePic($event){
+            // this.article.picture = $event.target.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL($event.target.files[0]);
+            reader.onload = (function (data) {
+                this.article.image = {};
+                this.article.image.path = data.target.result;
+                console.log(this.article.path);
+            }).bind(this);
+
+        },
         create(){
             let obj = this.article;
+            console.log(this.article);
             api.post('article',obj).then(res=>{
-                this.article.id = res.data.id;
+                this.loadArticle(res.data.id);
             }).catch(err=>{
 
             })
