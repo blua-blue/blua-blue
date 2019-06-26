@@ -10,9 +10,11 @@ use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
+use Neoan3\Model\ImageModel;
 use Neoan3\Model\IndexModel;
 
 class Article extends Unicore {
+    private $frame;
     private $vueElements = ['login'];
     private $content;
     private $view = 'article';
@@ -63,7 +65,7 @@ class Article extends Unicore {
     }
     /* API */
     private function asApi() {
-        new Neoan();
+        $this->frame = new Neoan();
     }
 
     /**
@@ -89,6 +91,10 @@ class Article extends Unicore {
             if(empty($oldArticle) || $oldArticle['author_user_id'] !== $jwt['jti']){
                 throw new RouteException('no permission',403);
             }
+            // published?
+            if(empty($oldArticle['publish_date'])&&!$article['isDraft']){
+                Db::article(['publish_date'=>'.'],['id'=>'$'.$article['id']]);
+            }
             // ensure rights to update
             $articleId = $article['id'];
         } else {
@@ -108,6 +114,13 @@ class Article extends Unicore {
                             'is_public' => $article['public'],
                             'publish_date' => $article['isDraft'] ? '' : '.'
                         ]);
+        }
+        if(isset($article['image']['path']) && !isset($article['image']['id'])){
+            $newImageId = ImageModel::saveFromBase64($article['image']['path'],$jwt['jti']);
+            if($newImageId){
+                Db::article(['image_id'=>'$'.$newImageId],['id'=>'$'.$articleId]);
+            }
+
         }
         foreach ($article['content'] as $i =>$content) {
             $contentRow = [
