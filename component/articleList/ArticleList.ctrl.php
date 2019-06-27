@@ -10,7 +10,19 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 use Neoan3\Model\UserModel;
 
+/**
+ * Class ArticleList
+ *
+ * @package Neoan3\Components
+ */
 class ArticleList extends Neoan {
+    /**
+     * @param      $filter
+     * @param bool $currentUser
+     *
+     * @return array
+     * @throws \Neoan3\Apps\DbException
+     */
     private function evalFilter($filter,$currentUser=false){
         $articles = [];
         $sql = 'SELECT id FROM article WHERE ';
@@ -56,6 +68,13 @@ class ArticleList extends Neoan {
         }
         return $articles;
     }
+
+    /**
+     * @param $filter
+     *
+     * @return array
+     * @throws \Neoan3\Apps\DbException
+     */
     function getArticleList($filter){
 
         try{

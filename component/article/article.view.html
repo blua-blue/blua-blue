@@ -5,16 +5,20 @@
 
                 <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
                     <ul>
-                        <li><a href="#">Home</a></li>
+                        <li><a href="{{base}}article">Home</a></li>
                         <li><a href="#">{{category.name}}</a></li>
                         <li><a href="#">{{name}}</a></li>
                     </ul>
                 </nav>
-                <img src="{{base}}{{image.path}}" alt="">
+
                 <article class="flex-vertical">
                     <h1 class="title has-text-primary">{{name}}</h1>
                     <h1 class="subtitle ">{{teaser}}</h1>
-                    <div class="content">
+                    <figure class="image is-2by1">
+                        <img src="{{base}}{{image.path}}" alt="">
+                    </figure>
+
+                    <div class="content has-margin-top-3">
                         {{renderedContent}}
                     </div>
 
