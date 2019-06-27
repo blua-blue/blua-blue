@@ -7,28 +7,36 @@ use Neoan3\Core\Unicore;
 use ReflectionMethod;
 
 class ApiDocumentation extends Unicore {
-    private $docString = '';
+    private $docString     = '';
     private $apiComponents = [];
-    function init(){
+
+    function init() {
         $this->getComponents();
         $this->generateDocumentation();
 
-        $this->uni('neoan')->hook('main','apiDocumentation',['content'=>$this->docString])->output();
+        $this->uni('neoan')
+             ->hook('main', 'apiDocumentation', ['content' => $this->docString])
+             ->output();
     }
-    function generateDocumentation(){
-        $columns = ['param','return'];
-        foreach ($this->apiComponents as $component=>$methods){
+
+    function generateDocumentation() {
+        $columns = ['docs','param', 'return'];
+        foreach($this->apiComponents as $component => $methods) {
             $this->docString .= '<div class="box">';
-            $this->docString .= '<h2 class="subtitle">'.$component.'</h2>';
-            foreach ($methods as $method){
-                $this->docString .= '<div ><strong>'.$method.'</strong></div>';
+            $this->docString .= '<h2 class="subtitle">' . $component . '</h2>';
+            foreach($methods as $method) {
+                $this->docString .= '<div ><strong>' . strtoupper($method) . '</strong> /' . $component . '</div>';
+                $this->docString .= '<div class="columns"><div class="column"><strong>Function:</strong></div>';
+                $this->docString .= '<div class="column"><strong>Param:</strong></div>';
+                $this->docString .= '<div class="column"><strong>returns:</strong></div> </div>';
                 $this->docString .= '<div class="columns">';
-                $doc = $this->documentMethod('Neoan3\\Components\\'.ucfirst($component),$method.ucfirst($component));
-                foreach ($columns as $column){
+                $doc =
+                    $this->documentMethod('Neoan3\\Components\\' . ucfirst($component), $method . ucfirst($component));
+                foreach($columns as $column) {
                     $this->docString .= '<div class="column">';
-                    foreach ($doc as $docLine){
-                        if(isset($docLine[$column])){
-                            $this->docString .= '<p>' . $docLine[$column] .'</p>';
+                    foreach($doc as $docLine) {
+                        if(isset($docLine[$column])) {
+                            $this->docString .= '<p>' . $docLine[$column] . '</p>';
                         }
                     }
                     $this->docString .= '</div>';
@@ -38,21 +46,22 @@ class ApiDocumentation extends Unicore {
             $this->docString .= '</div>';
         }
     }
-    function getComponents(){
-        $components = scandir(path.'/component');
-        $apiIndicators = ['get','post','put','delete'];
-        foreach ($components as $component){
-            $cComponent = path.'/component/'.$component;
-            if($component != '.' && $component != '..' &&is_dir($cComponent)){
+
+    function getComponents() {
+        $components = scandir(path . '/component');
+        $apiIndicators = ['get', 'post', 'put', 'delete'];
+        foreach($components as $component) {
+            $cComponent = path . '/component/' . $component;
+            if($component != '.' && $component != '..' && is_dir($cComponent)) {
                 $class = ucfirst($component);
-                if(file_exists($cComponent.'/'.$class.'.ctrl.php')){
-                    $alias = 'Neoan3\\Components\\'.$class;
+                if(file_exists($cComponent . '/' . $class . '.ctrl.php')) {
+                    $alias = 'Neoan3\\Components\\' . $class;
                     $c = new $alias();
                     $methods = get_class_methods($c);
-                    foreach ($methods as $method){
-                        foreach ($apiIndicators as $apiIndicator){
-                            if($method == $apiIndicator.$class){
-                                if(!isset($this->apiComponents[$component])){
+                    foreach($methods as $method) {
+                        foreach($apiIndicators as $apiIndicator) {
+                            if($method == $apiIndicator . $class) {
+                                if(!isset($this->apiComponents[$component])) {
                                     $this->apiComponents[$component] = [];
                                 }
                                 $this->apiComponents[$component][] = $apiIndicator;
@@ -63,22 +72,51 @@ class ApiDocumentation extends Unicore {
             }
         }
     }
-    function documentMethod($class,$method){
-        $r = new ReflectionMethod($class,$method);
+
+    function documentMethod($class, $method) {
+        $r = new ReflectionMethod($class, $method);
         $docs = $r->getDocComment();
-        if($docs){
+        if($docs) {
             return $this->grabDoc($docs);
         } else {
             return [];
         }
     }
-    function grabDoc($docBloc){
+
+    function grabDoc($docBloc) {
         $answer = [];
-        preg_match_all('/@([a-z]+)([^\n]+)/',$docBloc,$matches);
-        foreach($matches[0] as $i =>$match){
-            $answer[] = [$matches[1][$i] => trim($matches[2][$i])];
+        preg_match_all('/@([a-z]+)([^\n]+)/', $docBloc, $matches);
+        foreach($matches[0] as $i => $match) {
+            $cleaned = $this->cleanRegExpressions($matches[2][$i]);
+            $pattern = '/' . '\\$'.substr($cleaned,2) . '([^\n]+)/';
+            preg_match_all($pattern, $docBloc, $declarations);
+            /*var_dump($pattern);
+            var_dump($declarations);*/
+            $found = false;
+            foreach($declarations[0] as $declaration) {
+                $found = true;
+                $answer[] = ['param' => trim($declaration)];
+
+            }
+            if(!$found) {
+                $value = trim($matches[2][$i]);
+                if($matches[1][$i] === 'return'){
+                    $value = str_replace('array','object',$value);
+                }
+                $answer[] = [$matches[1][$i] => $value];
+            }
+
+        }
+        preg_match('/((\*\s[a-z0-9].+)+(\n)*\s*)+/i', $docBloc, $doc);
+        if(!empty($doc)){
+            $answer[] = ['docs' => nl2br(str_replace('* ','',$doc[0]))];
         }
 
         return $answer;
+    }
+    private function cleanRegExpressions($string){
+        $filter = ['|','$'];
+        $substitute =['\\|','\\$'];
+        return str_replace($filter,$substitute,trim($string));
     }
 }

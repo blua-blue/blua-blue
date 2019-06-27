@@ -12,10 +12,24 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 use Neoan3\Model\IndexModel;
 
+/**
+ * Class Article
+ *
+ * @package Neoan3\Components
+ */
 class Article extends Unicore {
+    /**
+     * @var array
+     */
     private $vueElements = ['login'];
+    /**
+     * @var
+     */
     private $article;
 
+    /**
+     *
+     */
     function init() {
         $this->uni('neoan')
              ->callback($this, 'vueElements')
@@ -33,6 +47,10 @@ class Article extends Unicore {
         }
 
     }
+
+    /**
+     *
+     */
     function getContext(){
         if(!sub(1)){
             $this->notFound();
@@ -48,19 +66,32 @@ class Article extends Unicore {
         $this->article = $article;
 
     }
+
+    /**
+     *
+     */
     private function notFound(){
         $no = new NotFound();
         $no->init();
         exit();
     }
     /* API */
+    /**
+     *
+     */
     private function asApi() {
         new Neoan();
     }
 
     /**
+     * Retrieves  an article with
+     * by various possible filters
+     *
+     *
      * @param $condition
      *
+     *  $condition['id'] optional
+     *  $condition['publish_date'] optional
      * @return array|mixed
      * @throws RouteException
      */
@@ -73,6 +104,30 @@ class Article extends Unicore {
         }
         throw new RouteException('Not found or no permission',404);
     }
+
+    /**
+     * @param $article
+     *
+     * @throws RouteException
+     * @throws \Neoan3\Apps\DbException
+     */
+    function putArticle($article){
+        if(!isset($article['id'])){
+            throw new RouteException('Missing field "id"',400);
+        }
+        $this->postArticle($article);
+    }
+
+    /**
+     * Some description
+     *
+     * @param $article
+     *
+     *
+     * @return array
+     * @throws RouteException
+     * @throws \Neoan3\Apps\DbException
+     */
     function postArticle($article){
         $this->asApi();
         $jwt = Stateless::restrict();
