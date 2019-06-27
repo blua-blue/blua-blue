@@ -10,6 +10,7 @@ use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
+use Neoan3\Model\ImageModel;
 use Neoan3\Model\IndexModel;
 
 /**
@@ -18,23 +19,16 @@ use Neoan3\Model\IndexModel;
  * @package Neoan3\Components
  */
 class Article extends Unicore {
-    /**
-     * @var array
-     */
+    private $frame;
     private $vueElements = ['login'];
-    /**
-     * @var
-     */
-    private $article;
+    private $content;
+    private $view = 'article';
 
-    /**
-     *
-     */
     function init() {
         $this->uni('neoan')
              ->callback($this, 'vueElements')
              ->callback($this, 'getContext')
-             ->hook('main', 'article',$this->article)
+             ->hook('main', $this->view,$this->content)
              ->output();
     }
 
@@ -47,40 +41,36 @@ class Article extends Unicore {
         }
 
     }
-
-    /**
-     *
-     */
     function getContext(){
         if(!sub(1)){
-            $this->notFound();
+            $this->general();
+            return true;
         }
         $article = ArticleModel::bySlug(sub(1));
         if(empty($article) || $article['is_public'] !== 1 || empty($article['publish_date'])){
-            $this->notFound();
+            $this->general();
         }
         $article['renderedContent'] = '';
         foreach ($article['content'] as $content){
             $article['renderedContent'] .= $content['content'];
         }
-        $this->article = $article;
+        $this->content = $article;
+        return true;
 
     }
+    private function general(){
+        $this->view = 'overview';
+        $articleList = new ArticleList();
+        $newest = $articleList->getArticleList(['limit'=>30]);
+        $this->content['cards'] = '';
+        foreach($newest as $post){
+            $this->content['cards'] .= Ops::embraceFromFile('/component/article/card.html',$post);
+        }
 
-    /**
-     *
-     */
-    private function notFound(){
-        $no = new NotFound();
-        $no->init();
-        exit();
     }
     /* API */
-    /**
-     *
-     */
     private function asApi() {
-        new Neoan();
+        $this->frame = new Neoan();
     }
 
     /**
@@ -136,6 +126,10 @@ class Article extends Unicore {
             if(empty($oldArticle) || $oldArticle['author_user_id'] !== $jwt['jti']){
                 throw new RouteException('no permission',403);
             }
+            // published?
+            if(empty($oldArticle['publish_date'])&&!$article['isDraft']){
+                Db::article(['publish_date'=>'.'],['id'=>'$'.$article['id']]);
+            }
             // ensure rights to update
             $articleId = $article['id'];
         } else {
@@ -155,6 +149,13 @@ class Article extends Unicore {
                             'is_public' => $article['public'],
                             'publish_date' => $article['isDraft'] ? '' : '.'
                         ]);
+        }
+        if(isset($article['image']['path']) && !isset($article['image']['id'])){
+            $newImageId = ImageModel::saveFromBase64($article['image']['path'],$jwt['jti']);
+            if($newImageId){
+                Db::article(['image_id'=>'$'.$newImageId],['id'=>'$'.$articleId]);
+            }
+
         }
         foreach ($article['content'] as $i =>$content) {
             $contentRow = [

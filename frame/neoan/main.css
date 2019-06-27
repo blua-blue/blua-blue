@@ -12,6 +12,11 @@ body {
 .main {
   flex: 1;
 }
+.flex-vertical {
+  display:flex;
+  flex-direction: column;
+  flex: 1;
+}
 
 .border-bottom {
   border-bottom: 1px solid;

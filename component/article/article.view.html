@@ -1,7 +1,7 @@
 <section class="main section ">
     <div class="container ">
         <div class="columns">
-            <div class="column">
+            <div class="column flex-vertical">
 
                 <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
                     <ul>
@@ -10,7 +10,8 @@
                         <li><a href="#">{{name}}</a></li>
                     </ul>
                 </nav>
-                <article>
+                <img src="{{base}}{{image.path}}" alt="">
+                <article class="flex-vertical">
                     <h1 class="title has-text-primary">{{name}}</h1>
                     <h1 class="subtitle ">{{teaser}}</h1>
                     <div class="content">
