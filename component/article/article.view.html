@@ -1,4 +1,6 @@
 <section class="main section " id="article">
+    <!--  render author-id for JS  -->
+    <input type="hidden" id="author-id" value="{{author.id}}">
     <div class="container ">
         <div class="columns">
             <div class="column flex-vertical">
@@ -24,7 +26,9 @@
                     <div class="columns">
                         <div class="column"></div>
                         <div class="column is-narrow">
-
+                            <a href="{{base}}write/{{id}}/" class="button" v-if="isMine">
+                                <i class="far fa-edit"></i>
+                            </a>
                         </div>
 
                     </div>
