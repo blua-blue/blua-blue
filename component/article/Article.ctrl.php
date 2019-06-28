@@ -61,6 +61,15 @@ class Article extends Unicore {
         if(isset($article['image']['path'])){
             $article['imageTag'] = '<img src="'.base.$article['image']['path'].'" alt="">';
         }
+        // related
+        $others = ArticleModel::find(['category_id'=>$article['category_id']]);
+        $article['related'] = '';
+        foreach ($others as $other){
+            if($other['id'] !== $article['id']){
+                $article['related'] .= Ops::embraceFromFile('/component/article/related.html', $other);
+            }
+
+        }
         $this->content = $article;
 
         return true;
