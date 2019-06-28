@@ -57,6 +57,10 @@ class Article extends Unicore {
         foreach ($article['content'] as $content) {
             $article['renderedContent'] .= $content['content'];
         }
+        $article['imageTag'] = '';
+        if(isset($article['image']['path'])){
+            $article['imageTag'] = '<img src="'.base.$article['image']['path'].'" alt="">';
+        }
         $this->content = $article;
 
         return true;
