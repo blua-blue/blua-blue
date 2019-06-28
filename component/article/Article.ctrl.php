@@ -5,6 +5,7 @@ namespace Neoan3\Components;
 
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Ops;
+use Neoan3\Apps\Session;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
@@ -15,12 +16,11 @@ use Neoan3\Model\IndexModel;
 
 /**
  * Class Article
- *
  * @package Neoan3\Components
  */
 class Article extends Unicore {
     private $frame;
-    private $vueElements = ['login'];
+    private $vueElements = ['login','article'];
     private $content;
     private $view = 'article';
 
@@ -28,7 +28,7 @@ class Article extends Unicore {
         $this->uni('neoan')
              ->callback($this, 'vueElements')
              ->callback($this, 'getContext')
-             ->hook('main', $this->view,$this->content)
+             ->hook('main', $this->view, $this->content)
              ->output();
     }
 
@@ -41,33 +41,39 @@ class Article extends Unicore {
         }
 
     }
-    function getContext(){
-        if(!sub(1)){
+
+    function getContext() {
+        if (!sub(1)) {
             $this->general();
             return true;
         }
         $article = ArticleModel::bySlug(sub(1));
-        if(empty($article) || $article['is_public'] !== 1 || empty($article['publish_date'])){
+        if (empty($article) || $article['is_public'] !== 1 || empty($article['publish_date'])) {
             $this->general();
         }
+
+
         $article['renderedContent'] = '';
-        foreach ($article['content'] as $content){
+        foreach ($article['content'] as $content) {
             $article['renderedContent'] .= $content['content'];
         }
         $this->content = $article;
+
         return true;
 
     }
-    private function general(){
+
+    private function general() {
         $this->view = 'overview';
         $articleList = new ArticleList();
-        $newest = $articleList->getArticleList(['limit'=>30]);
+        $newest = $articleList->getArticleList(['limit' => 30]);
         $this->content['cards'] = '';
-        foreach($newest as $post){
-            $this->content['cards'] .= Ops::embraceFromFile('/component/article/card.html',$post);
+        foreach ($newest as $post) {
+            $this->content['cards'] .= Ops::embraceFromFile('/component/article/card.html', $post);
         }
 
     }
+
     /* API */
     private function asApi() {
         $this->frame = new Neoan();
@@ -77,22 +83,21 @@ class Article extends Unicore {
      * Retrieves  an article with
      * by various possible filters
      *
-     *
      * @param $condition
-     *
      *  $condition['id'] optional
      *  $condition['publish_date'] optional
+     *
      * @return array|mixed
      * @throws RouteException
      */
-    function getArticle($condition){
+    function getArticle($condition) {
         $this->asApi();
         $jwt = Stateless::restrict();
         $article = IndexModel::first(ArticleModel::find($condition));
-        if(!empty($article) && $article['author_user_id'] === $jwt['jti'] || (!empty($article['publish_date'])&&$article['is_public']===1)){
+        if (!empty($article) && $article['author_user_id'] === $jwt['jti'] || (!empty($article['publish_date']) && $article['is_public'] === 1)) {
             return $article;
         }
-        throw new RouteException('Not found or no permission',404);
+        throw new RouteException('Not found or no permission', 404);
     }
 
     /**
@@ -101,9 +106,9 @@ class Article extends Unicore {
      * @throws RouteException
      * @throws \Neoan3\Apps\DbException
      */
-    function putArticle($article){
-        if(!isset($article['id'])){
-            throw new RouteException('Missing field "id"',400);
+    function putArticle($article) {
+        if (!isset($article['id'])) {
+            throw new RouteException('Missing field "id"', 400);
         }
         $this->postArticle($article);
     }
@@ -113,58 +118,60 @@ class Article extends Unicore {
      *
      * @param $article
      *
-     *
      * @return array
      * @throws RouteException
      * @throws \Neoan3\Apps\DbException
      */
-    function postArticle($article){
+    function postArticle($article) {
         $this->asApi();
         $jwt = Stateless::restrict();
         if (isset($article['id'])) {
             $oldArticle = ArticleModel::byId($article['id']);
-            if(empty($oldArticle) || $oldArticle['author_user_id'] !== $jwt['jti']){
-                throw new RouteException('no permission',403);
+            if (empty($oldArticle) || $oldArticle['author_user_id'] !== $jwt['jti']) {
+                throw new RouteException('no permission', 403);
             }
             // published?
-            if(empty($oldArticle['publish_date'])&&!$article['isDraft']){
-                Db::article(['publish_date'=>'.'],['id'=>'$'.$article['id']]);
+            if (empty($oldArticle['publish_date']) && !$article['isDraft']) {
+                Db::article(['publish_date' => '.'], ['id' => '$' . $article['id']]);
             }
             // ensure rights to update
             $articleId = $article['id'];
         } else {
             $slug = Ops::toKebabCase($article['name']);
-            $exists = Db::ask('>SELECT id FROM article WHERE slug LIKE CONCAT({{slug}},"%")',['slug'=>$slug]);
-            if(!empty($exists)){
-                $slug = $slug . '-'.(count($exists)+1);
+            $exists = Db::ask('>SELECT id FROM article WHERE slug LIKE CONCAT({{slug}},"%")', ['slug' => $slug]);
+            if (!empty($exists)) {
+                $slug = $slug . '-' . (count($exists) + 1);
             }
             $articleId = Db::uuid()->uuid;
             Db::article([
-                            'id' => '$' . $articleId,
-                            'author_user_id' => '$' . $jwt['jti'],
-                            'name' => $article['name'],
-                            'slug' =>$slug,
-                            'teaser' => $article['teaser'],
-                            'category_id' => '$' . $article['category_id'],
-                            'is_public' => $article['public'],
-                            'publish_date' => $article['isDraft'] ? '' : '.'
-                        ]);
+                'id' => '$' . $articleId,
+                'author_user_id' => '$' . $jwt['jti'],
+                'slug' => $slug,
+                'is_public' => $article['public'],
+                'publish_date' => $article['isDraft'] ? '' : '.'
+            ]);
         }
-        if(isset($article['image']['path']) && !isset($article['image']['id'])){
-            $newImageId = ImageModel::saveFromBase64($article['image']['path'],$jwt['jti']);
-            if($newImageId){
-                Db::article(['image_id'=>'$'.$newImageId],['id'=>'$'.$articleId]);
+        $update = [
+            'name' => $article['name'],
+            'teaser' => $article['teaser'],
+            'category_id' => '$' . $article['category_id']
+        ];
+        Db::article($update, ['id' => '$' . $articleId]);
+        if (isset($article['image']['path']) && !isset($article['image']['id'])) {
+            $newImageId = ImageModel::saveFromBase64($article['image']['path'], $jwt['jti']);
+            if ($newImageId) {
+                Db::article(['image_id' => '$' . $newImageId], ['id' => '$' . $articleId]);
             }
 
         }
-        foreach ($article['content'] as $i =>$content) {
+        foreach ($article['content'] as $i => $content) {
             $contentRow = [
                 'article_id' => '$' . $articleId,
-                'sort' => $i+1,
+                'sort' => $i + 1,
                 'content' => '=' . $content['content']
             ];
-            if(isset($content['id'])){
-                Db::article_content($contentRow,['id'=>'$'.$content['id']]);
+            if (isset($content['id'])) {
+                Db::article_content($contentRow, ['id' => '$' . $content['id']]);
             } else {
                 Db::article_content($contentRow);
             }
@@ -172,7 +179,7 @@ class Article extends Unicore {
         }
 
 
-        return ['id'=>$articleId];
+        return ['id' => $articleId];
     }
 
 }

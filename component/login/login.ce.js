@@ -1,29 +1,29 @@
-
-new Vue({
-    el:'#login-form',
-    data:{
-        username:'',
-        password:'',
-        loggedIn:localStorage.token,
-        valid:true,
-        localUser:{}
+Vue.component('loginForm', {
+    data: function () {
+        return {
+            username: '',
+            password: '',
+            loggedIn: localStorage.token,
+            valid: true,
+            localUser: {}
+        }
     },
-    mounted(){
-        if(this.loggedIn){
+    mounted() {
+        if (this.loggedIn) {
             // check if still valid token
-            api.get('register').then(x=>{
+            api.get('register').then(x => {
                 this.localUser = x.data;
                 localStorage.user = JSON.stringify(x.data);
-            }).catch(e=>{
+            }).catch(e => {
                 this.loggedIn = false;
                 this.logout();
             })
         }
     },
-    methods:{
-        logout(){
-            if(this.loggedIn){
-                api.delete('login').then(res=>{
+    methods: {
+        logout() {
+            if (this.loggedIn) {
+                api.delete('login').then(res => {
                     this.updateStatus(false);
                 })
             } else {
@@ -31,21 +31,21 @@ new Vue({
             }
 
         },
-        login(){
+        login() {
             this.valid = true;
-            api.post('login',this._data).then(res=>{
+            api.post('login', this._data).then(res => {
                 this.updateStatus(res.data.token);
-                localStorage.setItem('user',JSON.stringify(res.data.user));
+                localStorage.setItem('user', JSON.stringify(res.data.user));
                 this.localUser = res.data.user;
-            }).catch(err=>{
+            }).catch(err => {
                 this.valid = false;
             })
         },
-        toRegistration(){
+        toRegistration() {
             window.location.href = '{{base}}register'
         },
-        updateStatus(token){
-            if(token){
+        updateStatus(token) {
+            if (token) {
                 localStorage.token = token;
                 this.loggedIn = token;
             } else {
@@ -57,5 +57,5 @@ new Vue({
             }
         }
     },
-    template:document.querySelector('#login').innerHTML
+    template: document.querySelector('#login').innerHTML
 });

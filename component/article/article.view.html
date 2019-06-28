@@ -1,4 +1,4 @@
-<section class="main section ">
+<section class="main section " id="article">
     <div class="container ">
         <div class="columns">
             <div class="column flex-vertical">
@@ -14,16 +14,22 @@
                 <article class="flex-vertical">
                     <h1 class="title has-text-primary">{{name}}</h1>
                     <h1 class="subtitle ">{{teaser}}</h1>
-                    <figure class="image is-2by1">
+                    <figure class="image is-19by9">
                         <img src="{{base}}{{image.path}}" alt="">
                     </figure>
 
                     <div class="content has-margin-top-3">
                         {{renderedContent}}
                     </div>
+                    <div class="columns">
+                        <div class="column"></div>
+                        <div class="column is-narrow">
 
+                        </div>
+
+                    </div>
                 </article>
-                <div id="login-form"></div>
+                <login-form></login-form>
             </div>
             <div class="column is-one-quarter">
 
