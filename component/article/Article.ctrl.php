@@ -20,7 +20,7 @@ use Neoan3\Model\IndexModel;
  */
 class Article extends Unicore {
     private $frame;
-    private $vueElements = ['login','article'];
+    private $vueElements = ['login','articleRating','article'];
     private $content;
     private $view = 'article';
 

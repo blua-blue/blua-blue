@@ -27,7 +27,7 @@
                         <div class="column"></div>
                         <div class="column is-narrow">
                             <a href="{{base}}write/{{id}}/" class="button" v-if="isMine">
-                                <i class="far fa-edit"></i>
+                                <i class="material-icons">edit</i>
                             </a>
                         </div>
 
@@ -49,11 +49,8 @@
                                 <strong>{{author.user_name}}</strong>
                                 <small>@{{author.user_name}}</small>
                             </p>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
+                            <article-rating article-id="{{id}}"></article-rating>
+                            <i data-feather="star"></i>
                             <button class="button is-small is-outlined">more...</button>
                         </div>
                     </div>

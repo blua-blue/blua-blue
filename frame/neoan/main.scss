@@ -13,6 +13,9 @@ body{
 .border-bottom{
   border-bottom: 1px solid;
 }
+.pointer{
+  cursor:pointer;
+}
 
 /*Breadcrumb*/
 $breadcrumb-item-color: hsl(171, 100%, 41%);

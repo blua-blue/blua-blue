@@ -16,6 +16,7 @@ class ArticleModel extends IndexModel {
             if(!empty($article['image_id'])){
                 $article['image'] = ImageModel::undeletedById($article['image_id']);
             }
+            $article['rating'] = self::ratingById($id);
             $article['author'] = parent::first(Db::easy('user.*',['id'=>'$'.$article['author_user_id']]));
             $article['category'] = parent::first(Db::easy('category.*',['id'=>'$'.$article['category_id']]));
             foreach($tables as $table){
@@ -31,6 +32,11 @@ class ArticleModel extends IndexModel {
             $article = self::byId($article[0]['id']);
         }
         return $article;
+    }
+    static function ratingById($id){
+        $rating = parent::first(Db::ask('>SELECT COUNT(id) as total, AVG(rating) as average FROM article_rating WHERE article_id = UNHEX({{id}})',['id'=>$id]));
+        return $rating;
+
     }
 
     static function find($condition){
