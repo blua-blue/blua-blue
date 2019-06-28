@@ -46,7 +46,7 @@ class ArticleModel extends IndexModel {
                 $condition[$key] = '$'.$value;
             }
         }
-        $ids = Db::easy('article.id',$condition);
+        $ids = Db::easy('article.id',$condition,['limit'=>[0,30]]);
         foreach($ids as $id){
             $articles[] = self::byId($id['id']);
         }
