@@ -13,14 +13,25 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 
 class Write extends Unicore {
+    private $vueElements = ['uploadImage','write'];
     function init() {
 
-        $this->uni('neoan')
-             ->includeElement('write',['loadedArticleId'=>sub(1)])
+        $this->uni('neoan')->callback($this,'vueElements')
+//             ->includeElement('write', ['loadedArticleId' => sub(1)])
              ->includeJs('node_modules/@tinymce/tinymce-vue/lib/browser/tinymce-vue.min.js')
              ->hook('main', 'write')
              ->callback($this, 'secure')
              ->output();
+    }
+
+    /**
+     * @param Neoan $uni
+     */
+    function vueElements($uni) {
+        foreach ($this->vueElements as $vueElement) {
+            $uni->vueComponent($vueElement, ['loadedArticleId' => sub(1)]);
+        }
+
     }
 
     function secure($uni) {
@@ -37,12 +48,12 @@ class Write extends Unicore {
      * @return array|mixed
      * @throws RouteException
      */
-    function getWrite($obj){
+    function getWrite($obj) {
         $this->asApi();
         $jwt = Stateless::restrict();
         $article = ArticleModel::byId($obj['id']);
-        if(empty($article) || $article['author_user_id'] !== $jwt['jti']){
-            throw new RouteException('no permission',403);
+        if (empty($article) || $article['author_user_id'] !== $jwt['jti']) {
+            throw new RouteException('no permission', 403);
         }
         return $article;
     }
