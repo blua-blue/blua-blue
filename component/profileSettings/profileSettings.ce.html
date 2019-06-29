@@ -50,7 +50,7 @@
             <figure class="image is-128x128">
                 <img :src="'{{base}}'+user.image.path" alt="profile">
             </figure>
-            <upload-image @uploaded="updateProfilePicture"></upload-image>
+            <upload-image @uploaded="updateProfilePicture" max-size="250"></upload-image>
         </div>
     </div>
 </div>

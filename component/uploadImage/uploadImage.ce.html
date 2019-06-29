@@ -10,4 +10,16 @@
             </span>
         </span>
     </label>
+    <div class="modal" v-bind:class="{'is-active':sizeWarning}">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <article class="message is-danger">
+                <div class="message-body">
+                    Maximum file size is {{maxSize}}kb
+                </div>
+            </article>
+
+        </div>
+        <button class="modal-close is-large" aria-label="close" @click="sizeWarning =!sizeWarning"></button>
+    </div>
 </div>
