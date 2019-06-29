@@ -40,10 +40,6 @@ class ImageModel extends IndexModel {
             ];
             Db::image($newImage);
 
-
-
-
-
         } catch(DbException $e){
             return false;
         }

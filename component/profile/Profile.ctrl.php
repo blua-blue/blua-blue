@@ -13,7 +13,7 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\UserModel;
 
 class Profile extends Unicore {
-    private $components = ['articleList','profileSettings'];
+    private $components = ['uploadImage','articleList','profileSettings'];
     function init() {
         $this->uni('neoan')
              ->callback($this, 'secure')
@@ -58,6 +58,10 @@ class Profile extends Unicore {
             if(!$trySending['success']){
                 throw new RouteException('Email could not be sent',500);
             }
+        }
+        // Profile pic
+        if($user['image_id'] !== $userModel['image_id']){
+            Db::user(['image_id'=>'$'.$user['image_id']],['id'=>'$'.$userModel['id']]);
         }
 
     }

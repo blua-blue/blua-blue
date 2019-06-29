@@ -46,5 +46,11 @@
             </div>
 
         </form>
+        <div v-if="currentNavigation === 'picture'">
+            <figure class="image is-128x128">
+                <img :src="'{{base}}'+user.image.path" alt="profile">
+            </figure>
+            <upload-image @uploaded="updateProfilePicture"></upload-image>
+        </div>
     </div>
 </div>
