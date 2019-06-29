@@ -20,6 +20,7 @@ class Home extends Unicore {
      */
     function loadComponent($uni){
         $this->vueComponent($uni,'login');
+        $uni->js .= "new Vue({el:'#home-page'});";
     }
     private function vueComponent($context, $element, $params = []) {
         $params['base'] = base;

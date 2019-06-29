@@ -21,6 +21,9 @@ class ImageModel extends IndexModel {
         try{
             preg_match('/data:([a-z\/]+);base64,/',$b64String,$matches);
             $newImageRaw = substr($b64String,strlen($matches[0]));
+            if(!is_dir(path.'/asset/upload/')){
+                mkdir(path.'/asset/upload/',0755);
+            }
             $directory = path.'/asset/upload/'.$userId;
             $fileType = explode('/',$matches[1]);
             if(!is_dir($directory)){

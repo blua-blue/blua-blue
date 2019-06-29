@@ -16,7 +16,7 @@
                             <input id="pic" type="file" class="file-input" v-on:change="changePic">
                             <span class="file-cta">
                               <span class="file-icon">
-                                <i class="fas fa-upload"></i>
+                                <i class="material-icons">cloud_upload</i>
                               </span>
                               <span class="file-label">
                                 Choose a file…
@@ -73,7 +73,8 @@
                         </div>
                     </article>
                     <div>
-                        <button type="submit" v-on:click="article.isDraft = true" class="button is-info">Save</button>
+                        <button type="submit" v-on:click="article.isDraft = true" class="button is-info">
+                            <span>Save</span></button>
                         <button type="submit" v-on:click="article.isDraft = false" class="button is-primary">Save &
                                                                                                              publish
                         </button>

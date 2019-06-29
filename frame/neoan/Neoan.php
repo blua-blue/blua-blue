@@ -123,7 +123,7 @@ class Neoan extends Serve {
                 ['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1']
             ],
             'js'         => [
-                ['src' => 'https://use.fontawesome.com/releases/v5.3.1/js/all.js'],
+                ['src' => path .'/frame/neoan/global.js', 'data' => ['base' => base]],
                 ['src' => base . 'asset/tinymce/js/tinymce/tinymce.min.js'],
                 ['src' => base . 'node_modules/vue/dist/vue.js'],
                 ['src' => base . 'node_modules/axios/dist/axios.min.js'],
@@ -131,7 +131,8 @@ class Neoan extends Serve {
                 ['src' => path . '/frame/neoan/axios-wrapper.js', 'data' => ['base' => base]],
             ],
             'stylesheet' => [
-                '' . base . 'frame/neoan/main.css'
+                '' . base . 'frame/neoan/main.css',
+                'https://fonts.googleapis.com/icon?family=Material+Icons'
             ]
         ];
     }

@@ -1,4 +1,6 @@
-<section class="main section ">
+<section class="main section " id="article">
+    <!--  render author-id for JS  -->
+    <input type="hidden" id="author-id" value="{{author.id}}">
     <div class="container ">
         <div class="columns">
             <div class="column flex-vertical">
@@ -14,16 +16,24 @@
                 <article class="flex-vertical">
                     <h1 class="title has-text-primary">{{name}}</h1>
                     <h1 class="subtitle ">{{teaser}}</h1>
-                    <figure class="image is-2by1">
-                        <img src="{{base}}{{image.path}}" alt="">
+                    <figure class="image is-19by9">
+                        {{imageTag}}
                     </figure>
 
                     <div class="content has-margin-top-3">
                         {{renderedContent}}
                     </div>
+                    <div class="columns">
+                        <div class="column"></div>
+                        <div class="column is-narrow">
+                            <a href="{{base}}write/{{id}}/" class="button" v-if="isMine">
+                                <i class="material-icons">edit</i>
+                            </a>
+                        </div>
 
+                    </div>
                 </article>
-                <div id="login-form"></div>
+                <login-form></login-form>
             </div>
             <div class="column is-one-quarter">
 
@@ -39,20 +49,15 @@
                                 <strong>{{author.user_name}}</strong>
                                 <small>@{{author.user_name}}</small>
                             </p>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <button class="button is-small is-outlined">more...</button>
+                            <article-rating article-id="{{id}}"></article-rating>
                         </div>
                     </div>
                 </div>
-                <div class="border-bottom has-margin-top-3">
+                <div class="border-bottom has-margin-top-3" hidden>
                     <span class="title is-5 has-text-primary">Keywords</span>
 
                 </div>
-                <div class="has-margin-top-3">
+                <div class="has-margin-top-3" hidden>
                     <span class="tag is-light">PHP</span>
                     <span class="tag is-light">JavaScript</span>
                 </div>
@@ -61,32 +66,7 @@
                 </div>
 
                 <div >
-                    <div class="card has-margin-top-3">
-                        <div class="card-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                        <div class="card-footer">
-                            <div class="card-footer-item">
-                                <small>@author-handle</small>
-                            </div>
-                            <div class="card-footer-item">
-                                <a href="#">read</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card has-margin-top-3">
-                        <div class="card-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                        <div class="card-footer">
-                            <div class="card-footer-item">
-                                <small>@author-handle</small>
-                            </div>
-                            <div class="card-footer-item">
-                                <a href="#">read</a>
-                            </div>
-                        </div>
-                    </div>
+                    {{related}}
                 </div>
             </div>
         </div>
