@@ -5,6 +5,7 @@ namespace Neoan3\Components;
 
 use Neoan3\Apps\Db;
 use Neoan3\Apps\DbException;
+use Neoan3\Apps\Ops;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 
@@ -12,8 +13,16 @@ class Search extends Neoan {
     function getSearch($obj){
         try{
             $found = [];
+            $divide = explode(' ',$obj['q']);
+            $text = '';
+            $values = [];
+            foreach ($divide as $i =>$part){
+                $text .= ($i==0?'"%",':'').'{{part_'.$i.'}},"%"';
+                $values['part_'.$i] = trim($part);
+            }
+            $sql = Ops::embraceFromFile('/component/search/search.sql',['text'=>$text]);
 //            Db::debug();
-            $hits = Db::ask('/search',['text'=>$obj['q']]);
+            $hits = Db::ask('>'.$sql,$values);
             foreach($hits as $hit){
                 $found[] = ArticleModel::byId($hit['id']);
             }

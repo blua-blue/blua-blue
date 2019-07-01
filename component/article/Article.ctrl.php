@@ -171,7 +171,8 @@ class Article extends Unicore {
         $update = [
             'name' => $article['name'],
             'teaser' => $article['teaser'],
-            'category_id' => '$' . $article['category_id']
+            'category_id' => '$' . $article['category_id'],
+            'keywords' => '='. implode(',',$article['keywords'])
         ];
         Db::article($update, ['id' => '$' . $articleId]);
         if (isset($article['image']['path']) && !isset($article['image']['id'])) {
