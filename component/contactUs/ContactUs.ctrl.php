@@ -51,7 +51,7 @@ class ContactUs extends Neoan {
             // content
             $mail->isHTML(false);
             $mail->Subject = 'Contact form: '. $info['topic'];
-            $mail->Body = $info['body'];
+            $mail->Body = $info['email'] ."\n\n".$info['body'];
             $mail->send();
         } catch (Exception $e) {
             return ['success'=>false,'error'=>$e->getMessage()];
