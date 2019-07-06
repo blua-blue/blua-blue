@@ -38,7 +38,7 @@ class Verify extends Neoan {
         $mail = $this->newMail();
         try {
             // to
-            $mail->setFrom('neoan@neoan.us', 'Neoan3');
+            $mail->setFrom($mail->Username, 'Neoan3');
             $mail->addAddress($to);
 
             // content
