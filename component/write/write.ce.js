@@ -38,9 +38,8 @@ new Vue({
     components: {
         'editor': Editor
     },
-    created() {
-        console.log('{{loadedArticleId}}');
-        if ('{{loadedArticleId}}' !== '') {
+    created(){
+        if('{{loadedArticleId}}' !== ''){
             this.loadArticle('{{loadedArticleId}}');
         }
         console.log('{{loadedArticleId}}');
@@ -68,10 +67,11 @@ new Vue({
                 // not allowed
             })
         },
-        changePic(imgId) {
-            api.get('uploadImage?id=' + imgId).then(res => {
-                if (res.data.path.substring(0, 4) !== 'http') {
-                    this.article.image.path = '{{base}}' + res.data.path;
+        changePic(imgId){
+            this.article.image.id = imgId;
+            api.get('uploadImage?id='+imgId).then(res=>{
+                if(res.data.path.substring(0,4) !== 'http'){
+                    this.article.image.path = '{{base}}'+res.data.path;
                 } else {
                     this.article.image = res.data;
                 }
