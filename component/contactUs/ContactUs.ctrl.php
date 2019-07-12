@@ -42,17 +42,11 @@ class ContactUs extends Neoan {
         if(!isset($_SESSION['contact_hash']) || !isset($info['contactHash']) || $info['contactHash'] != $_SESSION['contact_hash']){
             throw new RouteException('unauthorized', 401);
         }
-        $mail = $this->newMail();
+        $mail = new Email('Contact form: '. $info['topic'],'From: '.$info['email'],$info['body']);
         try {
-            // to
-            $mail->setFrom($mail->Username, 'Neoan3');
-            $mail->addAddress($mail->Username);
-
-            // content
-            $mail->isHTML(false);
-            $mail->Subject = 'Contact form: '. $info['topic'];
-            $mail->Body = $info['email'] ."\n\n".$info['body'];
-            $mail->send();
+            $mail->mailer->setFrom($mail->mailer->Username, 'Neoan3');
+            $mail->mailer->addAddress($mail->mailer->Username);
+            $mail->mailer->send();
         } catch (Exception $e) {
             return ['success'=>false,'error'=>$e->getMessage()];
         }
