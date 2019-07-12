@@ -22,11 +22,9 @@ new Vue({
         'editor':Editor
     },
     created(){
-        console.log('{{loadedArticleId}}');
         if('{{loadedArticleId}}' !== ''){
             this.loadArticle('{{loadedArticleId}}');
         }
-        console.log('{{loadedArticleId}}');
         api.get('categories?all').then(res => {this.categories = res.data});
     },
     methods:{
@@ -45,6 +43,7 @@ new Vue({
             })
         },
         changePic(imgId){
+            this.article.image.id = imgId;
             api.get('uploadImage?id='+imgId).then(res=>{
                 if(res.data.path.substring(0,4) !== 'http'){
                     this.article.image.path = '{{base}}'+res.data.path;
