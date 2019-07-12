@@ -37,12 +37,23 @@
                         </select>
                     </div>
                     <div class="field">
-                        <label for="keywords" class="label">Keywords</label>
-                        <input type="text"
-                               class="input"
-                               id="keywords"
-                               v-model="article.keywords"
-                               placeholder="separate by comma">
+                        <div class="control">
+                            <label for="keywords" class="label">Keywords</label>
+                            <div class="tag-input-container input">
+                                <div class="tags">
+                                    <span class="tag" v-for="(keyword,index) in article.keywords">{{keyword}}<button class="delete is-small" @click.prevent="removeKeyword(index)"></button></span>
+                                </div>
+                                <input type="text"
+                                       @blur="addKeyword = addKeyword+','"
+                                       autocomplete="off"
+                                       class="tag-input"
+                                       id="keywords"
+                                       v-model="addKeyword"
+                                       placeholder="separate by comma">
+                            </div>
+                        </div>
+
+
                     </div>
                     <div class="field">
                         <label class="checkbox">
