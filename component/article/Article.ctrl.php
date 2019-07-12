@@ -174,12 +174,8 @@ class Article extends Unicore {
             'category_id' => '$' . $article['category_id']
         ];
         Db::article($update, ['id' => '$' . $articleId]);
-        if (isset($article['image']['path']) && !isset($article['image']['id'])) {
-            $newImageId = ImageModel::saveFromBase64($article['image']['path'], $jwt['jti']);
-            if ($newImageId) {
-                Db::article(['image_id' => '$' . $newImageId], ['id' => '$' . $articleId]);
-            }
-
+        if (isset($article['image']['id'])) {
+            Db::article(['image_id' => '$' . $article['image']['id']], ['id' => '$' . $articleId]);
         }
         foreach ($article['content'] as $i => $content) {
             $contentRow = [
