@@ -42,7 +42,6 @@ new Vue({
         if('{{loadedArticleId}}' !== ''){
             this.loadArticle('{{loadedArticleId}}');
         }
-        console.log('{{loadedArticleId}}');
         api.get('categories?all').then(res => {
             this.categories = res.data
         });
