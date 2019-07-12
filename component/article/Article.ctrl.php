@@ -74,6 +74,15 @@ class Article extends Unicore {
         if($article['author']['image_id']){
             $article['author']['profilePicture'] = base . ImageModel::byId($article['author']['image_id'])['path'];
         }
+        // keywords
+        $article['keywordString'] = '';
+        if (!empty($article['keywords'])) {
+            $keywords = explode(',', $article['keywords']);
+            foreach ($keywords as $keyword) {
+                $article['keywordString'] .= '<span class="tag is-light">' . $keyword . '</span> ';
+            }
+        }
+
         $this->content = $article;
 
         return true;
