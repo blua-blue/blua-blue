@@ -35,17 +35,14 @@ class Verify extends Neoan {
     }
     function confirmEmail($to, $hash) {
         $link = base . 'verify/'.$hash.'/?email='.$to;
-        $mail = $this->newMail();
-        try {
-            // to
-            $mail->setFrom('neoan@neoan.us', 'Neoan3');
-            $mail->addAddress($to);
+        $content = '<p>In order to activate your account, please use the following link:</p>';
+        $content .= '<a href="'.$link.'" style="color:#aaaaaa">'.$link.'</a>';
 
-            // content
-            $mail->isHTML(false);
-            $mail->Subject = 'Email confirmation request';
-            $mail->Body = 'We are still working on our emails. Meanwhile, please visit the following link to verify your email: '.$link;
-            $mail->send();
+        $mail = new Email('Email confirmation request','Welcome to blua.blue',$content);
+        try {
+            $mail->mailer->setFrom($mail->mailer->Username, 'Neoan3');
+            $mail->mailer->addAddress($to);
+            $mail->mailer->send();
         } catch (Exception $e) {
             return ['success'=>false,'error'=>$e->getMessage()];
         }
