@@ -1,7 +1,10 @@
 <form id="register-form" v-on:submit.prevent="register">
     <div v-if="loggedIn">
-        <h2>You are logged in.</h2>
+        <h2 class="subtitle">You are logged in.</h2>
         <button type="button" class="button" v-on:click="logout">sign out</button>
+    </div>
+    <div v-else-if="processing">
+        <progress class="progress is-small is-primary" max="100">loading</progress>
     </div>
     <div v-else>
         <article class="message is-danger" v-if="duplicate">

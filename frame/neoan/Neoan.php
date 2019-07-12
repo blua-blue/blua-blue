@@ -28,7 +28,7 @@ class Neoan extends Serve {
          *  ['name'=>'your_database','assumes_uuid'=>true,'password'=>'Password','user'=>'dbUser'],
          * 'stateless'=>'SecretKey'
          * 'mail'=>
-         *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password']
+         *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password'],
          * ]
          *
          * */

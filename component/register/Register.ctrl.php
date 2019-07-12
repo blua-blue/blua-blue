@@ -48,14 +48,15 @@ class Register extends Unicore {
             throw new RouteException('Duplicate entry',400);
         }
         $newUser = UserModel::register(trim($credentials['email']),$credentials['password'],true);
-        $uId = Db::uuid()->uuid;
+        if(!isset($newUser['model']) || empty($newUser['model'])){
+            throw new RouteException('Unresolved error',500);
+        }
         Db::ask('user',[
             'user_name'=>trim($credentials['username'])
-        ],['id'=>'$'.$newUser['id']]);
-        $hash = $newUser['email']['confirm_code'];
+        ],['id'=>'$'.$newUser['model']['id']]);
         $verify = new Verify();
-        $verify->confirmEmail(trim($credentials['email']),$hash);
-        $jwt = Stateless::assign($uId,'user',['exp'=>time()+(2*60*60)]);
+        $verify->confirmEmail(trim($credentials['email']),$newUser['confirm_code']);
+        $jwt = Stateless::assign($newUser['model']['id'],'user',['exp'=>time()+(2*60*60)]);
         return ['token'=>$jwt];
     }
 
