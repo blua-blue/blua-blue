@@ -44,7 +44,7 @@ class ContactUs extends Neoan {
         }
         $mail = new Email('Contact form: '. $info['topic'],'From: '.$info['email'],$info['body']);
         try {
-            $mail->mailer->setFrom($mail->mailer->Username, 'Neoan3');
+            $mail->mailer->setFrom($mail->mailer->Username, 'blua.blue');
             $mail->mailer->addAddress($mail->mailer->Username);
             $mail->mailer->send();
         } catch (Exception $e) {

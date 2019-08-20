@@ -5,15 +5,20 @@ Vue.component('loginForm', {
             password: '',
             loggedIn: localStorage.token,
             valid: true,
-            localUser: {}
+            localUser: {},
+            state:'login'
         }
     },
     mounted() {
         if (this.loggedIn) {
             // check if still valid token
             api.get('register').then(x => {
-                this.localUser = x.data;
-                localStorage.user = JSON.stringify(x.data);
+                if(!x.data.phpSession){
+                    this.logout();
+                } else {
+                    this.localUser = x.data.user;
+                    localStorage.user = JSON.stringify(x.data.user);
+                }
             }).catch(e => {
                 this.loggedIn = false;
                 this.logout();
@@ -33,7 +38,8 @@ Vue.component('loginForm', {
         },
         login() {
             this.valid = true;
-            api.post('login', this._data).then(res => {
+
+            api.post(this.state, this._data).then(res => {
                 this.updateStatus(res.data.token);
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 this.localUser = res.data.user;

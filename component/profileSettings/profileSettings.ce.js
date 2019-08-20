@@ -30,8 +30,8 @@ Vue.component('profileSettings',{
                 this.disabled = true;
                 api.put('profile',this.user).then(res=>{
                     api.get('register').then(x=>{
-                        localStorage.user = JSON.stringify(x.data);
-                        this.user = x.data;
+                        localStorage.user = JSON.stringify(x.data.user);
+                        this.user = x.data.user;
                     });
                     this.disabled = false;
                 }).catch(err=>alert('We were unable to update your profile'));
