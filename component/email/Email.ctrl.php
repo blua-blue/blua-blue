@@ -29,6 +29,7 @@ class Email extends Neoan {
             'subject' => $subject,
             'title' => $title,
             'content' => $content,
+            'base'=>base
         ]);
     }
 
