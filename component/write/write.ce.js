@@ -1,38 +1,62 @@
 new Vue({
     el: '#posting', data: {
+        addKeyword:'',
         permission:false,
         article:{
             category_id: '',
-            public:true,
-            isDraft:true,
-            name:'',
-            teaser:'',
-            image:{
-                path:''
+            public: true,
+            isDraft: true,
+            name: '',
+            teaser: '',
+            image: {
+                path: ''
             },
-            content:[
-                {content:''}
+            content: [
+                {content: ''}
             ],
-            keywords:'',
+            keywords: [],
         },
         categories: [
             {name: 'Other'}
         ]
     },
-    components:{
-        'editor':Editor
+    watch: {
+        addKeyword: function (newVal, oldVal) {
+            if(newVal.indexOf(',') !== -1 ){
+                let newKeyword = newVal.replace(',','').trim();
+                if(newKeyword === ''){
+                    return;
+                }
+                if(this.article.keywords.filter(x=>x===newKeyword).length>0){
+                    this.addKeyword = '';
+                    return;
+                }
+                this.article.keywords.push(newKeyword);
+                this.addKeyword = '';
+            }
+        }
+    },
+    components: {
+        'editor': Editor
     },
     created(){
         this.permission = true;
         if('{{loadedArticleId}}' !== ''){
             this.loadArticle('{{loadedArticleId}}');
         }
-        api.get('categories?all').then(res => {this.categories = res.data});
+        api.get('categories?all').then(res => {
+            this.categories = res.data
+        });
     },
-    methods:{
-        loadArticle(id){
-            api.get('write?id='+id).then(res=>{
+    methods: {
+        removeKeyword(ind){
+            this.article.keywords.splice(ind,1);
+        },
+        loadArticle(id) {
+            api.get('write?id=' + id).then(res => {
+
                 this.article = res.data;
+                this.article.keywords = res.data.keywords.split(',');
                 this.permission = true;
                 if(Array.isArray(res.data.image)){
                     this.article.image = {path:''}
@@ -41,7 +65,7 @@ new Vue({
                 }
                 this.article.isDraft = !res.data.publish_date;
                 this.article.public = res.data.is_public;
-            }).catch(err=>{
+            }).catch(err => {
                 // not allowed
                 this.permission = false;
             })
@@ -69,12 +93,12 @@ new Vue({
             }
 
         },
-        create(){
+        create() {
             let obj = this.article;
             console.log(this.article);
-            api.post('article',obj).then(res=>{
+            api.post('article', obj).then(res => {
                 this.loadArticle(res.data.id);
-            }).catch(err=>{
+            }).catch(err => {
 
             })
         }

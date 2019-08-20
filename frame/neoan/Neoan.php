@@ -19,6 +19,9 @@ class Neoan extends Serve {
     function __construct() {
         if(!$this->developmentMode) {
             Cache::setCaching('+2 hours');
+            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
+        } else {
+            $this->includeJs(base . 'node_modules/vue/dist/vue.js');
         }
         // SETUP
         /*
@@ -125,7 +128,6 @@ class Neoan extends Serve {
             'js'         => [
                 ['src' => path .'/frame/neoan/global.js', 'data' => ['base' => base]],
                 ['src' => base . 'asset/tinymce/js/tinymce/tinymce.min.js'],
-                ['src' => base . 'node_modules/vue/dist/vue.js'],
                 ['src' => base . 'node_modules/axios/dist/axios.min.js'],
                 ['src' => base . 'node_modules/lodash/lodash.min.js'],
                 ['src' => path . '/frame/neoan/axios-wrapper.js', 'data' => ['base' => base]],
