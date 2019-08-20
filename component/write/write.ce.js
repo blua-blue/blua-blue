@@ -1,7 +1,8 @@
 new Vue({
     el: '#posting', data: {
         addKeyword:'',
-        article: {
+        permission:false,
+        article:{
             category_id: '',
             public: true,
             isDraft: true,
@@ -39,6 +40,7 @@ new Vue({
         'editor': Editor
     },
     created(){
+        this.permission = true;
         if('{{loadedArticleId}}' !== ''){
             this.loadArticle('{{loadedArticleId}}');
         }
@@ -55,15 +57,17 @@ new Vue({
 
                 this.article = res.data;
                 this.article.keywords = res.data.keywords.split(',');
-                if (Array.isArray(res.data.image)) {
-                    this.article.image = {path: ''}
-                } else if (res.data.image.path.substring(0, 4) !== 'http') {
-                    this.article.image.path = '{{base}}' + res.data.image.path;
+                this.permission = true;
+                if(Array.isArray(res.data.image)){
+                    this.article.image = {path:''}
+                } else if(res.data.image.path.substring(0,4) !== 'http'){
+                    this.article.image.path = '{{base}}'+res.data.image.path;
                 }
                 this.article.isDraft = !res.data.publish_date;
                 this.article.public = res.data.is_public;
             }).catch(err => {
                 // not allowed
+                this.permission = false;
             })
         },
         changePic(imgId){
@@ -76,6 +80,17 @@ new Vue({
                 }
 
             })
+
+        },
+        softDelete(){
+            let really = confirm('Are you sure? This is permanent.');
+            if(really === true){
+                api.delete('article?id='+this.article.id).then(res=>{
+                    this.loadArticle(res.data.id);
+                }).catch(err=>{
+
+                })
+            }
 
         },
         create() {

@@ -13,6 +13,7 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 use Neoan3\Model\ImageModel;
 use Neoan3\Model\IndexModel;
+use Neoan3\Model\UserModel;
 
 /**
  * Class Article
@@ -62,7 +63,7 @@ class Article extends Unicore {
             $article['imageTag'] = '<img src="'.base.$article['image']['path'].'" alt="">';
         }
         // related
-        $others = ArticleModel::find(['category_id'=>$article['category_id']]);
+        $others = ArticleModel::find(['category_id'=>$article['category_id'],'is_public'=>'1','publish_date'=>'!']);
         $article['related'] = '';
         foreach ($others as $other){
             if($other['id'] !== $article['id']){
@@ -203,6 +204,22 @@ class Article extends Unicore {
 
 
         return ['id' => $articleId];
+    }
+    function deleteArticle($body){
+        $this->asApi();
+        $jwt = Stateless::restrict();
+        $condition = ['id'=>'$'.$body['id']];
+        // is admin?
+        $user = UserModel::byId($jwt['jti']);
+        if($user['user_type'] !== 'admin'){
+            $condition['author_user_id'] = $jwt['jti'];
+        }
+        $find = Db::easy('article.id',$condition);
+        if(empty($find)){
+            throw new RouteException('no permission', 403);
+        }
+        Db::delete('article',$body['id']);
+
     }
 
 }

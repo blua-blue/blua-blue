@@ -41,6 +41,9 @@ class ArticleModel extends IndexModel {
 
     static function find($condition){
         $articles = [];
+        if(!isset($condition['delete_date'])){
+            $condition['delete_date'] = '';
+        }
         foreach($condition as $key => $value){
             if(strpos($key,'_id')!== false || $key == 'id'){
                 $condition[$key] = '$'.$value;
