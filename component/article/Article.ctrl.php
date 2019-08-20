@@ -70,7 +70,7 @@ class Article extends Unicore {
             }
 
         }
-        $article['author']['profilePicture'] = base . 'asset/img/content-is-king.png';
+        $article['author']['profilePicture'] = base . 'asset/img/blank-profile.png';
         if($article['author']['image_id']){
             $article['author']['profilePicture'] = base . ImageModel::byId($article['author']['image_id'])['path'];
         }
