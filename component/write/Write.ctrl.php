@@ -52,7 +52,7 @@ class Write extends Unicore {
         $this->asApi();
         $jwt = Stateless::restrict();
         $article = ArticleModel::byId($obj['id']);
-        if (empty($article) || $article['author_user_id'] !== $jwt['jti']) {
+        if (empty($article) || $article['author_user_id'] !== $jwt['jti'] || !empty($article['delete_date'])) {
             throw new RouteException('no permission', 403);
         }
         return $article;
