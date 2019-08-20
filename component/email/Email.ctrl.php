@@ -20,7 +20,7 @@ class Email extends Neoan {
      * @param $title
      * @param $content
      */
-    function __construct($subject, $title, $content){
+    function __construct($subject = 'Test email', $title = '', $content = ''){
         parent::__construct();
         $this->mailer = $this->newMail();
         $this->mailer->isHTML(true);
