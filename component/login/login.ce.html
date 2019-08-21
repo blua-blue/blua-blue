@@ -36,7 +36,8 @@
         <div class="notification is-warning" v-if="localUser.email&&!localUser.email.confirm_date">
             In order to comment or publish, you will need to confirm your email. <a href="{{base}}profile/#settings">Settings</a>
         </div>
-        <button type="button" class="button is-warning" v-on:click="logout">Sign out as {{localUser.user_name}}</button>
+        <a type="button" href="{{base}}profile/" class="button is-info" ><i class="material-icons">person</i> {{localUser.user_name}}</a>
+        <button type="button" class="button is-danger" v-on:click="logout"><i class="material-icons">remove_circle</i> Sign out</button>
     </div>
 
 

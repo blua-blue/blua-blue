@@ -11,11 +11,12 @@ use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
+use Neoan3\Model\IndexModel;
 use Neoan3\Model\UserModel;
 
 class Register extends Unicore
 {
-    private $vueElements = ['register'];
+    private $vueElements = ['mixins','register'];
 
     function __construct()
     {
@@ -81,6 +82,29 @@ class Register extends Unicore
         $verify->confirmEmail(trim($credentials['email']), $newUser['confirm_code']);
         $jwt = Stateless::assign($newUser['model']['id'], 'user', ['exp' => time() + (2 * 60 * 60)]);
         return ['token' => $jwt];
+    }
+
+    function putRegister($body)
+    {
+        $user = UserModel::byId($body['userId']);
+        if (empty($user)) {
+            throw new RouteException('Bad Request', 400);
+        }
+        $password = IndexModel::first(Db::easy('user_password.id',
+            ['confirm_code' => $body['confirmCode'], 'user_id' => '$' . $user['id'], '^delete_date', '^confirm_date']));
+        if (empty($password)) {
+            throw new RouteException('Bad Request', 400);
+        }
+        $insertPassword = '=' . password_hash($body['password'], PASSWORD_DEFAULT);
+        Db::ask('>UPDATE user_password SET delete_date = NOW() WHERE delete_date IS NULL AND user_id = UNHEX({{user_id}}) AND id != UNHEX({{id}})',
+            [
+                'id'      => $password['id'],
+                'user_id' => $user['id']
+            ]);
+        Db::user_password(['user_id' => '$' . $user['id'], 'password' => $insertPassword, 'confirm_date' => '.'],
+            ['id' => '$' . $password['id']]);
+        return true;
+
     }
 
 }

@@ -15,6 +15,7 @@ use Neoan3\Core\Unicore;
 class ResetPassword extends Neoan
 {
     private $valid;
+    private $userId;
 
     function init()
     {
@@ -27,14 +28,19 @@ class ResetPassword extends Neoan
 
     function validateHash($uni)
     {
-        $uni->js .= "new Vue({el:'#reset-password',data:{pw1:'',pw2:''}});";
+
         $this->valid = 0;
         if (sub(1)) {
             $user = Db::easy('user_password.user_id', ['confirm_code' => sub(1), '^delete_date', '^confirm_date']);
             if (!empty($user)) {
                 $this->valid = 1;
+                $this->userId = $user[0]['user_id'];
             }
         }
+        $uni->vueComponent('mixins');
+        $uni->vueComponent('login');
+        $uni->vueComponent('resetPassword',['hash'=>sub(1),'userId'=>$this->userId]);
+        $uni->js .= "new Vue({el:'#reset-view'});";
 
     }
 
