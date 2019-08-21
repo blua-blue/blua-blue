@@ -6,22 +6,28 @@ namespace Neoan3\Components;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\DbException;
 use Neoan3\Apps\Ops;
+use Neoan3\Apps\Session;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
+use Neoan3\Model\IndexModel;
 use Neoan3\Model\UserModel;
 
-class Register extends Unicore {
-    private $vueElements = ['register'];
-    function __construct() {
+class Register extends Unicore
+{
+    private $vueElements = ['mixins','register'];
+
+    function __construct()
+    {
         new Neoan();
     }
 
-    function init() {
+    function init()
+    {
 
         $this->uni('neoan')
-             ->callback($this,'vueComponents')
+             ->callback($this, 'vueComponents')
              ->hook('main', 'register')
              ->output();
     }
@@ -29,35 +35,76 @@ class Register extends Unicore {
     /**
      * @param Neoan $uni
      */
-    function vueComponents($uni){
-        foreach($this->vueElements as $vueElement){
+    function vueComponents($uni)
+    {
+        foreach ($this->vueElements as $vueElement) {
             $uni->vueComponent($vueElement);
         }
 
     }
-    function getRegister(){
+
+    /**
+     * @return array
+     * @throws DbException
+     * @throws RouteException
+     */
+    function getRegister()
+    {
         $jwt = Stateless::validate();
-        return UserModel::byId($jwt['jti']);
+        $hasSession = Session::is_logged_in();
+        return ['user' => UserModel::byId($jwt['jti']), 'phpSession' => $hasSession];
 
     }
-    function postRegister($credentials){
+
+    /**
+     * @param $credentials
+     *
+     * @return array
+     * @throws DbException
+     * @throws RouteException
+     */
+    function postRegister($credentials)
+    {
         // check uniqueness
-        $userNameExists = UserModel::find(['user_name'=>trim($credentials['username'])]);
-        $emailExists = UserModel::find(['user_name'=>trim($credentials['email'])]);
-        if(!empty($userNameExists) || !empty($emailExists)){
-            throw new RouteException('Duplicate entry',400);
+        $userNameExists = UserModel::find(['user_name' => trim($credentials['username'])]);
+        $emailExists = UserModel::find(['user_name' => trim($credentials['email'])]);
+        if (!empty($userNameExists) || !empty($emailExists)) {
+            throw new RouteException('Duplicate entry', 400);
         }
-        $newUser = UserModel::register(trim($credentials['email']),$credentials['password'],true);
-        if(!isset($newUser['model']) || empty($newUser['model'])){
-            throw new RouteException('Unresolved error',500);
+        $newUser = UserModel::register(trim($credentials['email']), $credentials['password'], true);
+        if (!isset($newUser['model']) || empty($newUser['model'])) {
+            throw new RouteException('Unresolved error', 500);
         }
-        Db::ask('user',[
-            'user_name'=>trim($credentials['username'])
-        ],['id'=>'$'.$newUser['model']['id']]);
+        Db::ask('user', [
+            'user_name' => trim($credentials['username'])
+        ], ['id' => '$' . $newUser['model']['id']]);
         $verify = new Verify();
-        $verify->confirmEmail(trim($credentials['email']),$newUser['confirm_code']);
-        $jwt = Stateless::assign($newUser['model']['id'],'user',['exp'=>time()+(2*60*60)]);
-        return ['token'=>$jwt];
+        $verify->confirmEmail(trim($credentials['email']), $newUser['confirm_code']);
+        $jwt = Stateless::assign($newUser['model']['id'], 'user', ['exp' => time() + (2 * 60 * 60)]);
+        return ['token' => $jwt];
+    }
+
+    function putRegister($body)
+    {
+        $user = UserModel::byId($body['userId']);
+        if (empty($user)) {
+            throw new RouteException('Bad Request', 400);
+        }
+        $password = IndexModel::first(Db::easy('user_password.id',
+            ['confirm_code' => $body['confirmCode'], 'user_id' => '$' . $user['id'], '^delete_date', '^confirm_date']));
+        if (empty($password)) {
+            throw new RouteException('Bad Request', 400);
+        }
+        $insertPassword = '=' . password_hash($body['password'], PASSWORD_DEFAULT);
+        Db::ask('>UPDATE user_password SET delete_date = NOW() WHERE delete_date IS NULL AND user_id = UNHEX({{user_id}}) AND id != UNHEX({{id}})',
+            [
+                'id'      => $password['id'],
+                'user_id' => $user['id']
+            ]);
+        Db::user_password(['user_id' => '$' . $user['id'], 'password' => $insertPassword, 'confirm_date' => '.'],
+            ['id' => '$' . $password['id']]);
+        return true;
+
     }
 
 }

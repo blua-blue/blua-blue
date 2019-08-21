@@ -21,6 +21,7 @@ class Neoan extends Serve {
             Cache::setCaching('+2 hours');
             $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
         } else {
+            Cache::invalidateAll();
             $this->includeJs(base . 'node_modules/vue/dist/vue.js');
         }
         // SETUP

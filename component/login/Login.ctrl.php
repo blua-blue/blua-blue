@@ -33,8 +33,9 @@ class Login extends Neoan {
         $user = $user[0];
         $password = Db::easy(
             'user_password.password',
-            ['^delete_date', 'user_id' => '$' . $user['id']]
+            ['^delete_date', 'user_id' => '$' . $user['id'], 'confirm_date'=>'!']
         );
+
         if(empty($password) || !password_verify($credentials['password'],$password[0]['password'])){
             throw new RouteException('Wrong credentials', 401);
         }
@@ -51,6 +52,9 @@ class Login extends Neoan {
         return ['token'=>$jwt,'user'=>$user];
     }
 
+    /**
+     * @throws RouteException
+     */
     function deleteLogin(){
         $jwt = Stateless::restrict();
         Session::logout();

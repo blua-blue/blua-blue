@@ -1,6 +1,7 @@
 
 const registerForm = {
     name: 'register-form',
+    mixins:[common],
     data:()=>{
         return {
             username:'',
@@ -10,6 +11,7 @@ const registerForm = {
             duplicate:false,
             showModal:false,
             loggedIn:localStorage.token,
+            passwordStrength:0,
             processing:false
         }
     },
@@ -22,6 +24,11 @@ const registerForm = {
                 console.log(e);
                 this.logout();
             })
+        }
+    },
+    watch:{
+        password:function(value){
+            this.passwordStrength = this.testPassword(value);
         }
     },
     methods:{

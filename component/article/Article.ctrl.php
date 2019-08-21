@@ -20,11 +20,26 @@ use Neoan3\Model\UserModel;
  * @package Neoan3\Components
  */
 class Article extends Unicore {
+    /**
+     * @var
+     */
     private $frame;
-    private $vueElements = ['login','articleRating','article'];
+    /**
+     * @var array
+     */
+    private $vueElements = ['login', 'articleRating', 'article'];
+    /**
+     * @var
+     */
     private $content;
+    /**
+     * @var string
+     */
     private $view = 'article';
 
+    /**
+     *
+     */
     function init() {
         $this->uni('neoan')
              ->callback($this, 'vueElements')
@@ -43,6 +58,10 @@ class Article extends Unicore {
 
     }
 
+    /**
+     * @return bool
+     * @throws \Neoan3\Apps\DbException
+     */
     function getContext() {
         if (!sub(1)) {
             $this->general();
@@ -90,6 +109,9 @@ class Article extends Unicore {
 
     }
 
+    /**
+     * @throws \Neoan3\Apps\DbException
+     */
     private function general() {
         $this->view = 'overview';
         $articleList = new ArticleList();
@@ -102,6 +124,9 @@ class Article extends Unicore {
     }
 
     /* API */
+    /**
+     *
+     */
     private function asApi() {
         $this->frame = new Neoan();
     }
@@ -110,7 +135,7 @@ class Article extends Unicore {
      * Retrieves  an article with
      * by various possible filters
      *
-     * @param $condition
+     * @param object $condition
      *  $condition['id'] optional
      *  $condition['publish_date'] optional
      *
@@ -128,7 +153,9 @@ class Article extends Unicore {
     }
 
     /**
-     * @param $article
+     * Updates an article and expects the full article model.
+     *
+     * @param object $article
      *
      * @throws RouteException
      * @throws \Neoan3\Apps\DbException
@@ -141,9 +168,9 @@ class Article extends Unicore {
     }
 
     /**
-     * Some description
+     * Creates an article and expects the full article model.
      *
-     * @param $article
+     * @param object $article
      *
      * @return array
      * @throws RouteException
@@ -205,6 +232,17 @@ class Article extends Unicore {
 
         return ['id' => $articleId];
     }
+
+    /**
+     * Deletes an article
+     *
+     * @param object $body
+     *  $body['id']
+     *
+     * @return bool
+     * @throws RouteException
+     * @throws \Neoan3\Apps\DbException
+     */
     function deleteArticle($body){
         $this->asApi();
         $jwt = Stateless::restrict();
@@ -219,7 +257,7 @@ class Article extends Unicore {
             throw new RouteException('no permission', 403);
         }
         Db::delete('article',$body['id']);
-
+        return true;
     }
 
 }
