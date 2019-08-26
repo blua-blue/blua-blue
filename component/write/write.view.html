@@ -28,7 +28,7 @@
 
                     </div>
                     <div v-for="section in article.content">
-                        <editor id="new-post-editor" v-model="section.content"></editor>
+                        <editor id="new-post-editor" v-model="section.content" :init="{plugins: 'link'}"></editor>
                     </div>
 
                 </div>
