@@ -1,0 +1,31 @@
+<div>
+    <div class="columns">
+        <div class="column">
+            <input type="text" placeholder="search user" v-model="search" class="input">
+        </div>
+    </div>
+    <div class="columns" v-bind:class="{'has-background-grey-lighter':$index%2==0}" v-for="(user, $index) in users">
+        <div class="column">
+            {{user.user_name}}
+            <strong v-if="user.user_type !== 'user'">({{user.user_type}})</strong>
+        </div>
+        <div class="column">
+            {{user.email.email}} (
+            <span v-if="user.email.confirm_date">confirmed</span>
+            <span v-else>unconfirmed</span>
+            )
+        </div>
+        <div class="column is-narrow">
+            <button class="button is-danger">block</button>
+        </div>
+    </div>
+    <nav class="pagination is-small" role="navigation" aria-label="pagination">
+        <a class="pagination-previous" :disabled="!previousButton" @click="loadPage(currentPage(-1))">Previous</a>
+        <a class="pagination-next" :disabled="!nextButton" v-on:click="loadPage(currentPage+1)">Next page</a>
+        <ul class="pagination-list">
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li v-for="page in pagination.links"><a class="pagination-link" @click="loadPage(page.page)">{{page.page}}</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+        </ul>
+    </nav>
+</div>

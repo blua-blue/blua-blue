@@ -8,15 +8,40 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\CategoryModel;
 use Neoan3\Apps\Db;
 
+/**
+ * Class Categories
+ *
+ * @package Neoan3\Components
+ */
 class Categories extends Neoan {
-    function getCategories($params){
+    /**
+     * @return array
+     */
+    function getCategories(){
         return CategoryModel::listAll();
     }
 
+    /**
+     * @param $obj
+     *
+     * @return array
+     * @throws \Neoan3\Apps\DbException
+     * @throws \Neoan3\Core\RouteException
+     */
     function postCategories($obj){
         $jwt = Stateless::restrict('user');
         Db::ask('category',['name'=>$obj['name']]);
         return ['request'=>'sent'];
+    }
+
+    /**
+     * @param $obj
+     *
+     * @throws \Neoan3\Core\RouteException
+     */
+    function deleteCategories($obj){
+        $jwt = Stateless::restrict('user');
+        Db::category(['delete_date'=>'.'],['id'=>'$'. $obj['id']]);
     }
 
 }

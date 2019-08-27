@@ -5,6 +5,7 @@ namespace Neoan3\Components;
 
 use Neoan3\Apps\Db;
 use Neoan3\Apps\DbException;
+use Neoan3\Apps\Ops;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 
@@ -12,13 +13,25 @@ class Search extends Neoan {
     function getSearch($obj){
         try{
             $found = [];
-//            Db::debug();
-            $hits = Db::ask('/search',['text'=>$obj['q']]);
+            $divide = explode(' ',$obj['q']);
+            $text = '';
+            $values = [];
+            foreach ($divide as $i =>$part){
+                /*
+                 * NOTE: Instead of changing default db-environment variable to allow for numerical exclusions,
+                 * make sure there aren't numbers in the exclusions
+                 * */
+                $hash = preg_replace('/\d/','a',Ops::hash(5));
+                $text .= ($i==0?'"%",':'').'{{part_'.$hash.'}},"%"';
+                $values['part_'.$hash] = trim($part);
+            }
+            $sql = Ops::embraceFromFile('/component/search/search.sql',['text'=>$text]);
+            $hits = Db::ask('>'.$sql,$values);
             foreach($hits as $hit){
                 $found[] = ArticleModel::byId($hit['id']);
             }
             return $found;
-        } catch(DbException $e){
+        } catch(Exception $e){
             return [];
         }
 

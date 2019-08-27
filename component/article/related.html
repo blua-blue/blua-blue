@@ -1,0 +1,16 @@
+<div class="card has-margin-top-3">
+    <header class="card-header" style="background: url({{base}}{{image.path}});background-size: cover; ">
+        <p class="card-header-title has-text-primary" style="background: rgba(255,255,255,.9)">{{name}}</p>
+    </header>
+    <div class="card-content">
+        {{teaser}}
+    </div>
+    <div class="card-footer">
+        <div class="card-footer-item">
+            <small>@{{author.user_name}}</small>
+        </div>
+        <div class="card-footer-item">
+            <a href="{{base}}article/{{slug}}/">read</a>
+        </div>
+    </div>
+</div>

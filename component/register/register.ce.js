@@ -1,6 +1,7 @@
 
 const registerForm = {
     name: 'register-form',
+    mixins:[common],
     data:()=>{
         return {
             username:'',
@@ -9,7 +10,9 @@ const registerForm = {
             acceptTAC:false,
             duplicate:false,
             showModal:false,
-            loggedIn:localStorage.token
+            loggedIn:localStorage.token,
+            passwordStrength:0,
+            processing:false
         }
     },
     mounted(){
@@ -23,6 +26,11 @@ const registerForm = {
             })
         }
     },
+    watch:{
+        password:function(value){
+            this.passwordStrength = this.testPassword(value);
+        }
+    },
     methods:{
         logout(){
             console.log('test');
@@ -30,12 +38,15 @@ const registerForm = {
             this.loggedIn = false;
         },
         register(){
+            this.processing = true;
             this.duplicate = false;
             api.post('register',this._data).then((res)=>{
                 localStorage.setItem('token',res.data.token);
                 this.loggedIn = res.data.token;
+                this.processing = false;
             }).catch((err)=>{
                 this.duplicate = true;
+                this.processing = false;
             })
 
         },

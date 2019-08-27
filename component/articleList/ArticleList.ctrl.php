@@ -10,10 +10,25 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 use Neoan3\Model\UserModel;
 
+/**
+ * Class ArticleList
+ *
+ * @package Neoan3\Components
+ */
 class ArticleList extends Neoan {
+    /**
+     * @param      $filter
+     * @param bool $currentUser
+     *
+     * @return array
+     * @throws \Neoan3\Apps\DbException
+     */
     private function evalFilter($filter,$currentUser=false){
         $articles = [];
         $sql = 'SELECT id FROM article WHERE ';
+        // filter deleted
+        $sql .= ' delete_date IS NULL ';
+
         $variables = [];
         if(isset($filter['author'])){
             $authorSearch = UserModel::find(['user_name'=>$filter['author']]);
@@ -22,13 +37,12 @@ class ArticleList extends Neoan {
             }
             $author = $authorSearch[0];
             $variables['author'] = $author['id'];
-            $sql .= 'author_user_id = UNHEX({{author}}) ';
+            $sql .= 'AND author_user_id = UNHEX({{author}}) ';
             if($currentUser != $author['id'] || ( isset($filter['public']) && $filter['public']) ){
                 $sql .= ' AND is_public = 1 AND publish_date IS NOT NULL ';
             }
         }
-        // filter deleted
-        $sql .= ' AND delete_date IS NULL ';
+
         // modifiers
         if(isset($filter['orderBy'])){
             $parts = explode(',',$filter['orderBy']);
@@ -48,14 +62,21 @@ class ArticleList extends Neoan {
         } else {
             $sql .= ' LIMIT 300';
         }
-//        Db::debug();
         $list = Db::ask('>'.$sql,$variables);
         foreach ($list as $item){
             $articles[] = ArticleModel::byId($item['id']);
         }
         return $articles;
     }
+
+    /**
+     * @param $filter
+     *
+     * @return array
+     * @throws \Neoan3\Apps\DbException
+     */
     function getArticleList($filter){
+
         try{
             $jwt = Stateless::validate();
             $userId = $jwt['jti'];

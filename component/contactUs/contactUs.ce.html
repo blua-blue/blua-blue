@@ -1,0 +1,40 @@
+<div>
+    <div v-if="showSent">
+        <p class="subtitle">Thank you</p>
+        <p>We'll get back to you as soon as possible.</p>
+    </div>
+    <form @submit.prevent="send" v-if="!showSent">
+        <div class="control">
+            <div class="field">
+                <label class="label">Email</label>
+                <input type="email" v-model="contact.email" class="input" required minlength="6">
+            </div>
+        </div>
+        <div class="control">
+            <div class="field">
+                <label class="label">Topic</label>
+                <select class="select" name="topic" v-model="contact.topic" required>
+                    <option value="general">General Contact</option>
+                    <option value="tech">Technical help</option>
+                    <option value="bug">Reporting a bug</option>
+                    <option value="dmca">Reporting copyright issue (DMCA)</option>
+                </select>
+            </div>
+        </div>
+        <div class="control">
+            <div class="field">
+                <label for="text" class="label">Content</label>
+                <textarea class="textarea" v-model="contact.body" required></textarea>
+            </div>
+        </div>
+        <div style="margin-top: 7px">
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column is-narrow">
+                    <input type="submit" class="button is-primary" value="send">
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

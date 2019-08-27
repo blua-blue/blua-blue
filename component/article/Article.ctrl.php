@@ -8,7 +8,6 @@ use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
-use Neoan3\Core\Serve;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
@@ -60,11 +59,10 @@ class Article extends Unicore {
     }
 
     /**
-     * @param Serve $uni
-     *
      * @return bool
+     * @throws \Neoan3\Apps\DbException
      */
-    function getContext($uni) {
+    function getContext() {
         if (!sub(1)) {
             $this->general();
             return true;
@@ -105,9 +103,7 @@ class Article extends Unicore {
             }
         }
 
-
         $this->content = $article;
-        $uni->addHead('title',$article['name']);
 
         return true;
 

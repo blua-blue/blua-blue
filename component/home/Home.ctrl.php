@@ -9,7 +9,7 @@ use Neoan3\Frame\Neoan;
 
 class Home extends Unicore {
     function init() {
-        $this->uni('blua')
+        $this->uni('neoan')
              ->hook('main', 'home')
              ->callback($this,'loadComponent')
              ->output();
@@ -20,6 +20,7 @@ class Home extends Unicore {
      */
     function loadComponent($uni){
         $this->vueComponent($uni,'login');
+        $uni->js .= "new Vue({el:'#home-page'});";
     }
     private function vueComponent($context, $element, $params = []) {
         $params['base'] = base;

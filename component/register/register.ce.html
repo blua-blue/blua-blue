@@ -1,7 +1,10 @@
 <form id="register-form" v-on:submit.prevent="register">
     <div v-if="loggedIn">
-        <h2>You are logged in.</h2>
+        <h2 class="subtitle">You are logged in.</h2>
         <button type="button" class="button" v-on:click="logout">sign out</button>
+    </div>
+    <div v-else-if="processing">
+        <progress class="progress is-small is-primary" max="100">loading</progress>
     </div>
     <div v-else>
         <article class="message is-danger" v-if="duplicate">
@@ -17,8 +20,16 @@
 
         <div class="field">
             <label for="ped" class="label">Password</label>
-            <input type="password" class="input" id="ped" required minlength="8" v-model="password">
+            <input type="password" class="input" id="ped" required minlength="6" v-model="password">
+
         </div>
+        <article class="message " v-bind:class="{'is-danger':passwordStrength<50,'is-success':passwordStrength>49}">
+            <div class="message-body">
+                <p>Strength {{passwordStrength}}% (minimum: 50%)</p>
+                <p>Annoyed by sheer nonsense like "One number, one letter, one special character"? So are we. We calculate password strength based on actual mathematical logic.
+                    <br>"I will always love blua.blue" (50%) and "blUa@8" (52%) will both fulfill the minimum requirement.</p>
+            </div>
+        </article>
         <div class="field">
             <label for="email" class="label">Email</label>
             <input type="email" class="input" id="email" v-bind:class="{'is-warning':duplicate}" required minlength="8"

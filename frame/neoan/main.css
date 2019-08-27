@@ -17,6 +17,10 @@ body {
   border-bottom: 1px solid;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 /*Breadcrumb*/
 /*! bulma.io v0.7.5 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {

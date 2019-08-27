@@ -300,12 +300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-session.git",
-                "reference": "0913e9d1f6cc5ed838007acee0a08227bfa5f66b"
+                "reference": "f7d70d470f87b30b6bea0cecfe7ef66f3f123d40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-session/zipball/0913e9d1f6cc5ed838007acee0a08227bfa5f66b",
-                "reference": "0913e9d1f6cc5ed838007acee0a08227bfa5f66b",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-session/zipball/f7d70d470f87b30b6bea0cecfe7ef66f3f123d40",
+                "reference": "f7d70d470f87b30b6bea0cecfe7ef66f3f123d40",
                 "shasum": ""
             },
             "require": {
@@ -319,7 +319,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "neoan3 session class",
-            "time": "2019-05-29T13:08:44+00:00"
+            "time": "2019-08-16T20:55:39+00:00"
         },
         {
             "name": "neoan3-apps/stateless",

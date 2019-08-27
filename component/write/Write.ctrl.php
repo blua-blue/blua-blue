@@ -13,14 +13,25 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 
 class Write extends Unicore {
+    private $vueElements = ['uploadImage','write'];
     function init() {
 
-        $this->uni('neoan')
-             ->includeElement('write',['loadedArticleId'=>sub(1)])
+        $this->uni('neoan')->callback($this,'vueElements')
+//             ->includeElement('write', ['loadedArticleId' => sub(1)])
              ->includeJs('node_modules/@tinymce/tinymce-vue/lib/browser/tinymce-vue.min.js')
              ->hook('main', 'write')
              ->callback($this, 'secure')
              ->output();
+    }
+
+    /**
+     * @param Neoan $uni
+     */
+    function vueElements($uni) {
+        foreach ($this->vueElements as $vueElement) {
+            $uni->vueComponent($vueElement, ['loadedArticleId' => sub(1)]);
+        }
+
     }
 
     function secure($uni) {
@@ -37,55 +48,14 @@ class Write extends Unicore {
      * @return array|mixed
      * @throws RouteException
      */
-    function getWrite($obj){
+    function getWrite($obj) {
         $this->asApi();
         $jwt = Stateless::restrict();
         $article = ArticleModel::byId($obj['id']);
-        if(empty($article) || $article['author_user_id'] !== $jwt['jti']){
-            throw new RouteException('no permission',403);
+        if (empty($article) || $article['author_user_id'] !== $jwt['jti'] || !empty($article['delete_date'])) {
+            throw new RouteException('no permission', 403);
         }
         return $article;
-    }
-
-    function postWrite($article) {
-        $this->asApi();
-        $jwt = Stateless::restrict();
-        if (isset($article['id'])) {
-            $oldArticle = ArticleModel::byId($article['id']);
-            if(empty($oldArticle) || $oldArticle['author_user_id'] !== $jwt['jti']){
-                throw new RouteException('no permission',403);
-            }
-            // ensure rights to update
-            $articleId = $article['id'];
-        } else {
-            $slug = Ops::toKebabCase($article['name']);
-            $exists = Db::ask('>SELECT id FROM article WHERE slug LIKE CONCAT({{slug}},"%")',['slug'=>$slug]);
-            if(!empty($exists)){
-                $slug = $slug . '-'.(count($exists)+1);
-            }
-            $articleId = Db::uuid()->uuid;
-            Db::article([
-                'id' => '$' . $articleId,
-                'author_user_id' => '$' . $jwt['jti'],
-                'name' => $article['name'],
-                'slug' =>$slug,
-                'teaser' => $article['teaser'],
-                'category_id' => '$' . $article['category_id'],
-                'is_public' => $article['public'],
-                'publish_date' => $article['isDraft'] ? '' : '.'
-            ]);
-            foreach ($article['content'] as $content) {
-                Db::article_content([
-                    'article_id' => '$' . $articleId,
-                    'sort' => 1,
-                    'content' => '=' . $content
-                ]);
-            }
-
-
-        }
-        return ['id'=>$articleId];
-
     }
 
 }

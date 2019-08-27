@@ -19,6 +19,10 @@ class Neoan extends Serve {
     function __construct() {
         if(!$this->developmentMode) {
             Cache::setCaching('+2 hours');
+            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
+        } else {
+            Cache::invalidateAll();
+            $this->includeJs(base . 'node_modules/vue/dist/vue.js');
         }
         // SETUP
         /*
@@ -28,7 +32,7 @@ class Neoan extends Serve {
          *  ['name'=>'your_database','assumes_uuid'=>true,'password'=>'Password','user'=>'dbUser'],
          * 'stateless'=>'SecretKey'
          * 'mail'=>
-         *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password']
+         *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password'],
          * ]
          *
          * */
@@ -51,6 +55,7 @@ class Neoan extends Serve {
         new Session();
         parent::__construct();
 
+        $this->vueComponent('cookieLaw');
         $this->includeElement('header');
         $this->hook('header', 'header');
         $this->hook('footer', 'footer');
@@ -63,6 +68,9 @@ class Neoan extends Serve {
         if(file_exists($path . $this->viewExt)) {
             $this->footer .= '<template id="' . $element . '">' . $this->fileContent($path . $this->viewExt, $params) .
                              '</template>';
+        }
+        if(file_exists($path . $this->styleExt)) {
+            $this->style .= $this->fileContent($path . $this->styleExt, $params);
         }
         if(file_exists($path . 'js')) {
             $this->js .= $this->fileContent($path . 'js', $params);
@@ -103,6 +111,7 @@ class Neoan extends Serve {
         }
     }
 
+
     function constants() {
         return [
             'base'       => [base],
@@ -118,15 +127,15 @@ class Neoan extends Serve {
                 ['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1']
             ],
             'js'         => [
-                ['src' => 'https://use.fontawesome.com/releases/v5.3.1/js/all.js'],
+                ['src' => path .'/frame/neoan/global.js', 'data' => ['base' => base]],
                 ['src' => base . 'asset/tinymce/js/tinymce/tinymce.min.js'],
-                ['src' => base . 'node_modules/vue/dist/vue.js'],
                 ['src' => base . 'node_modules/axios/dist/axios.min.js'],
                 ['src' => base . 'node_modules/lodash/lodash.min.js'],
                 ['src' => path . '/frame/neoan/axios-wrapper.js', 'data' => ['base' => base]],
             ],
             'stylesheet' => [
-                '' . base . 'frame/neoan/main.css'
+                '' . base . 'frame/neoan/main.css',
+                'https://fonts.googleapis.com/icon?family=Material+Icons'
             ]
         ];
     }
