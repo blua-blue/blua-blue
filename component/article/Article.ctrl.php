@@ -27,7 +27,7 @@ class Article extends Unicore {
     /**
      * @var array
      */
-    private $vueElements = ['login', 'articleRating', 'article'];
+    private $vueElements = ['login', 'articleRating','comment', 'article' ,];
     /**
      * @var
      */
@@ -101,6 +101,16 @@ class Article extends Unicore {
             foreach ($keywords as $keyword) {
                 $article['keywordString'] .= '<span class="tag is-light">' . $keyword . '</span> ';
             }
+        }
+        // comments
+        $article['commentString'] = '';
+        foreach ($article['comments'] as $comment){
+            $comment['inserted'] = date('m/d/Y',strtotime($comment['insert_date']));
+            $comment['author'] = UserModel::byId($comment['user_id']);
+            if(!$comment['author']['image_id']){
+                $comment['author']['image'] = 'asset/img/blank-profile.png';
+            }
+            $article['commentString'] .= Ops::embraceFromFile('component/article/comment.html',$comment);
         }
 
         $this->content = $article;
