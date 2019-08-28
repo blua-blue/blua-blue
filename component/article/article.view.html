@@ -30,17 +30,13 @@
                                 <i class="material-icons">edit</i>
                             </a>
                         </div>
-
-                </article>
-                <article class="message is-link has-margin-top-3">
-                    <div class="message-header">
-                        <p>Missing the ability to comment?</p>
-                    </div>
-                    <div class="message-body">
-                        Welcome to the club! If interested, please help us finish this project @ <a href="https://github.com/blua-blue/blua-blue">https://github.com/blua-blue/blua-blue</a>
                     </div>
                 </article>
-                <login-form></login-form>
+                <div class="has-margin-top-3">
+                    {{commentString}}
+                </div>
+                <comment class="has-margin-top-3" article-id="{{id}}"></comment>
+                <login-form class="has-margin-top-3"></login-form>
             </div>
             <div class="column is-one-quarter">
 
