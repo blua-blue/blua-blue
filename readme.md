@@ -31,7 +31,7 @@ Download the repository @ https://github.com/blua-blue/blua-blue
 5. Run `neoan3 migrate models up`
 
 ### Credentials
-Credentials are expected to be in a folder "credentials" as a sibling to the web-root. 
+Credentials are expected to be in a folder "credentials" outside the web-root. 
 Please make changes to the neoan frame (frame/neoan/Neoan.php) in order to provide credentials for:
 
 _neoan3-apps/db_ https://github.com/sroehrl/neoan3-db
@@ -43,15 +43,18 @@ _phpmailer_ https://github.com/PHPMailer/PHPMailer
 *Example:*
 
 ```JSON
-{"db": {
+{
+"blua_db": {
   "name": "your_db",
   "assumes_uuid": true,
   "password": "yourPassword",
   "user": "phpDbUser"
 
   },
-"stateless": "yourSEcretKey",
-"mail": {
+"blua_stateless": {
+  "secret": "yourSEcretKey"
+  },
+"blua_mail": {
   "host": "mail.example.com",
   "username": "some@example.com",
   "password": "MailSMTPpassword"
@@ -62,11 +65,11 @@ Don't have access outside of the project? Alternatively, you can create a privat
 `$this->credentials` with an array supplying these credentials. However, be aware that when using credentials in your project, sharing the codebase becomes a security consideration.
 ```PHP
 $this->credentials = [
-    'db'=>[...],
+    'blua_db'=>[...],
     ...
 ]
 ```
-
+You can also use `neoan3 credentials` to manage your credentials
 
 > You might have to provide additional settings depending on your services. 
 > Additional mailing-setup can be managed in the function newMail() (in the neoan-frame) and within your credentials when dealing with database-credentials.

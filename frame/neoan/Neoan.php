@@ -28,17 +28,19 @@ class Neoan extends Serve {
         /*
          * Sharing projects oe.g via GitHub? Hide credentials and place them OUTSIDE of your server's web-root.
          * Here we are storing credentials in a JSON file.
-         * ['db'=>
+         * ['blua_db'=>
          *  ['name'=>'your_database','assumes_uuid'=>true,'password'=>'Password','user'=>'dbUser'],
-         * 'stateless'=>'SecretKey'
-         * 'mail'=>
+         * 'blua_stateless'=>['secret'=>'SecretKey']
+         * 'blua_mail'=>
          *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password'],
          * ]
          *
+         * THE FOLLOWING LINE MIGHT HAVE TO BE ADJUSTED
          * */
-        $credentialFile = dirname(dirname(path)) . '/credentials/credentials.json';
+        $credentialFile = dirname(dirname(dirname(path))) . '/credentials/credentials.json';
         if(file_exists($credentialFile)) {
             $this->credentials = json_decode(file_get_contents($credentialFile), true);
+
         } else {
             print('SETUP: No credentials found. Please check README for instructions and/or change '.__FILE__.' starting at line '.(__LINE__-4).' ');
             die();
@@ -49,7 +51,7 @@ class Neoan extends Serve {
         $this->setUpDb();
 
         // JWT/Stateless auth
-        Stateless::setSecret($this->credentials['stateless']);
+        Stateless::setSecret($this->credentials['blua_stateless']['secret']);
 
         // Hybrid: construct session
         new Session();
@@ -94,10 +96,10 @@ class Neoan extends Serve {
     function newMail() {
         $mail = new PHPMailer(true);
         $mail->isSMTP();
-        $mail->Host = $this->credentials['mail']['host'];
+        $mail->Host = $this->credentials['blua_mail']['host'];
         $mail->SMTPAuth = true;
-        $mail->Username = $this->credentials['mail']['username'];
-        $mail->Password = $this->credentials['mail']['password'];
+        $mail->Username = $this->credentials['blua_mail']['username'];
+        $mail->Password = $this->credentials['blua_mail']['password'];
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
         return $mail;
@@ -105,7 +107,7 @@ class Neoan extends Serve {
 
     private function setUpDb() {
         try {
-            Db::setEnvironment($this->credentials['db']);
+            Db::setEnvironment($this->credentials['blua_db']);
         } catch(DbException $e) {
             echo "Warning: Database connection failed.";
         }
