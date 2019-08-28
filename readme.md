@@ -21,13 +21,18 @@ PHP7
 
 
 ## Installation
+### For usage & production
+1. `composer create-project blua-blue/blua-blue -s beta`
+2. Create [Credentials](#credentials) (`neoan3 credentials`)
+3. `neoan3 migrate models up`
 
-Download the repository @ https://github.com/blua-blue/blua-blue
+### Collaborators/developers
+Download/clone/fork the repository @ https://github.com/blua-blue/blua-blue
 
 1. Change the "RewriteBase" in the .htaccess file (or create a route-script for Nginx)
 2. Run `composer install`
 3. Run `npm install`
-4. Create [Credentials](#credentials) 
+4. Create [Credentials](#credentials) (`neoan3 credentials`)
 5. Run `neoan3 migrate models up`
 
 ### Credentials
