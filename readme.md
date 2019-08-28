@@ -1,4 +1,4 @@
->NOT RELEASED! Current state is stable but lacks certain functionality. Please see Issues.
+>In BETA!
 
 ![blua.blue](asset/img/blua-blue-logo.png)
 # Content Enablement Platform
