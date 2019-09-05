@@ -208,7 +208,7 @@ class Article extends Unicore
         if (!isset($article['id'])) {
             throw new RouteException('Missing field "id"', 400);
         }
-        Cache::invalidate('article');
+
         $this->postArticle($article);
     }
 
@@ -274,7 +274,7 @@ class Article extends Unicore
             }
 
         }
-
+        Cache::invalidate('article');
 
         return ['id' => $articleId];
     }
