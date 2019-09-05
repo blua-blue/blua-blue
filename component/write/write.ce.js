@@ -95,11 +95,11 @@ new Vue({
         },
         create() {
             let obj = this.article;
-            console.log(this.article);
             api.post('article', obj).then(res => {
                 this.loadArticle(res.data.id);
+                this.$root.$emit('toggleModal',{content:'Saved',modalClass:'is-success'});
             }).catch(err => {
-
+                this.$root.$emit('toggleModal',{content:'Something went wrong.',modalClass:'is-danger'});
             })
         }
     }

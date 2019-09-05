@@ -111,7 +111,7 @@ class Article extends Unicore
         }
         // comments
         $article['commentString'] = '';
-        if(isset($article['comments'])){
+        if (isset($article['comments'])) {
             foreach ($article['comments'] as $comment) {
                 $comment['inserted'] = date('m/d/Y', strtotime($comment['insert_date']));
                 $comment['author'] = UserModel::byId($comment['user_id']);
@@ -191,10 +191,15 @@ class Article extends Unicore
         $this->asApi();
         $jwt = Stateless::restrict();
         $article = IndexModel::first(ArticleModel::find($condition));
-        if (!empty($article) && $article['author_user_id'] === $jwt['jti'] ||
-            (!empty($article['publish_date']) && $article['is_public'] === 1)) {
-            return $article;
+        if(!empty($article)){
+            $this->content = $article;
+            $article['seo'] = $this->seo();
+            if ($article['author_user_id'] === $jwt['jti'] ||
+                (!empty($article['publish_date']) && $article['is_public'] === 1)) {
+                return $article;
+            }
         }
+
         throw new RouteException('Not found or no permission', 404);
     }
 
@@ -250,13 +255,13 @@ class Article extends Unicore
                 'id'             => '$' . $articleId,
                 'author_user_id' => '$' . $jwt['jti'],
                 'slug'           => $slug,
-                'is_public'      => $article['public'],
                 'publish_date'   => $article['isDraft'] ? '' : '.'
             ]);
         }
         $update = [
             'name'        => $article['name'],
             'teaser'      => $article['teaser'],
+            'is_public'      => $article['public'],
             'category_id' => '$' . $article['category_id'],
             'keywords'    => '=' . implode(',', $article['keywords'])
         ];
@@ -307,6 +312,7 @@ class Article extends Unicore
             throw new RouteException('no permission', 403);
         }
         Db::delete('article', $body['id']);
+        Cache::invalidate('article');
         return true;
     }
 
