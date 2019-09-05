@@ -111,14 +111,17 @@ class Article extends Unicore
         }
         // comments
         $article['commentString'] = '';
-        foreach ($article['comments'] as $comment) {
-            $comment['inserted'] = date('m/d/Y', strtotime($comment['insert_date']));
-            $comment['author'] = UserModel::byId($comment['user_id']);
-            if (!$comment['author']['image_id']) {
-                $comment['author']['image'] = 'asset/img/blank-profile.png';
+        if(isset($article['comments'])){
+            foreach ($article['comments'] as $comment) {
+                $comment['inserted'] = date('m/d/Y', strtotime($comment['insert_date']));
+                $comment['author'] = UserModel::byId($comment['user_id']);
+                if (!$comment['author']['image_id']) {
+                    $comment['author']['image'] = 'asset/img/blank-profile.png';
+                }
+                $article['commentString'] .= Ops::embraceFromFile('component/article/comment.html', $comment);
             }
-            $article['commentString'] .= Ops::embraceFromFile('component/article/comment.html', $comment);
         }
+
 
         $this->content = $article;
         $this->content['seo'] = json_encode($this->seo());
