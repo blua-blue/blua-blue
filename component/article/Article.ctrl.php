@@ -191,6 +191,7 @@ class Article extends Unicore
         $this->asApi();
         $jwt = Stateless::restrict();
         $article = IndexModel::first(ArticleModel::find($condition));
+        $article['seo'] = $this->seo();
         if (!empty($article) && $article['author_user_id'] === $jwt['jti'] ||
             (!empty($article['publish_date']) && $article['is_public'] === 1)) {
             return $article;
