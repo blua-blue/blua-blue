@@ -59,7 +59,8 @@ class Neoan extends Serve {
         new Session();
 
         // tracking
-        $identifier = Session::is_logged_in() ? Session::user_id() : false;
+        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
+        SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
         SimpleTracker::track($identifier);
 
         parent::__construct();
