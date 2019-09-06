@@ -27,8 +27,10 @@
                         </div>
 
                     </div>
+                    <h3 class="subtitle">Content</h3>
+                    <hr>
                     <div v-for="section in article.content">
-                        <editor id="new-post-editor" v-model="section.content" :init="{plugins: 'link'}"></editor>
+                        <editor id="new-post-editor" v-model="section.content" :init="{plugins: 'link media codesample code anchor fullscreen'}" style="min-height: 500px"></editor>
                     </div>
 
                 </div>
@@ -78,10 +80,10 @@
                     <div>
                         <button type="submit" v-on:click="article.isDraft = true" class="button is-info">
                             <span>Save</span></button>
-                        <button type="submit" v-on:click="article.isDraft = false" class="button is-primary">Save &
+                        <button v-if="article.isDraft" type="submit" v-on:click="article.isDraft = false" class="button is-primary">Save &
                                                                                                              publish
                         </button>
-                        <button v-on:click="softDelete" class="button is-danger">Delete</button>
+                        <button v-on:click.prevent="softDelete" class="button is-danger">Delete</button>
                     </div>
                 </div>
 
@@ -91,5 +93,5 @@
 
 
     </form>
-
+    <blua-modal></blua-modal>
 </section>

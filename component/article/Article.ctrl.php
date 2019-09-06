@@ -3,6 +3,7 @@
 
 namespace Neoan3\Components;
 
+use Neoan3\Apps\Cache;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
@@ -17,9 +18,11 @@ use Neoan3\Model\UserModel;
 
 /**
  * Class Article
+ *
  * @package Neoan3\Components
  */
-class Article extends Unicore {
+class Article extends Unicore
+{
     /**
      * @var
      */
@@ -27,7 +30,7 @@ class Article extends Unicore {
     /**
      * @var array
      */
-    private $vueElements = ['login', 'articleRating','comment', 'article' ,];
+    private $vueElements = ['login', 'articleRating', 'comment', 'article',];
     /**
      * @var
      */
@@ -40,10 +43,12 @@ class Article extends Unicore {
     /**
      *
      */
-    function init() {
+    function init()
+    {
         $this->uni('neoan')
              ->callback($this, 'vueElements')
              ->callback($this, 'getContext')
+             ->addHead('title', isset($this->content['name']) ? $this->content['name'] : 'Overview')
              ->hook('main', $this->view, $this->content)
              ->output();
     }
@@ -51,7 +56,8 @@ class Article extends Unicore {
     /**
      * @param Neoan $uni
      */
-    function vueElements($uni) {
+    function vueElements($uni)
+    {
         foreach ($this->vueElements as $vueElement) {
             $uni->vueComponent($vueElement);
         }
@@ -62,7 +68,8 @@ class Article extends Unicore {
      * @return bool
      * @throws \Neoan3\Apps\DbException
      */
-    function getContext() {
+    function getContext()
+    {
         if (!sub(1)) {
             $this->general();
             return true;
@@ -72,26 +79,26 @@ class Article extends Unicore {
             $this->general();
         }
 
-
         $article['renderedContent'] = '';
         foreach ($article['content'] as $content) {
             $article['renderedContent'] .= $content['content'];
         }
         $article['imageTag'] = '';
-        if(isset($article['image']['path'])){
-            $article['imageTag'] = '<img src="'.base.$article['image']['path'].'" alt="">';
+        if (isset($article['image']['path'])) {
+            $article['imageTag'] = '<img src="' . base . $article['image']['path'] . '" alt="">';
         }
         // related
-        $others = ArticleModel::find(['category_id'=>$article['category_id'],'is_public'=>'1','publish_date'=>'!']);
+        $others =
+            ArticleModel::find(['category_id' => $article['category_id'], 'is_public' => '1', 'publish_date' => '!']);
         $article['related'] = '';
-        foreach ($others as $other){
-            if($other['id'] !== $article['id']){
+        foreach ($others as $other) {
+            if ($other['id'] !== $article['id']) {
                 $article['related'] .= Ops::embraceFromFile('/component/article/related.html', $other);
             }
 
         }
         $article['author']['profilePicture'] = base . 'asset/img/blank-profile.png';
-        if($article['author']['image_id']){
+        if ($article['author']['image_id']) {
             $article['author']['profilePicture'] = base . ImageModel::byId($article['author']['image_id'])['path'];
         }
         // keywords
@@ -104,16 +111,20 @@ class Article extends Unicore {
         }
         // comments
         $article['commentString'] = '';
-        foreach ($article['comments'] as $comment){
-            $comment['inserted'] = date('m/d/Y',strtotime($comment['insert_date']));
-            $comment['author'] = UserModel::byId($comment['user_id']);
-            if(!$comment['author']['image_id']){
-                $comment['author']['image'] = 'asset/img/blank-profile.png';
+        if (isset($article['comments'])) {
+            foreach ($article['comments'] as $comment) {
+                $comment['inserted'] = date('m/d/Y', strtotime($comment['insert_date']));
+                $comment['author'] = UserModel::byId($comment['user_id']);
+                if (!$comment['author']['image_id']) {
+                    $comment['author']['image'] = 'asset/img/blank-profile.png';
+                }
+                $article['commentString'] .= Ops::embraceFromFile('component/article/comment.html', $comment);
             }
-            $article['commentString'] .= Ops::embraceFromFile('component/article/comment.html',$comment);
         }
 
+
         $this->content = $article;
+        $this->content['seo'] = json_encode($this->seo());
 
         return true;
 
@@ -122,7 +133,8 @@ class Article extends Unicore {
     /**
      * @throws \Neoan3\Apps\DbException
      */
-    private function general() {
+    private function general()
+    {
         $this->view = 'overview';
         $articleList = new ArticleList();
         $newest = $articleList->getArticleList(['limit' => 30]);
@@ -133,11 +145,33 @@ class Article extends Unicore {
 
     }
 
+    private function seo()
+    {
+        return [
+            '@context'      => 'http://schema.org/',
+            '@type'         => 'article',
+            'name'          => $this->content['name'],
+            'description'   => $this->content['teaser'],
+            'author'        => $this->content['author']['user_name'],
+            'keywords'      => $this->content['keywords'],
+            'datePublished' => substr($this->content['insert_date'], 0, 10),
+            'headline'      => $this->content['name'],
+            'image'         => base . $this->content['image']['path'],
+            'publisher'     => [
+                '@type' => 'Organization',
+                'name'  => 'blua.blue',
+                'url'   => base,
+                'logo'  => ['@type' => 'imageObject', 'url' => base . 'asset/img/blua-blue-logo.png']
+            ]
+        ];
+    }
+
     /* API */
     /**
      *
      */
-    private function asApi() {
+    private function asApi()
+    {
         $this->frame = new Neoan();
     }
 
@@ -152,13 +186,20 @@ class Article extends Unicore {
      * @return array|mixed
      * @throws RouteException
      */
-    function getArticle($condition) {
+    function getArticle($condition)
+    {
         $this->asApi();
         $jwt = Stateless::restrict();
         $article = IndexModel::first(ArticleModel::find($condition));
-        if (!empty($article) && $article['author_user_id'] === $jwt['jti'] || (!empty($article['publish_date']) && $article['is_public'] === 1)) {
-            return $article;
+        if(!empty($article)){
+            $this->content = $article;
+            $article['seo'] = $this->seo();
+            if ($article['author_user_id'] === $jwt['jti'] ||
+                (!empty($article['publish_date']) && $article['is_public'] === 1)) {
+                return $article;
+            }
         }
+
         throw new RouteException('Not found or no permission', 404);
     }
 
@@ -170,10 +211,12 @@ class Article extends Unicore {
      * @throws RouteException
      * @throws \Neoan3\Apps\DbException
      */
-    function putArticle($article) {
+    function putArticle($article)
+    {
         if (!isset($article['id'])) {
             throw new RouteException('Missing field "id"', 400);
         }
+
         $this->postArticle($article);
     }
 
@@ -186,7 +229,8 @@ class Article extends Unicore {
      * @throws RouteException
      * @throws \Neoan3\Apps\DbException
      */
-    function postArticle($article) {
+    function postArticle($article)
+    {
         $this->asApi();
         $jwt = Stateless::restrict();
         if (isset($article['id'])) {
@@ -208,18 +252,18 @@ class Article extends Unicore {
             }
             $articleId = Db::uuid()->uuid;
             Db::article([
-                'id' => '$' . $articleId,
+                'id'             => '$' . $articleId,
                 'author_user_id' => '$' . $jwt['jti'],
-                'slug' => $slug,
-                'is_public' => $article['public'],
-                'publish_date' => $article['isDraft'] ? '' : '.'
+                'slug'           => $slug,
+                'publish_date'   => $article['isDraft'] ? '' : '.'
             ]);
         }
         $update = [
-            'name' => $article['name'],
-            'teaser' => $article['teaser'],
+            'name'        => $article['name'],
+            'teaser'      => $article['teaser'],
+            'is_public'      => $article['public'],
             'category_id' => '$' . $article['category_id'],
-            'keywords' => '='. implode(',',$article['keywords'])
+            'keywords'    => '=' . implode(',', $article['keywords'])
         ];
         Db::article($update, ['id' => '$' . $articleId]);
         if (isset($article['image']['id'])) {
@@ -228,8 +272,8 @@ class Article extends Unicore {
         foreach ($article['content'] as $i => $content) {
             $contentRow = [
                 'article_id' => '$' . $articleId,
-                'sort' => $i + 1,
-                'content' => '=' . $content['content']
+                'sort'       => $i + 1,
+                'content'    => '=' . $content['content']
             ];
             if (isset($content['id'])) {
                 Db::article_content($contentRow, ['id' => '$' . $content['id']]);
@@ -238,7 +282,7 @@ class Article extends Unicore {
             }
 
         }
-
+        Cache::invalidate('article');
 
         return ['id' => $articleId];
     }
@@ -253,20 +297,22 @@ class Article extends Unicore {
      * @throws RouteException
      * @throws \Neoan3\Apps\DbException
      */
-    function deleteArticle($body){
+    function deleteArticle($body)
+    {
         $this->asApi();
         $jwt = Stateless::restrict();
-        $condition = ['id'=>'$'.$body['id']];
+        $condition = ['id' => '$' . $body['id']];
         // is admin?
         $user = UserModel::byId($jwt['jti']);
-        if($user['user_type'] !== 'admin'){
+        if ($user['user_type'] !== 'admin') {
             $condition['author_user_id'] = $jwt['jti'];
         }
-        $find = Db::easy('article.id',$condition);
-        if(empty($find)){
+        $find = Db::easy('article.id', $condition);
+        if (empty($find)) {
             throw new RouteException('no permission', 403);
         }
-        Db::delete('article',$body['id']);
+        Db::delete('article', $body['id']);
+        Cache::invalidate('article');
         return true;
     }
 
