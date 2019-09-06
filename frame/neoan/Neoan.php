@@ -6,7 +6,9 @@ namespace Neoan3\Frame;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\DbException;
+use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
+use Neoan3\Apps\SimpleTracker;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\Serve;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -55,6 +57,12 @@ class Neoan extends Serve {
 
         // Hybrid: construct session
         new Session();
+
+        // tracking
+        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
+        SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
+        SimpleTracker::track($identifier);
+
         parent::__construct();
 
         $this->vueComponent('cookieLaw');

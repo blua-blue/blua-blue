@@ -5,7 +5,11 @@
 
                 <a v-bind:href="'{{base}}article/'+article.slug+'/'">{{article.name}}</a>
             </div>
-            <div class="column is-one-quarter">
+            <div class="column is-one-fifth">
+                {{article.metrics.total}} total views /
+                {{article.metrics.unique}} unique views
+            </div>
+            <div class="column is-one-fifth">
                 <i class="material-icons has-text-success" v-if="article.publish_date">check</i>
                 <i class="material-icons" v-else>close</i>
                 <i class="material-icons has-text-success" v-if="article.is_public">visibility</i>

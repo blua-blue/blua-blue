@@ -13,7 +13,8 @@
     "neoan3-model/user": "dev-master",
     "neoan3-apps/session": "dev-master",
     "neoan3-apps/db": "dev-master",
-    "phpmailer/phpmailer": "~6.0"
+    "phpmailer/phpmailer": "~6.0",
+    "neoan3-apps/simple-tracker": "dev-master"
   },
   "license": "MIT",
   "authors": [
@@ -41,5 +42,7 @@
       "type": "vcs",
       "url": "https://github.com/blua-blue/image-model.git"
     }
-  ]
+  ],
+  "require-dev": {
+  }
 }

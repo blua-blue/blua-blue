@@ -7,6 +7,7 @@ use Neoan3\Apps\Cache;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
+use Neoan3\Apps\SimpleTracker;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
@@ -14,6 +15,7 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 use Neoan3\Model\ImageModel;
 use Neoan3\Model\IndexModel;
+use Neoan3\Model\MetricsModel;
 use Neoan3\Model\UserModel;
 
 /**
@@ -78,6 +80,8 @@ class Article extends Unicore
         if (empty($article) || $article['is_public'] !== 1 || empty($article['publish_date'])) {
             $this->general();
         }
+        // get metrics
+        $article['metrics'] = MetricsModel::visits();
 
         $article['renderedContent'] = '';
         foreach ($article['content'] as $content) {
