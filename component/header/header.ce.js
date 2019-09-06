@@ -4,7 +4,8 @@ new Vue({
         text:'',
         searchResults:[],
         menuIsOpen:false,
-        dropdownIsOpen:false
+        dropdownIsOpen: false,
+        loggedIn: localStorage.token
     },
     watch:{
         text: function (newV,oldV) {

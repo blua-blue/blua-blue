@@ -1,13 +1,9 @@
 <div id="header">
     <nav class="navbar has-background-link is-spaced" >
         <div class="navbar-brand">
-            <div class="navbar-item has-dropdown" v-bind:class="{'is-active':dropdownIsOpen}">
-                <a  class="navbar-link" v-on:click="toggleDropdown"><img src="{{base}}asset/img/blua-blue-icon-96x96.png" alt="blua.blue icon"></a>
-                <div class="navbar-dropdown">
-                    <a href="{{base}}article" class="navbar-item">Read</a>
-                    <a href="{{base}}profile" class="navbar-item">Manage</a>
-                </div>
-            </div>
+            <a href="{{base}}" class="navbar-item"><img src="{{base}}asset/img/blua-blue-icon-96x96.png"
+                                                        alt="blua.blue icon"></a>
+
             <a role="button" class="navbar-burger burger" v-bind:class="{'is-active':menuIsOpen}" aria-label="menu" aria-expanded="false" v-on:click="toggleMenu">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -15,6 +11,14 @@
             </a>
         </div>
         <div class="navbar-menu" v-bind:class="{'is-active':menuIsOpen}">
+            <div class="navbar-item has-dropdown " v-bind:class="{'is-active':dropdownIsOpen}">
+                <a class="navbar-link" v-on:click="toggleDropdown">Explore</a>
+                <div class="navbar-dropdown">
+                    <a href="{{base}}article/" class="navbar-item">Read</a>
+                    <a href="{{base}}profile/" class="navbar-item" v-if="loggedIn">Manage</a>
+                    <a href="{{base}}api-documentation/" class="navbar-item" v-if="loggedIn">API documentation</a>
+                </div>
+            </div>
             <div class="navbar-item" style="flex:1">
                 <div class="field  has-text-white " style="flex:1">
                     <div class="control is-flex" style="flex:1">
