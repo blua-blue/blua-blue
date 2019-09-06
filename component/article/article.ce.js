@@ -9,6 +9,7 @@ new Vue({
     mounted(){
 
         this.evaluateIfMine();
+        this.$root.$on('login', this.evaluateIfMine)
     },
     methods:{
         evaluateIfMine(){
@@ -19,6 +20,8 @@ new Vue({
                 if (author) {
                     this.isMine = author.value === user.id;
                 }
+            } else {
+                this.isMine = false;
             }
 
         }

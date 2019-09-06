@@ -8,11 +8,15 @@ Vue.component('comment', {
     },
     template: document.querySelector('#comment'),
     mounted(){
-        this.user = JSON.parse(localStorage.user);
-        console.log(this.user);
-        console.log(this.articleId);
+        this.setUser(typeof localStorage.user !== 'undefined');
+        this.$root.$on('login', this.setUser);
+
     },
     methods:{
+        setUser: function (loggedIn) {
+            this.user = loggedIn ? JSON.parse(localStorage.user) : {};
+
+        },
         send:function(){
             if(this.comment.length>5){
                 api.post('comment',{

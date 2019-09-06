@@ -1,4 +1,5 @@
 <div id="comment">
+
     <div class="box" v-if="user.id">
         <article class="media">
             <div class="media-left">
@@ -20,5 +21,8 @@
                 </div>
             </div>
         </article>
+    </div>
+    <div class="box" v-else>
+        <p>Sign in to comment</p>
     </div>
 </div>

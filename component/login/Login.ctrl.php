@@ -53,10 +53,9 @@ class Login extends Neoan {
     }
 
     /**
-     * @throws RouteException
+     * void
      */
     function deleteLogin(){
-        $jwt = Stateless::restrict();
         Session::logout();
     }
 
