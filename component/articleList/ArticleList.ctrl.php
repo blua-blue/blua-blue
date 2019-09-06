@@ -8,6 +8,7 @@ use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
+use Neoan3\Model\MetricsModel;
 use Neoan3\Model\UserModel;
 
 /**
@@ -64,7 +65,10 @@ class ArticleList extends Neoan {
         }
         $list = Db::ask('>'.$sql,$variables);
         foreach ($list as $item){
-            $articles[] = ArticleModel::byId($item['id']);
+            $article = ArticleModel::byId($item['id']);
+
+            $article['metrics'] = MetricsModel::visits(parse_url(base)['path'] . '/article/' . $article['slug']);
+            $articles[] = $article;
         }
         return $articles;
     }
