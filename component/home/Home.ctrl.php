@@ -3,7 +3,6 @@
 
 namespace Neoan3\Components;
 
-use Neoan3\Core\Serve;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 
@@ -16,25 +15,12 @@ class Home extends Unicore {
     }
 
     /**
-     * @param Serve $uni
+     * @param Neoan $uni
      */
     function loadComponent($uni){
-        $this->vueComponent($uni,'login');
-        $uni->js .= "new Vue({el:'#home-page'});";
-    }
-    private function vueComponent($context, $element, $params = []) {
-        $params['base'] = base;
-        $path = path . '/component/' . $element . '/' . $element . '.ce.';
-        if (file_exists($path . $context->viewExt)) {
-            $context->footer .= '<template id="' . $element . '">' .
-                $context->fileContent($path . $context->viewExt, $params) .
-                '</template>';
-        }
-        if (file_exists($path . 'js')) {
-            $context->js .= $context->fileContent($path . 'js', $params);
-        }
 
-        return $context;
+        $uni->vueComponent('login');
+        $uni->js .= "new Vue({el:'#home-page'});";
     }
 
 }
