@@ -21,7 +21,10 @@ class MetricsModel extends IndexModel
     {
         $visitors = [];
         $visits = SimpleTracker::endpointData($endpoint)
-                               ->toArray()['visits'];
+                               ->toArray();
+        if (isset($visits['visits'])) {
+            $visits = $visits['visits'];
+        }
         foreach ($visits as $visit) {
             if (!in_array($visit['identifier'], $visitors)) {
                 $visitors[] = $visit['identifier'];
