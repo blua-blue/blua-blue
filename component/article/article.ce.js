@@ -16,7 +16,9 @@ new Vue({
                 let user = JSON.parse(localStorage.user);
 
                 let author = document.querySelector('#author-id');
-                this.isMine = author.value === user.id;
+                if (author) {
+                    this.isMine = author.value === user.id;
+                }
             }
 
         }
