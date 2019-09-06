@@ -26,6 +26,11 @@ class ResetPassword extends Neoan
             ->output();
     }
 
+    /**
+     * @param Neoan $uni
+     *
+     * @throws \Neoan3\Apps\DbException
+     */
     function validateHash($uni)
     {
 
@@ -67,7 +72,7 @@ class ResetPassword extends Neoan
             $mail->mailer->send();
 
         }
-        throw new RouteException('If possible, it worked', 888);
+        throw new RouteException('If possible, it worked', 405);
     }
 
 }
