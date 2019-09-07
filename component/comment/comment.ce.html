@@ -14,7 +14,9 @@
                     <div class="columns">
                         <div class="column"></div>
                         <div class="column is-narrow">
-                            <button class="button is-primary has-margin-top-3" @click="send">comment</button>
+                            <button class="button is-primary has-margin-top-3" :disabled="!valid" @click="send">
+                                comment
+                            </button>
                         </div>
                     </div>
 
