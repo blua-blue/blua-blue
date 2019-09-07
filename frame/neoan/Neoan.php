@@ -19,6 +19,14 @@ class Neoan extends Serve {
     protected $currentAuth     = false;
 
     function __construct() {
+        // Hybrid: construct session
+        new Session();
+
+        // tracking
+        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
+        SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
+        SimpleTracker::track($identifier);
+
         if(!$this->developmentMode) {
             Cache::setCaching('+2 hours');
             $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
@@ -55,13 +63,6 @@ class Neoan extends Serve {
         // JWT/Stateless auth
         Stateless::setSecret($this->credentials['blua_stateless']['secret']);
 
-        // Hybrid: construct session
-        new Session();
-
-        // tracking
-        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
-        SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
-        SimpleTracker::track($identifier);
 
         parent::__construct();
 
