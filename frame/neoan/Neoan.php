@@ -144,6 +144,7 @@ class Neoan extends Serve {
                 ['src' => base . 'asset/tinymce/js/tinymce/tinymce.min.js'],
                 ['src' => base . 'node_modules/axios/dist/axios.min.js'],
                 ['src' => base . 'node_modules/lodash/lodash.min.js'],
+                ['src' => base . 'node_modules/moment/min/moment.min.js'],
                 ['src' => path . '/frame/neoan/axios-wrapper.js', 'data' => ['base' => base]],
             ],
             'stylesheet' => [
