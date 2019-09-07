@@ -7,9 +7,7 @@
                     <p>{{headline}}</p>
                     <button class="delete" aria-label="delete" @click="toggle"></button>
                 </div>
-                <div class="message-body">
-                    {{content}}
-                </div>
+                <div class="message-body" v-html="content"></div>
             </article>
         </div>
     </div>
