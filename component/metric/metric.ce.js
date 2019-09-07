@@ -1,8 +1,8 @@
 Vue.component('metric', {
-    props: ['slug'],
+    props: ['slug', 'initialValue'],
     template: document.querySelector('#metric'),
     data: function () {
-        return {unique: 0}
+        return {unique: this.initialValue || 0}
     },
     mounted() {
         this.load();
