@@ -13,7 +13,7 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\UserModel;
 
 class Profile extends Unicore {
-    private $components = ['uploadImage','articleList','profileSettings'];
+    private $components = ['uploadImage', 'articleList', 'profileSettings', 'profile'];
     function init() {
         $this->uni('neoan')
              ->callback($this, 'secure')
