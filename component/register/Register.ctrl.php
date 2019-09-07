@@ -16,7 +16,7 @@ use Neoan3\Model\UserModel;
 
 class Register extends Unicore
 {
-    private $vueElements = ['mixins','register'];
+    private $vueElements = ['mixins', 'register', 'bluaModal'];
 
     function __construct()
     {
