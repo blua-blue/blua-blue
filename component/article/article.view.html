@@ -55,7 +55,10 @@
                             <article-rating article-id="{{id}}"></article-rating>
                         </div>
                     </div>
-                    <span class="tag is-primary">{{metrics.unique}} readers</span>
+                    <metric slug="{{slug}}">
+                        <span class="tag is-primary" id="unique-readers">{{metrics.unique}} readers</span>
+                    </metric>
+
                 </div>
                 <div class="border-bottom has-margin-top-3">
                     <span class="title is-5 has-text-primary">Keywords</span>
