@@ -66,7 +66,7 @@ class Neoan extends Serve {
         parent::__construct();
 
         $this->vueComponent('cookieLaw');
-        $this->includeElement('header');
+        $this->vueComponent('header');
         $this->hook('header', 'header');
         $this->hook('footer', 'footer');
 
@@ -95,6 +95,9 @@ class Neoan extends Serve {
     }
 
     function output($params = []) {
+        $this->js .= 'new Vue({el:"#root"});';
+        $this->main = '<div id="root" class="main">' . $this->header . $this->main . '</div>';
+        $this->header = '';
         parent::output($params);
         if(!$this->developmentMode) {
             Cache::write();
