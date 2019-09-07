@@ -19,6 +19,14 @@ class Neoan extends Serve {
     protected $currentAuth     = false;
 
     function __construct() {
+        // Hybrid: construct session
+        new Session();
+
+        // tracking
+        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
+        SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
+        SimpleTracker::track($identifier);
+
         if(!$this->developmentMode) {
             Cache::setCaching('+2 hours');
             $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
@@ -55,18 +63,11 @@ class Neoan extends Serve {
         // JWT/Stateless auth
         Stateless::setSecret($this->credentials['blua_stateless']['secret']);
 
-        // Hybrid: construct session
-        new Session();
-
-        // tracking
-        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
-        SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
-        SimpleTracker::track($identifier);
 
         parent::__construct();
 
         $this->vueComponent('cookieLaw');
-        $this->includeElement('header');
+        $this->vueComponent('header');
         $this->hook('header', 'header');
         $this->hook('footer', 'footer');
 
@@ -95,6 +96,9 @@ class Neoan extends Serve {
     }
 
     function output($params = []) {
+        $this->js .= 'new Vue({el:"#root"});';
+        $this->main = '<div id="root" class="main">' . $this->header . $this->main . '</div>';
+        $this->header = '';
         parent::output($params);
         if(!$this->developmentMode) {
             Cache::write();
@@ -141,6 +145,7 @@ class Neoan extends Serve {
                 ['src' => base . 'asset/tinymce/js/tinymce/tinymce.min.js'],
                 ['src' => base . 'node_modules/axios/dist/axios.min.js'],
                 ['src' => base . 'node_modules/lodash/lodash.min.js'],
+                ['src' => base . 'node_modules/moment/min/moment.min.js'],
                 ['src' => path . '/frame/neoan/axios-wrapper.js', 'data' => ['base' => base]],
             ],
             'stylesheet' => [

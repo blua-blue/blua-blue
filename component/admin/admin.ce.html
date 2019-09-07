@@ -1,0 +1,14 @@
+<section class="main section">
+    <div class="tabs">
+        <ul>
+            <li v-for="tab in tabs" v-bind:class="{'is-active':currentTab===tab.hash}"><a
+                    v-on:click.prevent="setHash(tab.hash)">{{tab.name}}</a></li>
+        </ul>
+    </div>
+    <user-list v-if="currentTab==='users'"></user-list>
+    <category-list v-if="currentTab==='categories'"></category-list>
+    <article-list v-if="currentTab==='articles'"></article-list>
+    <div v-if="currentTab==='templates'">
+        Not yet
+    </div>
+</section>

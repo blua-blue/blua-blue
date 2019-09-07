@@ -1,24 +1,27 @@
-new Vue({
-    el: '#posting', data: {
-        addKeyword:'',
-        permission:false,
-        article:{
+Vue.component('write', {
+    template: document.querySelector('#write'),
+    data: function () {
+        return {
+            addKeyword: '',
+            permission: false,
+            article: {
             category_id: '',
-            public: true,
-            isDraft: true,
-            name: '',
-            teaser: '',
-            image: {
+                public: true,
+                isDraft: true,
+                name: '',
+                teaser: '',
+                image: {
                 path: ''
             },
             content: [
                 {content: ''}
             ],
-            keywords: [],
+                keywords: [],
         },
-        categories: [
-            {name: 'Other'}
-        ]
+            categories: [
+                {name: 'Other'}
+            ]
+        }
     },
     watch: {
         addKeyword: function (newVal, oldVal) {
@@ -39,7 +42,7 @@ new Vue({
     components: {
         'editor': Editor
     },
-    created(){
+    mounted() {
         this.permission = true;
         if('{{loadedArticleId}}' !== ''){
             this.loadArticle('{{loadedArticleId}}');

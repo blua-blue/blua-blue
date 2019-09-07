@@ -1,6 +1,4 @@
-
-const registerForm = {
-    name: 'register-form',
+Vue.component('register', {
     mixins:[common],
     data:()=>{
         return {
@@ -9,7 +7,6 @@ const registerForm = {
             email:'',
             acceptTAC:false,
             duplicate:false,
-            showModal:false,
             loggedIn:localStorage.token,
             passwordStrength:0,
             processing:false
@@ -32,18 +29,28 @@ const registerForm = {
         }
     },
     methods:{
+        showModal() {
+            fetch('{{base}}component/termsConditions/termsConditions.view.html').then(res => {
+                res.text().then(html => {
+                    this.$root.$emit('toggleModal', {content: html, headline: 'Terms & Conditions'})
+                })
+            });
+        },
         logout(){
-            console.log('test');
             delete localStorage.token;
             this.loggedIn = false;
         },
-        register(){
+        doRegister() {
             this.processing = true;
             this.duplicate = false;
             api.post('register',this._data).then((res)=>{
                 localStorage.setItem('token',res.data.token);
                 this.loggedIn = res.data.token;
                 this.processing = false;
+                this.$root.$emit('toggleModal', {
+                    content: 'You know the deal: you have just received an email to confirm your account.',
+                    modalClass: 'is-link'
+                });
             }).catch((err)=>{
                 this.duplicate = true;
                 this.processing = false;
@@ -53,4 +60,4 @@ const registerForm = {
 
     },
     template:document.querySelector('#register').innerHTML
-};
+});

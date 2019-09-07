@@ -7,6 +7,8 @@ use Neoan3\Apps\Db;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Frame\Neoan;
+use Neoan3\Model\ImageModel;
+use Neoan3\Model\UserModel;
 
 class Comment extends Neoan
 {
@@ -32,6 +34,24 @@ class Comment extends Neoan
             return ['id'=>$id];
         }
         throw new RouteException('Bad data',400);
+    }
+
+    function getComment(array $body)
+    {
+        $comments = [];
+        if (isset($body['articleId'])) {
+            $comments = Db::easy('article_comment.* #article_comment.insert_date:inserted',
+                ['article_id' => '$' . $body['articleId'], '^delete_date'], ['orderBy' => ['insert_date', 'asc']]);
+            foreach ($comments as $i => $comment) {
+                $author = UserModel::byId($comment['user_id']);
+                $comments[$i]['author'] = [
+                    'user_name' => $author['user_name']
+                ];
+                $comments[$i]['author']['image'] = $author['image_id'] ? ImageModel::undeletedById($author['image_id']) : 'asset/img/blank-profile.png';
+
+            }
+        }
+        return $comments;
     }
 
 }

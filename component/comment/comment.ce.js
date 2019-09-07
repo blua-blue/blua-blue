@@ -3,7 +3,8 @@ Vue.component('comment', {
     data: function(){
         return {
             user:{},
-            comment:''
+            comment: '',
+            valid: true
         }
     },
     template: document.querySelector('#comment'),
@@ -19,11 +20,14 @@ Vue.component('comment', {
         },
         send:function(){
             if(this.comment.length>5){
+                this.valid = false;
                 api.post('comment',{
                     articleId:this.articleId,
                     comment:this.comment
                 }).then(res=>{
-                    location.reload();
+                    this.$root.$emit('comment');
+                    this.comment = '';
+                    this.valid = true;
                 }).catch(err=>{})
             }
         }

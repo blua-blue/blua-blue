@@ -1,0 +1,64 @@
+<div>
+    <nav class="navbar has-background-link is-spaced">
+        <div class="navbar-brand">
+            <a href="{{base}}" class="navbar-item"><img src="{{base}}asset/img/blua-blue-icon-96x96.png"
+                                                        alt="blua.blue icon"></a>
+
+            <a role="button" class="navbar-burger burger" v-bind:class="{'is-active':menuIsOpen}" aria-label="menu"
+               aria-expanded="false" v-on:click="toggleMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu" v-bind:class="{'is-active':menuIsOpen}">
+            <div class="navbar-item has-dropdown " v-bind:class="{'is-active':dropdownIsOpen}">
+                <a class="navbar-link" v-on:click="toggleDropdown">Explore</a>
+                <div class="navbar-dropdown">
+                    <a href="{{base}}article/" class="navbar-item">Read</a>
+                    <a href="{{base}}write/" class="navbar-item" v-if="loggedIn">Write</a>
+                    <a href="{{base}}profile/" class="navbar-item" v-if="loggedIn">Manage</a>
+                    <a href="{{base}}api-documentation/" class="navbar-item" v-if="loggedIn">API documentation</a>
+                </div>
+            </div>
+            <div class="navbar-item" style="flex:1">
+                <div class="field  has-text-white " style="flex:1">
+                    <div class="control is-flex" style="flex:1">
+
+                        <input id="search" type="text" class="input is-inline is-rounded " v-model="text"
+                               placeholder="search..." style="flex:1">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+    <section class="section" v-if="searchResults.length>0&&text!==''" v-bind:style="{display:'block'}"
+             style="display: none">
+        <div class="columns is-multiline">
+            <div class=" column is-one-quarter" v-for="article in searchResults">
+                <article class="message is-info">
+                    <div class="message-header">
+                        <p>{{article.category.name}}</p>
+                    </div>
+                    <div class="message-body">
+                        <img v-bind:src="'{{base}}'+article.image.path" alt="teaser-image" class="image is-2by1"
+                             style="padding-top: 0">
+                        <div class="title">{{article.name}}</div>
+                        <div>
+                            {{article.teaser}}
+                        </div>
+                        <a v-bind:href="'{{base}}article/'+article.slug+'/'">Read</a>
+                    </div>
+
+                </article>
+            </div>
+
+
+        </div>
+
+    </section>
+    <cookie-law></cookie-law>
+</div>

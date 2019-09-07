@@ -10,6 +10,11 @@ Vue.component('contactUs',{
             showSent:false
         }
     },
+    mounted() {
+        if (localStorage.user) {
+            this.contact.email = JSON.parse(localStorage.user).email.email
+        }
+    },
     methods:{
         send(){
             this.showSent = true;
