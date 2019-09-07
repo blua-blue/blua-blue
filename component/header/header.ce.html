@@ -16,6 +16,7 @@
                 <a class="navbar-link" v-on:click="toggleDropdown">Explore</a>
                 <div class="navbar-dropdown">
                     <a href="{{base}}article/" class="navbar-item">Read</a>
+                    <a href="{{base}}write/" class="navbar-item" v-if="loggedIn">Write</a>
                     <a href="{{base}}profile/" class="navbar-item" v-if="loggedIn">Manage</a>
                     <a href="{{base}}api-documentation/" class="navbar-item" v-if="loggedIn">API documentation</a>
                 </div>
