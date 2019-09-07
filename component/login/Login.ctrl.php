@@ -49,7 +49,14 @@ class Login extends Neoan {
         $jwt = Stateless::assign($user['id'],$scope,['exp'=>time()+(2*60*60*1000)]);
         // For hybrid auth
         Session::login($user['id'],$user['roles'],$user['user_type']);
-        return ['token'=>$jwt,'user'=>$user];
+        $redirect = false;
+        if (isset($_COOKIE['redirect'])) {
+            $redirect = $_COOKIE['redirect'];
+            unset($_COOKIE['redirect']);
+            setcookie('redirect', '', time() - 3600);
+        }
+
+        return ['token' => $jwt, 'user' => $user, 'redirect' => $redirect];
     }
 
     /**

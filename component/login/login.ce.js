@@ -43,6 +43,9 @@ Vue.component('loginForm', {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 this.updateStatus(res.data.token);
                 this.localUser = res.data.user;
+                if (res.data.redirect) {
+                    window.location.href = res.data.redirect;
+                }
             }).catch(err => {
                 this.valid = false;
             })
