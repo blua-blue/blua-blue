@@ -32,7 +32,7 @@ class Article extends Unicore
     /**
      * @var array
      */
-    private $vueElements = ['login', 'articleRating', 'comment', 'article',];
+    private $vueElements = ['login', 'articleRating', 'comment', 'commentList', 'article',];
     /**
      * @var
      */
