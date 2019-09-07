@@ -45,7 +45,6 @@ class ResetPassword extends Neoan
         $uni->vueComponent('mixins');
         $uni->vueComponent('login');
         $uni->vueComponent('resetPassword',['hash'=>sub(1),'userId'=>$this->userId]);
-        $uni->js .= "new Vue({el:'#reset-view'});";
 
     }
 
