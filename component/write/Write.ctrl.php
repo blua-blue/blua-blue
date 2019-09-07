@@ -29,7 +29,7 @@ class Write extends Unicore {
      */
     function vueElements($uni) {
         foreach ($this->vueElements as $vueElement) {
-            $uni->vueComponent($vueElement, ['loadedArticleId' => sub(1)]);
+            $uni->vueComponent($vueElement, ['loadedArticleId' => sub(1), 'base' => base]);
         }
 
     }
