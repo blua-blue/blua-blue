@@ -4,3 +4,15 @@
 .highlight:hover{
     text-shadow: 2px 3px #ccc;
 }
+
+.card-content {
+    height: 180px;
+    overflow: hidden;
+}
+
+.card-header-title {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
