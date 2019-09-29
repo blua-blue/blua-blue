@@ -37,7 +37,6 @@ class Route
             $this->url_parts = explode('/', $_GET['action']);
             $normalize = explode('-', $this->url_parts[0]);
             $this->call = '';
-
             foreach ($normalize as $i => $part) {
                 $this->call .= $i > 0 ? ucfirst(strtolower($part)) : strtolower($part);
                 $className .= ucfirst(strtolower($part));
@@ -45,6 +44,7 @@ class Route
         } else {
             $className = ucfirst($this->call);
         }
+
         if (file_exists(path . '/component/' . $this->call . '/' . $className . '.ctrl.php')) {
             require_once(path . '/component/' . $this->call . '/' . $className . '.ctrl.php');
         } else {
