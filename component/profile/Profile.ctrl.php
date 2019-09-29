@@ -47,7 +47,7 @@ class Profile extends Unicore {
         // 1. Email
         if($user['email']['email'] !== $userModel['email']['email'] || empty($userModel['email']['confirm_date'])){
             Db::user_email(['delete_date'=>'.'],['user_id'=>'$'.$userModel['id']]);
-            $hash = Ops::hash(30);
+            $hash = Ops::randomString(30);
             Db::ask('user_email',[
                 'user_id'=>'$'.$userModel['id'],
                 'email'=>$user['email']['email'],

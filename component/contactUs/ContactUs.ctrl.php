@@ -29,11 +29,14 @@ class ContactUs extends Neoan {
     function vue($uni){
         $uni->vueComponent('contactUs');
     }
+
     /**
      * @param Neoan $uni
+     *
+     * @throws \Exception
      */
     function session($uni){
-        $hash = Ops::hash(5);
+        $hash = Ops::randomString(5);
         Session::add_session(['contact_hash'=>$hash]);
         $uni->js .= 'let contactHash = "' . $hash .'";';
     }

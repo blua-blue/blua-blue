@@ -22,7 +22,7 @@ class ResetPassword extends Neoan
         $uni = new Unicore();
         $uni->uni('neoan')
             ->callback($this, 'validateHash')
-            ->hook('main', 'resetPassword', ['valid' => $this->valid,'rand'=>Ops::hash(5)])
+            ->hook('main', 'resetPassword', ['valid' => $this->valid,'rand'=>Ops::randomString(5)])
             ->output();
     }
 
@@ -59,7 +59,7 @@ class ResetPassword extends Neoan
     {
         $user = IndexModel::first(UserModel::find(['user_name' => $body['username']]));
         if (!empty($user)) {
-            $hash = Ops::hash(36);
+            $hash = Ops::randomString(36);
             // insert into password
             Db::user_password(['user_id' => '$' . $user['id'], 'confirm_code' => $hash]);
 

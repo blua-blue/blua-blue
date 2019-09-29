@@ -21,7 +21,7 @@ class Search extends Neoan {
                  * NOTE: Instead of changing default db-environment variable to allow for numerical exclusions,
                  * make sure there aren't numbers in the exclusions
                  * */
-                $hash = preg_replace('/\d/','a',Ops::hash(5));
+                $hash = preg_replace('/\d/','a',Ops::randomString(5));
                 $text .= ($i==0?'"%",':'').'{{part_'.$hash.'}},"%"';
                 $values['part_'.$hash] = trim($part);
             }
