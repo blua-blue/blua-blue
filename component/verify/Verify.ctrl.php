@@ -40,7 +40,7 @@ class Verify extends Neoan {
 
         $mail = new Email('Email confirmation request','Welcome to blua.blue',$content);
         try {
-            $mail->mailer->setFrom($mail->mailer->Username, 'Neoan3');
+            $mail->mailer->setFrom($mail->mailer->Username, 'Blua.blue');
             $mail->mailer->addAddress($to);
             $mail->mailer->send();
         } catch (Exception $e) {

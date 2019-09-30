@@ -52,7 +52,7 @@ class Register extends Unicore
     {
         $jwt = Stateless::validate();
         $hasSession = Session::is_logged_in();
-        return ['user' => UserModel::byId($jwt['jti']), 'phpSession' => $hasSession];
+        return ['user' => UserModel::get($jwt['jti']), 'phpSession' => $hasSession];
 
     }
 
@@ -65,22 +65,20 @@ class Register extends Unicore
      */
     function postRegister($credentials)
     {
-        // check uniqueness
-        $userNameExists = UserModel::find(['user_name' => trim($credentials['username'])]);
-        $emailExists = UserModel::find(['user_name' => trim($credentials['email'])]);
-        if (!empty($userNameExists) || !empty($emailExists)) {
-            throw new RouteException('Duplicate entry', 400);
+        $newUser = [
+            'userName' => $credentials['userName'],
+            'emails' =>[['email'=>$credentials['email']]],
+            'password'=>['password'=>$credentials['password']]
+        ];
+        try{
+            $user = UserModel::create($newUser);
+        } catch (\Exception $e){
+            throw new RouteException($e->getMessage(), 422);
         }
-        $newUser = UserModel::register(trim($credentials['email']), $credentials['password'], true);
-        if (!isset($newUser['model']) || empty($newUser['model'])) {
-            throw new RouteException('Unresolved error', 500);
-        }
-        Db::ask('user', [
-            'user_name' => trim($credentials['username'])
-        ], ['id' => '$' . $newUser['model']['id']]);
+
         $verify = new Verify();
-        $verify->confirmEmail(trim($credentials['email']), $newUser['confirm_code']);
-        $jwt = Stateless::assign($newUser['model']['id'], 'user', ['exp' => time() + (2 * 60 * 60)]);
+        $verify->confirmEmail(trim($credentials['email']), $user['emails'][0]['confirm_code']);
+        $jwt = Stateless::assign($user['id'], 'user', ['exp' => time() + (2 * 60 * 60)]);
         return ['token' => $jwt];
     }
 

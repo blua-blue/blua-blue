@@ -2,7 +2,7 @@ Vue.component('register', {
     mixins:[common],
     data:()=>{
         return {
-            username:'',
+            userName:'',
             password:'',
             email:'',
             acceptTAC:false,
