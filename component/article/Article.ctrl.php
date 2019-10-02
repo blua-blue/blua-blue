@@ -5,6 +5,7 @@ namespace Neoan3\Components;
 
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\Db;
+use Neoan3\Apps\Jwt;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
 use Neoan3\Apps\SimpleTracker;
@@ -67,19 +68,26 @@ class Article extends Unicore
     }
 
     /**
+     * @param $uni
+     *
      * @return bool
      * @throws \Neoan3\Apps\DbException
      */
-    function getContext()
+    function getContext($uni)
     {
         if (!sub(1)) {
             $this->general();
-            return true;
+            return $uni;
         }
         $article = ArticleModel::bySlug(sub(1));
-        if (empty($article) || $article['is_public'] !== 1 || empty($article['publish_date'])) {
+        // Is current viewer author?
+        $loggedIn = Session::user_id();
+        if ((!$loggedIn || $article['author']['id'] !== $loggedIn) &&
+            (empty($article) || $article['is_public'] !== 1 || empty($article['publish_date']))) {
             $this->general();
+            return $uni;
         }
+
         // get metrics
         $article['metrics'] = MetricsModel::visits();
 
@@ -118,7 +126,7 @@ class Article extends Unicore
         if (isset($article['comments'])) {
             foreach ($article['comments'] as $comment) {
                 $comment['inserted'] = date('m/d/Y', strtotime($comment['insert_date']));
-                $comment['author'] = UserModel::byId($comment['user_id']);
+                $comment['author'] = UserModel::get($comment['user_id']);
                 if (!$comment['author']['image_id']) {
                     $comment['author']['image'] = 'asset/img/blank-profile.png';
                 }
@@ -130,7 +138,7 @@ class Article extends Unicore
         $this->content = $article;
         $this->content['seo'] = json_encode($this->seo());
 
-        return true;
+        return $uni;
 
     }
 
@@ -195,7 +203,7 @@ class Article extends Unicore
         $this->asApi();
         $jwt = Stateless::restrict();
         $article = IndexModel::first(ArticleModel::find($condition));
-        if(!empty($article)){
+        if (!empty($article)) {
             $this->content = $article;
             $article['seo'] = $this->seo();
             if ($article['author_user_id'] === $jwt['jti'] ||
@@ -265,7 +273,7 @@ class Article extends Unicore
         $update = [
             'name'        => $article['name'],
             'teaser'      => $article['teaser'],
-            'is_public'      => $article['public'],
+            'is_public'   => $article['public'],
             'category_id' => '$' . $article['category_id'],
             'keywords'    => '=' . implode(',', $article['keywords'])
         ];

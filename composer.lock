@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3dcb4af5cc259380a2e1b9c9f2f94a6",
+    "content-hash": "cf87d93f8e71d499a90de4a098b30959",
     "packages": [
         {
             "name": "blua-blue/image",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/blua-blue/image-model.git",
-                "reference": "5322941f8e57cb183f1eafe61107f01882f62884"
+                "reference": "76369ef271f64855a4b76ec200d87e8b394a1444"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blua-blue/image-model/zipball/5322941f8e57cb183f1eafe61107f01882f62884",
-                "reference": "5322941f8e57cb183f1eafe61107f01882f62884",
+                "url": "https://api.github.com/repos/blua-blue/image-model/zipball/76369ef271f64855a4b76ec200d87e8b394a1444",
+                "reference": "76369ef271f64855a4b76ec200d87e8b394a1444",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "source": "https://github.com/blua-blue/image-model/tree/master",
                 "issues": "https://github.com/blua-blue/image-model/issues"
             },
-            "time": "2019-09-29T20:06:23+00:00"
+            "time": "2019-09-29T20:32:52+00:00"
         },
         {
             "name": "firebase/php-jwt",

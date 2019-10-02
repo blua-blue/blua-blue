@@ -1,7 +1,7 @@
 Vue.component('loginForm', {
     data: function () {
         return {
-            username: '',
+            userName: '',
             password: '',
             loggedIn: localStorage.token,
             valid: true,

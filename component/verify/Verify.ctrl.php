@@ -16,6 +16,7 @@ class Verify extends Neoan {
         if(!sub(1) || !isset($_GET['email'])){
             exit();
         }
+
         $user = IndexModel::first(UserModel::find(['user_email.email'=>$_GET['email'],'user_email.delete_date'=>'']));
         if(empty($user)){
             exit();
@@ -23,7 +24,7 @@ class Verify extends Neoan {
 
         $unconfirmedEmail = IndexModel::first(Db::easy('user_email.id user_email.confirm_code',['user_id'=>'$'.$user['id'],'^delete_date','^confirm_date']));
 
-        if(!empty($unconfirmedEmail) &&$unconfirmedEmail['confirm_code'] == sub(1) ){
+        if(!empty($unconfirmedEmail) && $unconfirmedEmail['confirm_code'] == sub(1) ){
             Db::user_email(['confirm_date'=>'.'],['id'=>'$'.$unconfirmedEmail['id']]);
             Session::logout();
             redirect('profile/#settings');

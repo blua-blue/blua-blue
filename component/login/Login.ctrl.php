@@ -25,7 +25,7 @@ class Login extends Neoan {
      * @throws \Neoan3\Apps\DbException
      */
     function postLogin($credentials) {
-        $user = UserModel::find(['user.user_name' => $credentials['username']]);
+        $user = UserModel::find(['userName' => $credentials['userName']]);
 
         if(empty($user)) {
             throw new RouteException('Wrong credentials', 401);

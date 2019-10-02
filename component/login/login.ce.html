@@ -3,7 +3,7 @@
     <div v-if="!loggedIn">
         <div class="field">
             <label for="username" class="label">Username</label>
-            <input type="text" class="input" id="username" required v-model="username">
+            <input type="text" class="input" id="username" required v-model="userName">
         </div>
         <div class="field" v-show="state==='login'">
             <label for="ped" class="label">Password</label>
@@ -33,10 +33,10 @@
         </div>
     </div>
     <div v-else>
-        <div class="notification is-warning" v-if="localUser.email&&!localUser.email.confirm_date">
+        <div class="notification is-warning" v-if="localUser.emails&&!localUser.emails[0].confirm_date">
             In order to comment or publish, you will need to confirm your email. <a href="{{base}}profile/#settings">Settings</a>
         </div>
-        <a type="button" href="{{base}}profile/" class="button is-info" ><i class="material-icons">person</i> {{localUser.user_name}}</a>
+        <a type="button" href="{{base}}profile/" class="button is-info" ><i class="material-icons">person</i> {{localUser.userName}}</a>
         <a type="button" href="{{base}}admin/" class="button is-primary" v-if="localUser.user_type=='admin'"><i
                 class="material-icons">dashboard</i> Administration</a>
         <button type="button" class="button is-danger" v-on:click="logout"><i class="material-icons">remove_circle</i> Sign out</button>
