@@ -8,6 +8,7 @@ use Neoan3\Apps\Session;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Frame\Neoan;
+use Neoan3\Model\ImageModel;
 use Neoan3\Model\UserModel;
 
 /**
@@ -43,6 +44,11 @@ class Login extends Neoan {
         $scope = ['user'];
         if($user['user_type'] !== 'user'){
             $scope[] = $user['user_type'];
+        }
+
+        // attach image
+        if(!empty($user['image_id'])){
+            $user['image'] = ImageModel::byId($user['image_id']);
         }
 
 

@@ -27,11 +27,14 @@ class Neoan extends Serve {
         SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
         SimpleTracker::track($identifier);
 
-        if(!$this->developmentMode) {
+        if(!$this->developmentMode && !Session::is_logged_in()) {
             Cache::setCaching('+2 hours');
-            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
         } else {
             Cache::invalidateAll();
+        }
+        if($this->developmentMode){
+            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
+        } else {
             $this->includeJs(base . 'node_modules/vue/dist/vue.js');
         }
         // SETUP
