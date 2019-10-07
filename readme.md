@@ -62,7 +62,9 @@ _phpmailer_ https://github.com/PHPMailer/PHPMailer
 "blua_mail": {
   "host": "mail.example.com",
   "username": "some@example.com",
-  "password": "MailSMTPpassword"
+  "password": "MailSMTPpassword",
+  "port": "25",
+  "secure": "ssl"
   }
 }
 ```
