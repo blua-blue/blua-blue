@@ -24,7 +24,7 @@ class Neoan extends Serve {
 
         // tracking
         $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
-        SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
+        SimpleTracker::init(dirname(path) . '/blua-blue-data/');
         SimpleTracker::track($identifier);
 
         if(!$this->developmentMode && !Session::is_logged_in()) {
@@ -50,7 +50,7 @@ class Neoan extends Serve {
          *
          * THE FOLLOWING LINE MIGHT HAVE TO BE ADJUSTED
          * */
-        $credentialFile = dirname(dirname(dirname(path))) . '/credentials/credentials.json';
+        $credentialFile =  '/credentials/credentials.json';
         if(file_exists($credentialFile)) {
             $this->credentials = json_decode(file_get_contents($credentialFile), true);
 

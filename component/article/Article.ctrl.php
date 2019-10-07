@@ -81,7 +81,11 @@ class Article extends Unicore
         }
         $article = ArticleModel::bySlug(sub(1));
         // Is current viewer author?
-        $loggedIn = Session::user_id();
+        $loggedIn = false;
+        if(Session::is_logged_in()){
+            $loggedIn = Session::user_id();
+        }
+
         if ((!$loggedIn || $article['author']['id'] !== $loggedIn) &&
             (empty($article) || $article['is_public'] !== 1 || empty($article['publish_date']))) {
             $this->general();
@@ -315,7 +319,7 @@ class Article extends Unicore
         $jwt = Stateless::restrict();
         $condition = ['id' => '$' . $body['id']];
         // is admin?
-        $user = UserModel::byId($jwt['jti']);
+        $user = UserModel::get($jwt['jti']);
         if ($user['user_type'] !== 'admin') {
             $condition['author_user_id'] = $jwt['jti'];
         }

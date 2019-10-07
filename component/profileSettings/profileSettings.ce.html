@@ -14,7 +14,7 @@
     </div>
     <div class="column is-four-fifths" v-if="user.id">
         <form v-on:submit.prevent="updateEmail" v-if="currentNavigation === 'email'">
-            <div class="message is-danger" v-if="!user.email.confirm_date&&!warnings.email">
+            <div class="message is-danger" v-if="!user.emails[0].confirm_date&&!warnings.email">
                 <div class="message-body">
                     Your email is not confirmed! You will not be able to
                     <ul>

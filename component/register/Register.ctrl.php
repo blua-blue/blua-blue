@@ -11,6 +11,7 @@ use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
+use Neoan3\Model\ImageModel;
 use Neoan3\Model\IndexModel;
 use Neoan3\Model\UserModel;
 
@@ -52,7 +53,11 @@ class Register extends Unicore
     {
         $jwt = Stateless::validate();
         $hasSession = Session::is_logged_in();
-        return ['user' => UserModel::get($jwt['jti']), 'phpSession' => $hasSession];
+        $user = UserModel::get($jwt['jti']);
+        if(!empty($user['image_id'])){
+            $user['image'] = ImageModel::byId($user['image_id']);
+        }
+        return ['user' => $user, 'phpSession' => $hasSession];
 
     }
 
