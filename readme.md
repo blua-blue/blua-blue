@@ -63,6 +63,8 @@ _phpmailer_ https://github.com/PHPMailer/PHPMailer
   "host": "mail.example.com",
   "username": "some@example.com",
   "password": "MailSMTPpassword",
+  "fromEmail": "some@example.com",
+  "fromName": "Example-Admin",
   "port": "25",
   "secure": "ssl"
   }
