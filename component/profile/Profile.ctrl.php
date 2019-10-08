@@ -41,20 +41,21 @@ class Profile extends Unicore {
     }
     function putProfile($user){
         $this->asApi();
+
         $jwt = Stateless::restrict();
         $userModel = UserModel::get($jwt['jti']);
         // compare
         // 1. Email
-        if($user['email']['email'] !== $userModel['email']['email'] || empty($userModel['email']['confirm_date'])){
+        if($user['emails'][0]['email'] !== $userModel['emails'][0]['email'] || empty($userModel['emails'][0]['confirm_date'])){
             Db::user_email(['delete_date'=>'.'],['user_id'=>'$'.$userModel['id']]);
             $hash = Ops::randomString(30);
             Db::ask('user_email',[
                 'user_id'=>'$'.$userModel['id'],
-                'email'=>$user['email']['email'],
+                'email'=>$user['emails'][0]['email'],
                 'confirm_code'=>$hash
             ]);
             $verify = new Verify();
-            $trySending = $verify->confirmEmail($user['email']['email'],$hash);
+            $trySending = $verify->confirmEmail($user['emails'][0]['email'],$hash);
             if(!$trySending['success']){
                 throw new RouteException('Email could not be sent',500);
             }
