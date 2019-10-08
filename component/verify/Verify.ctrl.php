@@ -17,13 +17,16 @@ class Verify extends Neoan {
             exit();
         }
 
-        $user = IndexModel::first(UserModel::find(['user_email.email'=>$_GET['email'],'user_email.delete_date'=>'']));
+        $user = IndexModel::first(UserModel::findEmails(['email'=>$_GET['email']]));
         if(empty($user)){
             exit();
         }
-
-        $unconfirmedEmail = IndexModel::first(Db::easy('user_email.id user_email.confirm_code',['user_id'=>'$'.$user['id'],'^delete_date','^confirm_date']));
-
+        $unconfirmedEmail = [];
+        foreach($user['emails'] as $email){
+            if($email['email'] == $_GET['email'] && empty($email['confirm_date']) && $email['confirm_code'] == sub(1)){
+                $unconfirmedEmail = $email;
+            }
+        }
         if(!empty($unconfirmedEmail) && $unconfirmedEmail['confirm_code'] == sub(1) ){
             Db::user_email(['confirm_date'=>'.'],['id'=>'$'.$unconfirmedEmail['id']]);
             Session::logout();
@@ -41,7 +44,6 @@ class Verify extends Neoan {
 
         $mail = new Email('Email confirmation request','Welcome to blua.blue',$content);
         try {
-            $mail->mailer->setFrom($mail->mailer->Username, 'Blua.blue');
             $mail->mailer->addAddress($to);
             $mail->mailer->send();
         } catch (Exception $e) {

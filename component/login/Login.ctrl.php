@@ -26,20 +26,8 @@ class Login extends Neoan {
      * @throws \Neoan3\Apps\DbException
      */
     function postLogin($credentials) {
-        $user = UserModel::find(['userName' => $credentials['userName']]);
+        $user = UserModel::login($credentials);
 
-        if(empty($user)) {
-            throw new RouteException('Wrong credentials', 401);
-        }
-        $user = $user[0];
-        $password = Db::easy(
-            'user_password.password',
-            ['^delete_date', 'user_id' => '$' . $user['id'], 'confirm_date'=>'!']
-        );
-
-        if(empty($password) || !password_verify($credentials['password'],$password[0]['password'])){
-            throw new RouteException('Wrong credentials', 401);
-        }
         // prepare roles/scopes
         $scope = ['user'];
         if($user['user_type'] !== 'user'){
@@ -50,7 +38,6 @@ class Login extends Neoan {
         if(!empty($user['image_id'])){
             $user['image'] = ImageModel::byId($user['image_id']);
         }
-
 
         $jwt = Stateless::assign($user['id'],$scope,['exp'=>time()+(2*60*60*1000)]);
         // For hybrid auth
