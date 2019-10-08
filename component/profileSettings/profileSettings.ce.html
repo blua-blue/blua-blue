@@ -24,7 +24,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="message is-info" v-if="user.email.confirm_date">
+            <div class="message is-info" v-if="user.emails[0].confirm_date">
                 <div class="message-body">
                     Your email is confirmed! If you change your primary email, you will need to re-confirm it.
 
@@ -38,7 +38,7 @@
                 <div class="column">
                     <div class="field">
                         <div class="control" >
-                            <input type="email" v-model.trim="user.email.email" class="input">
+                            <input type="email" v-model.trim="user.emails[0].email" class="input">
                         </div>
                     </div>
                 </div>

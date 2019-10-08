@@ -2,6 +2,7 @@ Vue.component('profileSettings',{
     data:function(){
         return {
             user:{},
+            savedEmail:'',
             warnings:{
                 email:false
             },
@@ -13,7 +14,19 @@ Vue.component('profileSettings',{
 
                     ]
             },
-            disabled:false
+            disabled:true
+        }
+    },
+    watch:{
+        'user.emails':{
+            handler: function(newVal){
+                if(newVal[0].email !== this.savedEmail || this.user.emails[0].confirm_date === null){
+                    this.disabled = false;
+                } else {
+                    this.disabled = true;
+                }
+            },
+            deep: true
         }
     },
     methods:{
@@ -41,7 +54,7 @@ Vue.component('profileSettings',{
     },
     mounted(){
         this.user = JSON.parse(localStorage.user);
-
+        this.savedEmail = this.user.emails[0].email;
     },
     template:document.querySelector('#profileSettings').innerHTML
 });
