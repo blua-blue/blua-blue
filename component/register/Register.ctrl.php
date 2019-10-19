@@ -82,9 +82,14 @@ class Register extends Unicore
         }
 
         $verify = new Verify();
-        $verify->confirmEmail(trim($credentials['email']), $user['emails'][0]['confirm_code']);
-        $jwt = Stateless::assign($user['id'], 'user', ['exp' => time() + (2 * 60 * 60)]);
-        return ['token' => $jwt];
+        $send = $verify->confirmEmail(trim($credentials['email']), $user['emails'][0]['confirm_code']);
+        if($send['success']){
+            $jwt = Stateless::assign($user['id'], 'user', ['exp' => time() + (2 * 60 * 60)]);
+            return ['token' => $jwt];
+        } else {
+            throw new RouteException($send['error'],500);
+        }
+
     }
 
     function putRegister($body)

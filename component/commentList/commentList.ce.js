@@ -14,10 +14,9 @@ Vue.component('commentList', {
     },
     methods: {
         convertTime: function (timeStamp) {
-            return moment(timeStamp).fromNow();
+            return moment(parseInt(timeStamp)).fromNow();
         },
         getComments: function () {
-            console.log(this.articleId);
             api.get('comment?articleId=' + this.articleId).then(d => {
                 this.comments = d.data;
             }).catch(er => {

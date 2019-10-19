@@ -115,8 +115,9 @@ class Neoan extends Serve {
         $mail->SMTPAuth = true;
         $mail->Username = $this->credentials['blua_mail']['username'];
         $mail->Password = $this->credentials['blua_mail']['password'];
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = 465;
+        $mail->SMTPSecure = isset($this->credentials['blua_mail']['secure'])? $this->credentials['blua_mail']['secure'] : 'tls';
+        $mail->Port = isset($this->credentials['blua_mail']['port'])? $this->credentials['blua_mail']['port'] : 25;
+        $mail->setFrom($this->credentials['blua_mail']['fromEmail'],$this->credentials['blua_mail']['fromEmail']);
         return $mail;
     }
 
