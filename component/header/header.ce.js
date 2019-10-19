@@ -31,6 +31,12 @@ Vue.component('bluaHeader', {
             api.get('search?q=' + this.text).then(res => {
                 this.searchResults = res.data;
             })
+        },
+        logOut: function () {
+            api.delete('login');
+            delete localStorage.user;
+            delete localStorage.token;
+            this.$root.$emit('login', false);
         }
     }
 });
