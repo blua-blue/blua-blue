@@ -47,7 +47,7 @@ Vue.component('articleRating', {
         <span v-for="index in 5" @mouseover="setHover(index)" @mouseleave="resetHover" class="highlight pointer" @click="rate(index)">
             <span v-if="(currentRating >= index && !hovering) || (hovering && hoveredIndex >= index)"><i class="material-icons">star</i></span>
             <span v-if="(index-1 < currentRating) && (index > currentRating) && !hovering"><i class="material-icons" >star_half</i></span>
-            <span v-if="(currentRating+1 <= index && !hovering) || (hovering && hoveredIndex<index)"><i class="material-icons">star_border</i></span>
+            <span v-else-if="(currentRating+1 <= index && !hovering) || (hovering && hoveredIndex<index)"><i class="material-icons">star_border</i></span>
         </span>
         <div>{{total}} votes <span v-if="ratedByMe">(including YOU)</span></div>
         </div>`
