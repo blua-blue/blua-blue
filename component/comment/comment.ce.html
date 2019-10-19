@@ -4,7 +4,8 @@
         <article class="media">
             <div class="media-left">
                 <figure class="image is-64x64">
-                    <img v-bind:src="'{{base}}'+user.image.path" alt="Image">
+                    <img :src="'{{base}}'+user.image.path" v-if="user.image" alt="profile">
+                    <img src="{{base}}asset/img/blank-profile.png" v-if="!user.image" alt="profile">
                 </figure>
             </div>
             <div class="media-content">

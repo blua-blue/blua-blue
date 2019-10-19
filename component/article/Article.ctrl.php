@@ -80,6 +80,13 @@ class Article extends Unicore
             return $uni;
         }
         $article = ArticleModel::bySlug(sub(1));
+        // edge-case catch: Was author removed from DB?
+        if(!isset($article['author']['id'])){
+            Db::article(['delete_date'=>'.'],['id'=>'$'.$article['id']]);
+            $this->general();
+            return $uni;
+        }
+
         // Is current viewer author?
         $loggedIn = false;
         if(Session::is_logged_in()){
@@ -109,6 +116,9 @@ class Article extends Unicore
         $article['related'] = '';
         foreach ($others as $other) {
             if ($other['id'] !== $article['id']) {
+                if(!isset($other['image']['path'])){
+                    $other['image']['path'] = '/asset/img/blua-blue-logo.png';
+                }
                 $article['related'] .= Ops::embraceFromFile('/component/article/related.html', $other);
             }
 
@@ -163,7 +173,7 @@ class Article extends Unicore
 
     private function seo()
     {
-        return [
+        $seo =  [
             '@context'      => 'http://schema.org/',
             '@type'         => 'article',
             'name'          => $this->content['name'],
@@ -172,7 +182,6 @@ class Article extends Unicore
             'keywords'      => $this->content['keywords'],
             'datePublished' => substr($this->content['insert_date'], 0, 10),
             'headline'      => $this->content['name'],
-            'image'         => base . $this->content['image']['path'],
             'publisher'     => [
                 '@type' => 'Organization',
                 'name'  => 'blua.blue',
@@ -180,6 +189,10 @@ class Article extends Unicore
                 'logo'  => ['@type' => 'imageObject', 'url' => base . 'asset/img/blua-blue-logo.png']
             ]
         ];
+        if(isset($this->content['image']['path'])){
+            $seo['image'] = base . $this->content['image']['path'];
+        }
+        return $seo;
     }
 
     /* API */
