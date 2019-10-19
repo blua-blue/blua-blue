@@ -33,9 +33,9 @@ class Neoan extends Serve {
             Cache::invalidateAll();
         }
         if($this->developmentMode){
-            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
-        } else {
             $this->includeJs(base . 'node_modules/vue/dist/vue.js');
+        } else {
+            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
         }
         // SETUP
         /*
