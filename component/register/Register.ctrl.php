@@ -94,7 +94,7 @@ class Register extends Unicore
 
     function putRegister($body)
     {
-        $user = UserModel::byId($body['userId']);
+        $user = UserModel::get($body['userId']);
         if (empty($user)) {
             throw new RouteException('Bad Request', 400);
         }

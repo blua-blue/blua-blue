@@ -57,7 +57,8 @@ class ResetPassword extends Neoan
      */
     function postResetPassword(array $body)
     {
-        $user = IndexModel::first(UserModel::find(['user_name' => $body['username']]));
+        $user = IndexModel::first(UserModel::find(['userName'=>$body['userName']]));
+
         if (!empty($user)) {
             $hash = Ops::randomString(36);
             // insert into password
@@ -66,8 +67,7 @@ class ResetPassword extends Neoan
             $mailBody =
                 Ops::embraceFromFile('component/resetPassword/mailContent.html', ['base' => base, 'hash' => $hash]);
             $mail = new Email('Password reset request', 'You requested a new password', $mailBody);
-            $mail->mailer->setFrom($mail->mailer->Username, 'blua.blue');
-            $mail->mailer->addAddress($user['email']['email']);
+            $mail->mailer->addAddress($user['emails'][0]['email']);
             $mail->mailer->send();
 
         }
