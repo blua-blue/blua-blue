@@ -6,6 +6,7 @@ namespace Neoan3\Frame;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\DbException;
+use Neoan3\Apps\Hcapture;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
 use Neoan3\Apps\SimpleTracker;
@@ -46,18 +47,18 @@ class Neoan extends Serve {
          * 'blua_stateless'=>['secret'=>'SecretKey']
          * 'blua_mail'=>
          *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password'],
-         * ]
+         * ],
+         * 'blua_hcaptcha' => ['secret'=>'your-secret','siteKey'=>'your-site-key']
          *
          * THE FOLLOWING LINE MIGHT HAVE TO BE ADJUSTED
          * */
-        $credentialFile =  '/credentials/credentials.json';
-        if(file_exists($credentialFile)) {
-            $this->credentials = json_decode(file_get_contents($credentialFile), true);
-
-        } else {
+        try{
+            $this->credentials = getCredentials();
+        } catch (\Exception $e){
             print('SETUP: No credentials found. Please check README for instructions and/or change '.__FILE__.' starting at line '.(__LINE__-4).' ');
             die();
         }
+
 
 
         // database
@@ -66,6 +67,8 @@ class Neoan extends Serve {
         // JWT/Stateless auth
         Stateless::setSecret($this->credentials['blua_stateless']['secret']);
 
+        // hcaptcha
+        Hcapture::setEnvironment($this->credentials['blua_hcaptcha']);
 
         parent::__construct();
 
@@ -151,6 +154,7 @@ class Neoan extends Serve {
                 ['src' => base . 'node_modules/lodash/lodash.min.js'],
                 ['src' => base . 'node_modules/moment/min/moment.min.js'],
                 ['src' => path . '/frame/neoan/axios-wrapper.js', 'data' => ['base' => base]],
+                ['src' => 'https://hcaptcha.com/1/api.js']
             ],
             'stylesheet' => [
                 '' . base . 'frame/neoan/main.css',

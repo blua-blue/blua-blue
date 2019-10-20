@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf87d93f8e71d499a90de4a098b30959",
+    "content-hash": "97d2707e842ec969d1f4609836332b47",
     "packages": [
         {
             "name": "blua-blue/image",
@@ -265,6 +265,45 @@
             ],
             "description": "neoan3 mysqli class",
             "time": "2019-09-10T17:54:43+00:00"
+        },
+        {
+            "name": "neoan3-apps/hcaptcha",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sroehrl/neoan3-hcapture.git",
+                "reference": "862bcfc54dd93d5ca1172d7460912322517add3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-hcapture/zipball/862bcfc54dd93d5ca1172d7460912322517add3c",
+                "reference": "862bcfc54dd93d5ca1172d7460912322517add3c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Neoan3\\Apps\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "neoan",
+                    "email": "sroehrl@gmail.com"
+                }
+            ],
+            "description": "hcaptcha PHP implementation",
+            "time": "2019-10-14T02:29:44+00:00"
         },
         {
             "name": "neoan3-apps/jwt",
@@ -690,7 +729,8 @@
         "neoan3-model/user": 20,
         "blua-blue/image": 20,
         "neoan3-apps/session": 20,
-        "neoan3-apps/simple-tracker": 20
+        "neoan3-apps/simple-tracker": 20,
+        "neoan3-apps/hcaptcha": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

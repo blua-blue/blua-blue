@@ -15,7 +15,8 @@
         "neoan3-apps/session": "dev-master",
         "neoan3-apps/db": "^0.2",
         "phpmailer/phpmailer": "~6.0",
-        "neoan3-apps/simple-tracker": "dev-master"
+        "neoan3-apps/simple-tracker": "dev-master",
+        "neoan3-apps/hcaptcha": "dev-master"
     },
     "license": "MIT",
     "authors": [
