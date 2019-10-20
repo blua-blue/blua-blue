@@ -1,49 +1,50 @@
 {
-  "name": "blua-blue/blua-blue",
-  "description": "Headless / Hybrid CMS enablement platform",
-  "minimum-stability": "dev",
-  "require": {
-    "php": "^7.0",
-    "ext-json": "*",
-    "mnsami/composer-custom-directory-installer": "1.1.*",
-    "neoan3-apps/ops": "^1",
-    "leafo/scssphp": "dev-master",
-    "neoan3-apps/stateless": "dev-master",
-    "neoan3-apps/cache": "dev-master",
-    "neoan3-model/user": "dev-master",
-    "blua-blue/image": "dev-master",
-    "neoan3-apps/session": "dev-master",
-    "neoan3-apps/db": "^0.2",
-    "phpmailer/phpmailer": "~6.0",
-    "neoan3-apps/simple-tracker": "dev-master"
-  },
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "neoan",
-      "email": "neoan@neoan.us"
-    }
-  ],
-  "extra": {
-    "installer-paths": {
-      "./frame/{$name}": [],
-      "./model/{$name}": [
-        "neoan3-model/user",
-        "blua-blue/image"
-      ],
-      "./component/{$name}": []
-    }
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/sroehrl/neoan3-userModel.git"
+    "name": "blua-blue/blua-blue",
+    "description": "Headless / Hybrid CMS enablement platform",
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.0",
+        "ext-json": "*",
+        "mnsami/composer-custom-directory-installer": "1.1.*",
+        "neoan3-apps/ops": "^1",
+        "leafo/scssphp": "dev-master",
+        "neoan3-apps/stateless": "dev-master",
+        "neoan3-apps/cache": "dev-master",
+        "neoan3-model/user": "dev-master",
+        "blua-blue/image": "dev-master",
+        "neoan3-apps/session": "dev-master",
+        "neoan3-apps/db": "^0.2",
+        "phpmailer/phpmailer": "~6.0",
+        "neoan3-apps/simple-tracker": "dev-master",
+        "neoan3-apps/hcaptcha": "dev-master"
     },
-    {
-      "type": "vcs",
-      "url": "https://github.com/blua-blue/image-model.git"
-    }
-  ],
-  "require-dev": {
-  }
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "neoan",
+            "email": "neoan@neoan.us"
+        }
+    ],
+    "extra": {
+        "installer-paths": {
+            "./frame/{$name}": [],
+            "./model/{$name}": [
+                "neoan3-model/user",
+                "blua-blue/image",
+                "neoan3-model/index"
+            ],
+            "./component/{$name}": []
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sroehrl/neoan3-userModel.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/blua-blue/image-model.git"
+        }
+    ],
+    "require-dev": {}
 }

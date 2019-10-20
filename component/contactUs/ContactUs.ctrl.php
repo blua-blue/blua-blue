@@ -3,6 +3,7 @@
 
 namespace Neoan3\Components;
 
+use Neoan3\Apps\Hcapture;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
 use Neoan3\Apps\Stateless;
@@ -29,23 +30,25 @@ class ContactUs extends Neoan {
     function vue($uni){
         $uni->vueComponent('contactUs');
     }
+
     /**
      * @param Neoan $uni
+     *
+     * @throws \Exception
      */
     function session($uni){
-        $hash = Ops::hash(5);
+        $hash = Ops::randomString(5);
         Session::add_session(['contact_hash'=>$hash]);
         $uni->js .= 'let contactHash = "' . $hash .'";';
     }
 
     function postContactUs($info) {
-        if(!isset($_SESSION['contact_hash']) || !isset($info['contactHash']) || $info['contactHash'] != $_SESSION['contact_hash']){
+        if(!isset($_SESSION['contact_hash']) || !isset($info['contactHash']) || $info['contactHash'] != $_SESSION['contact_hash'] || !Hcapture::isHuman($info)){
             throw new RouteException('unauthorized', 401);
         }
         $mail = new Email('Contact form: '. $info['topic'],'From: '.$info['email'],$info['body']);
         try {
-            $mail->mailer->setFrom($mail->mailer->Username, 'blua.blue');
-            $mail->mailer->addAddress($mail->mailer->Username);
+            $mail->mailer->addAddress($mail->mailer->From);
             $mail->mailer->send();
         } catch (Exception $e) {
             return ['success'=>false,'error'=>$e->getMessage()];

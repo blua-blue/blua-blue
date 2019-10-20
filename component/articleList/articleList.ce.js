@@ -16,7 +16,7 @@ Vue.component('articleList',{
     methods:{
         setFilters:function(){
             if(this.author){
-                this.filter.author = this.author.user_name;
+                this.filter.author = this.author.userName;
             }
         },
         updateList:function(){

@@ -6,6 +6,7 @@ namespace Neoan3\Frame;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\DbException;
+use Neoan3\Apps\Hcapture;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
 use Neoan3\Apps\SimpleTracker;
@@ -24,15 +25,18 @@ class Neoan extends Serve {
 
         // tracking
         $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
-        SimpleTracker::init(dirname(dirname(path)) . '/blua-blue-data/');
+        SimpleTracker::init(dirname(path) . '/blua-blue-data/');
         SimpleTracker::track($identifier);
 
-        if(!$this->developmentMode) {
+        if(!$this->developmentMode && !Session::is_logged_in()) {
             Cache::setCaching('+2 hours');
-            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
         } else {
             Cache::invalidateAll();
+        }
+        if($this->developmentMode){
             $this->includeJs(base . 'node_modules/vue/dist/vue.js');
+        } else {
+            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
         }
         // SETUP
         /*
@@ -43,18 +47,18 @@ class Neoan extends Serve {
          * 'blua_stateless'=>['secret'=>'SecretKey']
          * 'blua_mail'=>
          *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password'],
-         * ]
+         * ],
+         * 'blua_hcaptcha' => ['secret'=>'your-secret','siteKey'=>'your-site-key']
          *
          * THE FOLLOWING LINE MIGHT HAVE TO BE ADJUSTED
          * */
-        $credentialFile = dirname(dirname(dirname(path))) . '/credentials/credentials.json';
-        if(file_exists($credentialFile)) {
-            $this->credentials = json_decode(file_get_contents($credentialFile), true);
-
-        } else {
+        try{
+            $this->credentials = getCredentials();
+        } catch (\Exception $e){
             print('SETUP: No credentials found. Please check README for instructions and/or change '.__FILE__.' starting at line '.(__LINE__-4).' ');
             die();
         }
+
 
 
         // database
@@ -63,6 +67,8 @@ class Neoan extends Serve {
         // JWT/Stateless auth
         Stateless::setSecret($this->credentials['blua_stateless']['secret']);
 
+        // hcaptcha
+        Hcapture::setEnvironment($this->credentials['blua_hcaptcha']);
 
         parent::__construct();
 
@@ -112,8 +118,9 @@ class Neoan extends Serve {
         $mail->SMTPAuth = true;
         $mail->Username = $this->credentials['blua_mail']['username'];
         $mail->Password = $this->credentials['blua_mail']['password'];
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = 465;
+        $mail->SMTPSecure = isset($this->credentials['blua_mail']['secure'])? $this->credentials['blua_mail']['secure'] : 'tls';
+        $mail->Port = isset($this->credentials['blua_mail']['port'])? $this->credentials['blua_mail']['port'] : 25;
+        $mail->setFrom($this->credentials['blua_mail']['fromEmail'],$this->credentials['blua_mail']['fromEmail']);
         return $mail;
     }
 
@@ -147,6 +154,7 @@ class Neoan extends Serve {
                 ['src' => base . 'node_modules/lodash/lodash.min.js'],
                 ['src' => base . 'node_modules/moment/min/moment.min.js'],
                 ['src' => path . '/frame/neoan/axios-wrapper.js', 'data' => ['base' => base]],
+                ['src' => 'https://hcaptcha.com/1/api.js']
             ],
             'stylesheet' => [
                 '' . base . 'frame/neoan/main.css',

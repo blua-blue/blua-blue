@@ -43,9 +43,9 @@ class Comment extends Neoan
             $comments = Db::easy('article_comment.* #article_comment.insert_date:inserted',
                 ['article_id' => '$' . $body['articleId'], '^delete_date'], ['orderBy' => ['insert_date', 'asc']]);
             foreach ($comments as $i => $comment) {
-                $author = UserModel::byId($comment['user_id']);
+                $author = UserModel::get($comment['user_id']);
                 $comments[$i]['author'] = [
-                    'user_name' => $author['user_name']
+                    'userName' => $author['userName']
                 ];
                 $comments[$i]['author']['image'] = $author['image_id'] ? ImageModel::undeletedById($author['image_id']) : 'asset/img/blank-profile.png';
 

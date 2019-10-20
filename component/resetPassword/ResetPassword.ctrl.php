@@ -22,7 +22,7 @@ class ResetPassword extends Neoan
         $uni = new Unicore();
         $uni->uni('neoan')
             ->callback($this, 'validateHash')
-            ->hook('main', 'resetPassword', ['valid' => $this->valid,'rand'=>Ops::hash(5)])
+            ->hook('main', 'resetPassword', ['valid' => $this->valid,'rand'=>Ops::randomString(5)])
             ->output();
     }
 
@@ -57,17 +57,17 @@ class ResetPassword extends Neoan
      */
     function postResetPassword(array $body)
     {
-        $user = IndexModel::first(UserModel::find(['user_name' => $body['username']]));
+        $user = IndexModel::first(UserModel::find(['userName'=>$body['userName']]));
+
         if (!empty($user)) {
-            $hash = Ops::hash(36);
+            $hash = Ops::randomString(36);
             // insert into password
             Db::user_password(['user_id' => '$' . $user['id'], 'confirm_code' => $hash]);
 
             $mailBody =
                 Ops::embraceFromFile('component/resetPassword/mailContent.html', ['base' => base, 'hash' => $hash]);
             $mail = new Email('Password reset request', 'You requested a new password', $mailBody);
-            $mail->mailer->setFrom($mail->mailer->Username, 'blua.blue');
-            $mail->mailer->addAddress($user['email']['email']);
+            $mail->mailer->addAddress($user['emails'][0]['email']);
             $mail->mailer->send();
 
         }

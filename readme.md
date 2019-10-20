@@ -37,6 +37,7 @@ Download/clone/fork the repository @ https://github.com/blua-blue/blua-blue
 
 ### Credentials
 Credentials are expected to be in a folder "credentials" outside the web-root. 
+You can use the command `neoan3 credentials` for generating the following properties.
 Please make changes to the neoan frame (frame/neoan/Neoan.php) in order to provide credentials for:
 
 _neoan3-apps/db_ https://github.com/sroehrl/neoan3-db
@@ -44,6 +45,8 @@ _neoan3-apps/db_ https://github.com/sroehrl/neoan3-db
 _neoan3-apps/stateless_ https://github.com/sroehrl/neoan3-stateless
 
 _phpmailer_ https://github.com/PHPMailer/PHPMailer
+
+_neoan3-apps/hcaptcha_ https://github.com/sroehrl/neoan3-hcapture
 
 *Example:*
 
@@ -62,7 +65,15 @@ _phpmailer_ https://github.com/PHPMailer/PHPMailer
 "blua_mail": {
   "host": "mail.example.com",
   "username": "some@example.com",
-  "password": "MailSMTPpassword"
+  "password": "MailSMTPpassword",
+  "fromEmail": "some@example.com",
+  "fromName": "Example-Admin",
+  "port": "25",
+  "secure": "ssl"
+  },
+"blua_hcaptcha": {
+  "secret": "your secret",
+  "siteKey": "site-key"
   }
 }
 ```

@@ -16,7 +16,7 @@ Vue.component('comment', {
     methods:{
         setUser: function (loggedIn) {
             this.user = loggedIn ? JSON.parse(localStorage.user) : {};
-
+            console.log(this.user);
         },
         send:function(){
             if(this.comment.length>5){
