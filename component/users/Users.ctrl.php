@@ -21,7 +21,7 @@ class Users extends Neoan {
 //        Db::debug();
         $users = Db::easy('user.id', ['^delete_date','user_name'=>'{ LIKE "%'.$obj['nameFilter'].'%" }'], ['limit' => [$start, $limit]]);
         foreach ($users as $user) {
-            $response['users'][] = UserModel::byId($user['id']);
+            $response['users'][] = UserModel::get($user['id']);
         }
         return $response;
     }
