@@ -22,14 +22,20 @@
                         This may take a few minutes.
                     </div>
                 </article>
-                <p>No account? <a href="#" v-on:click.prevent="toRegistration">Register now.</a></p>
-                <p>Forgot Password? <a href="#" v-on:click.prevent="state='resetPassword'">Reset password</a></p>
+
             </div>
             <div class="column is-narrow">
-
                 <button type="submit" class="button is-primary" ><span v-if="state=='login'">Login</span><span v-else>Reset password</span></button>
             </div>
 
+        </div>
+        <div class="columns">
+            <div class="column">
+                No account? <a href="#" v-on:click.prevent="toRegistration">Register now.</a>
+            </div>
+            <div class="column">
+                <a href="#" v-on:click.prevent="state='resetPassword'">Reset password</a>
+            </div>
         </div>
     </div>
     <div v-else>
