@@ -561,12 +561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-userModel.git",
-                "reference": "9c3c5808b9fbfe315edeab8560f1db2d805307e6"
+                "reference": "ddeb1ab73ce5a42213558a4a5824f8414495a782"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-userModel/zipball/9c3c5808b9fbfe315edeab8560f1db2d805307e6",
-                "reference": "9c3c5808b9fbfe315edeab8560f1db2d805307e6",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-userModel/zipball/ddeb1ab73ce5a42213558a4a5824f8414495a782",
+                "reference": "ddeb1ab73ce5a42213558a4a5824f8414495a782",
                 "shasum": ""
             },
             "require": {
@@ -597,7 +597,7 @@
                 "source": "https://github.com/sroehrl/neoan3-userModel/tree/master",
                 "issues": "https://github.com/sroehrl/neoan3-userModel/issues"
             },
-            "time": "2019-09-28T02:26:48+00:00"
+            "time": "2019-10-07T23:55:48+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
