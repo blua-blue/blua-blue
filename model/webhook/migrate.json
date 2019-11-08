@@ -1,0 +1,46 @@
+{
+  "webhook": {
+    "id": {
+      "type": "binary(16)",
+      "key": "primary",
+      "nullable": false,
+      "default": false,
+      "a_i": false
+    },
+    "user_id": {
+      "type": "binary(16)",
+      "key": false,
+      "nullable": false,
+      "default": false,
+      "a_i": false
+    },
+    "target_url": {
+      "type": "varchar(255)",
+      "key": false,
+      "nullable": false,
+      "default": false,
+      "a_i": false
+    },
+    "token": {
+      "type": "varchar(200)",
+      "key": false,
+      "nullable": true,
+      "default": false,
+      "a_i": false
+    },
+    "insert_date": {
+      "type": "timestamp",
+      "key": false,
+      "nullable": false,
+      "default": "CURRENT_TIMESTAMP",
+      "a_i": false
+    },
+    "delete_date": {
+      "type": "datetime",
+      "key": false,
+      "nullable": true,
+      "default": false,
+      "a_i": false
+    }
+  }
+}
