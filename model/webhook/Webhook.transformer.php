@@ -10,7 +10,6 @@ use Neoan3\Apps\Session;
 
 /**
  * Class WebhookTransformer
- *
  * @package Neoan3\Model
  */
 class WebhookTransformer implements IndexTransformer
@@ -22,17 +21,19 @@ class WebhookTransformer implements IndexTransformer
      * @return string
      * @throws \Exception
      */
-    static function userId($input){
+    static function userId($input)
+    {
         $userId = false;
-        if($input){
-            $userId = $input;
-        } elseif (Session::is_logged_in()){
-            $userId = Session::user_id();
+        if ($input) {
+            $userId = '$' . $input;
+        } elseif (Session::is_logged_in()) {
+            $userId = '$' . Session::user_id();
         }
-        if($userId){
-            return '$' . $userId;
+        if ($userId) {
+            return $userId;
+        } else {
+            throw new \Exception('No user id');
         }
-        throw new \Exception('No user id');
     }
 
     /**
@@ -45,28 +46,28 @@ class WebhookTransformer implements IndexTransformer
     {
         $mainId = $givenId ? $givenId : Db::uuid()->uuid;
         return [
-            'webhook' => [
-                'id' => [
-                    'on_creation' => function() use ($mainId) {
-                        return '$' . $mainId;
-                    }
-                ],
-                'user_id' => [
-                    'on_creation' => function($input){
 
-                        return self::userId($input);
-                    }
-                ],
-                'target_url' => [
-                    'required'    => true
-                ],
-                'token' => [
-                    'on_creation' => function($input) {
-                        $token = Ops::randomString(18);
-                        return $token;
-                    }
-                ]
+            'id' => [
+                'on_creation' => function () use ($mainId) {
+                    return '$' . $mainId;
+                }
             ],
+            'user_id' => [
+                'on_creation' => function ($input) {
+
+                    return self::userId($input);
+                }
+            ],
+            'target_url' => [
+                'required' => true
+            ],
+            'token' => [
+                'on_creation' => function ($input) {
+                    $token = $input ? $input : Ops::randomString(18);
+                    return $token;
+                }
+            ]
+
         ];
     }
 }

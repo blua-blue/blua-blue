@@ -13,15 +13,15 @@ use Neoan3\Model\WebhookModel;
  *
  * @package Neoan3\Components
  */
-class Webhook extends Neoan
+class Webhooks extends Neoan
 {
     /**
      * @return mixed
      * @throws \Neoan3\Core\RouteException
      */
-    function getWebhook(){
+    function getWebhooks(){
         $userId = Stateless::restrict();
-        return WebhookModel::find(['user_id'=>$userId,'delete_date'=>'']);
+        return WebhookModel::find(['user_id'=>$userId['jti'],'delete_date'=>'']);
     }
 
     /**
@@ -30,7 +30,7 @@ class Webhook extends Neoan
      * @return mixed
      * @throws \Neoan3\Core\RouteException
      */
-    function postWebhook($webHook){
+    function postWebhooks($webHook){
         $jwt = Stateless::restrict();
         $webHook['user_id'] = $jwt['jti'];
         return WebhookModel::create($webHook);
@@ -42,7 +42,7 @@ class Webhook extends Neoan
      * @return mixed
      * @throws \Neoan3\Core\RouteException
      */
-    function deleteWebhook($webHook){
+    function deleteWebhooks($webHook){
         $jwt = Stateless::restrict();
         $where = [
             'user_id' => $jwt['jti'],
@@ -57,7 +57,7 @@ class Webhook extends Neoan
      * @return mixed
      * @throws \Neoan3\Core\RouteException
      */
-    function putWebhook($webHook){
+    function putWebhooks($webHook){
         Stateless::restrict();
         return WebhookModel::update($webHook);
     }
