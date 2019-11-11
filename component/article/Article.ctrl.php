@@ -18,6 +18,7 @@ use Neoan3\Model\ImageModel;
 use Neoan3\Model\IndexModel;
 use Neoan3\Model\MetricsModel;
 use Neoan3\Model\UserModel;
+use Neoan3\Model\WebhookModel;
 
 /**
  * Class Article
@@ -261,8 +262,10 @@ class Article extends Unicore
     function postArticle($article)
     {
         $this->asApi();
+        $event = 'created';
         $jwt = Stateless::restrict();
         if (isset($article['id'])) {
+            $event = 'updated';
             $oldArticle = ArticleModel::byId($article['id']);
             if (empty($oldArticle) || $oldArticle['author_user_id'] !== $jwt['jti']) {
                 throw new RouteException('no permission', 403);
@@ -312,6 +315,7 @@ class Article extends Unicore
 
         }
         Cache::invalidate('article');
+        WebhookModel::send($jwt['jti'], ArticleModel::byId($articleId), $event);
 
         return ['id' => $articleId];
     }
@@ -342,6 +346,7 @@ class Article extends Unicore
         }
         Db::delete('article', $body['id']);
         Cache::invalidate('article');
+        WebhookModel::send($jwt['jti'], ['id' => $body['id']], 'deleted');
         return true;
     }
 

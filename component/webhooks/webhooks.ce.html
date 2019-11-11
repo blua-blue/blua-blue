@@ -1,0 +1,57 @@
+<div>
+    <h3 class="title">Webhooks</h3>
+    <p>Currently webhooks are sent out when changing the entity "article" in the following events:</p>
+    <div class="content">
+        <ul>
+            <li>created</li>
+            <li>updated</li>
+            <li>deleted</li>
+        </ul>
+        <p>If you set a token, the call will include it in the header: </p>
+        <code class="code">
+            'Authorization: Bearer [[your-token]]'
+        </code>
+    </div>
+
+    <h3 class="subtitle">Registered webhooks</h3>
+    <div class="columns">
+        <div class="column">
+            <strong>Endpoint</strong>
+        </div>
+        <div class="column">
+            <strong>Token</strong>
+        </div>
+        <div class="column is-narrow">
+            <span>&nbsp;</span>
+        </div>
+
+    </div>
+    <div v-for="webhook in webhooks" class="columns">
+        <div class="column">
+            {{webhook.target_url}}
+        </div>
+        <div class="column">
+            <span v-if="webhook.token"></span> {{webhook.token}}
+        </div>
+        <div class="column is-narrow">
+            <button class="button is-outlined is-danger" @click="deleteWebhook(webhook.id)">
+                <i class="material-icons">remove</i>
+            </button>
+        </div>
+    </div>
+    <form @submit.prevent="addWebhook" class="columns">
+        <div class="column field">
+            <input type="text" class="input" placeholder="Endpoint" v-model="newWebhook.target_url" required>
+        </div>
+        <div class="column field">
+            <input type="text" class="input" placeholder="Token" v-model="newWebhook.token">
+        </div>
+        <div class="column is-narrow control">
+            <button class="button is-primary" type="submit">
+                <span class="icon is-small">
+                    <i class="material-icons">add</i>
+                </span> <span>endpoint</span>
+            </button>
+        </div>
+    </form>
+</div>
