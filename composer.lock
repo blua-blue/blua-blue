@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f841ea629b25e989f0637a364560d2cc",
+    "content-hash": "59a89d4ba65e8e41fb9040f8e934d369",
     "packages": [
         {
             "name": "blua-blue/image",
@@ -142,6 +142,70 @@
                 "stylesheet"
             ],
             "time": "2019-06-18T21:15:44+00:00"
+        },
+        {
+            "name": "league/html-to-markdown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/html-to-markdown.git",
+                "reference": "71319108e3db506250b8987721b13568fd9fa446"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/71319108e3db506250b8987721b13568fd9fa446",
+                "reference": "71319108e3db506250b8987721b13568fd9fa446",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-xml": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mikehaertl/php-shellcommand": "~1.1.0",
+                "phpunit/phpunit": "^4.8|^5.7",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "bin": [
+                "bin/html-to-markdown"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.10-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\HTMLToMarkdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Nick Cernis",
+                    "email": "nick@cern.is",
+                    "homepage": "http://modernnerd.net",
+                    "role": "Original Author"
+                }
+            ],
+            "description": "An HTML-to-markdown conversion helper for PHP",
+            "homepage": "https://github.com/thephpleague/html-to-markdown",
+            "keywords": [
+                "html",
+                "markdown"
+            ],
+            "time": "2019-11-02T14:54:14+00:00"
         },
         {
             "name": "mnsami/composer-custom-directory-installer",
@@ -759,7 +823,8 @@
         "neoan3-apps/session": 20,
         "neoan3-apps/simple-tracker": 20,
         "neoan3-apps/hcaptcha": 20,
-        "neoan3-apps/curl": 20
+        "neoan3-apps/curl": 20,
+        "league/html-to-markdown": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -18,7 +18,8 @@
         "neoan3-apps/simple-tracker": "dev-master",
         "neoan3-apps/hcaptcha": "dev-master",
         "neoan3-apps/transformer": "1.1.1",
-        "neoan3-apps/curl": "dev-master"
+        "neoan3-apps/curl": "dev-master",
+        "league/html-to-markdown": "^4.10@dev"
     },
     "license": "MIT",
     "authors": [

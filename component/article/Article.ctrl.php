@@ -346,6 +346,7 @@ class Article extends Unicore
         }
         Db::delete('article', $body['id']);
         Cache::invalidate('article');
+        WebhookModel::send($jwt['jti'], ['id' => $body['id']], 'deleted');
         return true;
     }
 
