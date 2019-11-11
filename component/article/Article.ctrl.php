@@ -315,9 +315,9 @@ class Article extends Unicore
 
         }
         Cache::invalidate('article');
-        WebhookModel::send($jwt['jti'], ArticleModel::byId($articleId), $event);
+        $webhooks = WebhookModel::send($jwt['jti'], ArticleModel::byId($articleId), $event);
 
-        return ['id' => $articleId];
+        return ['id' => $articleId, 'webhooks' => $webhooks];
     }
 
     /**

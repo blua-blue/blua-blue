@@ -28,15 +28,21 @@ class WebhookModel extends IndexModel
      * @param $payload
      * @param $event
      *
+     * @return array
      * @throws \Neoan3\Apps\DbException
      */
     static function send($userId, $payload, $event)
     {
         $webhooks = Db::easy('webhook.*', ['user_id' => '$' . $userId, '^delete_date']);
+        $answers = [];
         foreach ($webhooks as $webhook) {
             $auth = empty($webhook['token']) ? false : $webhook['token'];
-            $test = Curl::post($webhook['target_url'], ['event' => $event, 'payload' => $payload], $auth);
+            $answers[] = [
+                'id' => $webhook['id'],
+                'result' => Curl::post($webhook['target_url'], ['event' => $event, 'payload' => $payload], $auth)
+            ];
         }
+        return $answers;
     }
 
 }
