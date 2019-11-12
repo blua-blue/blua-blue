@@ -4,8 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "51b03c526ea990d6d7d67547eabed0de",
+    "content-hash": "59a89d4ba65e8e41fb9040f8e934d369",
     "packages": [
+        {
+            "name": "blua-blue/image",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blua-blue/image-model.git",
+                "reference": "76369ef271f64855a4b76ec200d87e8b394a1444"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blua-blue/image-model/zipball/76369ef271f64855a4b76ec200d87e8b394a1444",
+                "reference": "76369ef271f64855a4b76ec200d87e8b394a1444",
+                "shasum": ""
+            },
+            "require": {
+                "mnsami/composer-custom-directory-installer": "1.1.*",
+                "neoan3-apps/db": "^0.2",
+                "neoan3-apps/ops": "^1"
+            },
+            "type": "library",
+            "extra": {
+                "installer-paths": {
+                    "./frame/{$name}": [],
+                    "./model/{$name}": [],
+                    "./component/{$name}": []
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Image file model",
+            "support": {
+                "source": "https://github.com/blua-blue/image-model/tree/master",
+                "issues": "https://github.com/blua-blue/image-model/issues"
+            },
+            "time": "2019-09-29T20:32:52+00:00"
+        },
         {
             "name": "firebase/php-jwt",
             "version": "dev-master",
@@ -58,16 +95,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafo/scssphp.git",
-                "reference": "4ba0e47c5facdbb1155087d736e576b9602b5fa2"
+                "reference": "b9cdea3e42c3bcb1a9faafd04ccce4e8ec860ad9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/scssphp/zipball/4ba0e47c5facdbb1155087d736e576b9602b5fa2",
-                "reference": "4ba0e47c5facdbb1155087d736e576b9602b5fa2",
+                "url": "https://api.github.com/repos/leafo/scssphp/zipball/b9cdea3e42c3bcb1a9faafd04ccce4e8ec860ad9",
+                "reference": "b9cdea3e42c3bcb1a9faafd04ccce4e8ec860ad9",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6.0 || ^7"
+                "php": "^5.4.0 || ^7"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.6",
@@ -104,7 +141,71 @@
                 "scss",
                 "stylesheet"
             ],
-            "time": "2019-05-16T17:18:40+00:00"
+            "time": "2019-06-18T21:15:44+00:00"
+        },
+        {
+            "name": "league/html-to-markdown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/html-to-markdown.git",
+                "reference": "71319108e3db506250b8987721b13568fd9fa446"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/71319108e3db506250b8987721b13568fd9fa446",
+                "reference": "71319108e3db506250b8987721b13568fd9fa446",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-xml": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mikehaertl/php-shellcommand": "~1.1.0",
+                "phpunit/phpunit": "^4.8|^5.7",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "bin": [
+                "bin/html-to-markdown"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.10-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\HTMLToMarkdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Nick Cernis",
+                    "email": "nick@cern.is",
+                    "homepage": "http://modernnerd.net",
+                    "role": "Original Author"
+                }
+            ],
+            "description": "An HTML-to-markdown conversion helper for PHP",
+            "homepage": "https://github.com/thephpleague/html-to-markdown",
+            "keywords": [
+                "html",
+                "markdown"
+            ],
+            "time": "2019-11-02T14:54:14+00:00"
         },
         {
             "name": "mnsami/composer-custom-directory-installer",
@@ -192,17 +293,45 @@
             "time": "2019-06-11T22:20:33+00:00"
         },
         {
-            "name": "neoan3-apps/db",
+            "name": "neoan3-apps/curl",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sroehrl/neoan3-db.git",
-                "reference": "0eba922567ecf5df601414f053d3704f5f96ced2"
+                "url": "https://github.com/sroehrl/neoan3-curl.git",
+                "reference": "b6fd562f99f31877f7102cf5a18a35e175b5d8b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-db/zipball/0eba922567ecf5df601414f053d3704f5f96ced2",
-                "reference": "0eba922567ecf5df601414f053d3704f5f96ced2",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-curl/zipball/b6fd562f99f31877f7102cf5a18a35e175b5d8b7",
+                "reference": "b6fd562f99f31877f7102cf5a18a35e175b5d8b7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Neoan3\\Apps\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "neoan3 curl class",
+            "time": "2019-11-10T20:13:57+00:00"
+        },
+        {
+            "name": "neoan3-apps/db",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sroehrl/neoan3-db.git",
+                "reference": "b2859d08f44b20f8174fabfba51a4e8becec70f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-db/zipball/b2859d08f44b20f8174fabfba51a4e8becec70f0",
+                "reference": "b2859d08f44b20f8174fabfba51a4e8becec70f0",
                 "shasum": ""
             },
             "require": {
@@ -227,7 +356,46 @@
                 }
             ],
             "description": "neoan3 mysqli class",
-            "time": "2019-06-14T16:02:27+00:00"
+            "time": "2019-09-10T17:54:43+00:00"
+        },
+        {
+            "name": "neoan3-apps/hcaptcha",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sroehrl/neoan3-hcapture.git",
+                "reference": "862bcfc54dd93d5ca1172d7460912322517add3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-hcapture/zipball/862bcfc54dd93d5ca1172d7460912322517add3c",
+                "reference": "862bcfc54dd93d5ca1172d7460912322517add3c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Neoan3\\Apps\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "neoan",
+                    "email": "sroehrl@gmail.com"
+                }
+            ],
+            "description": "hcaptcha PHP implementation",
+            "time": "2019-10-14T02:29:44+00:00"
         },
         {
             "name": "neoan3-apps/jwt",
@@ -235,12 +403,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-jwt.git",
-                "reference": "69e4020641bcea9b21a8f211d1af86b28c2275e5"
+                "reference": "c3b560daf4f484e49491a931dd7f89fc344763e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-jwt/zipball/69e4020641bcea9b21a8f211d1af86b28c2275e5",
-                "reference": "69e4020641bcea9b21a8f211d1af86b28c2275e5",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-jwt/zipball/c3b560daf4f484e49491a931dd7f89fc344763e8",
+                "reference": "c3b560daf4f484e49491a931dd7f89fc344763e8",
                 "shasum": ""
             },
             "require": {
@@ -263,26 +431,30 @@
                 }
             ],
             "description": "neoan3 wrapper for JSON WEB TOKEN using Firebase",
-            "time": "2019-06-13T12:32:40+00:00"
+            "time": "2019-07-13T17:33:36+00:00"
         },
         {
             "name": "neoan3-apps/ops",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-ops.git",
-                "reference": "d0e44df4cbe0c461675696ed8ef0899b7069c76d"
+                "reference": "1480353f455f9ea3398f71f6148ea15d9f3e2eac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-ops/zipball/d0e44df4cbe0c461675696ed8ef0899b7069c76d",
-                "reference": "d0e44df4cbe0c461675696ed8ef0899b7069c76d",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-ops/zipball/1480353f455f9ea3398f71f6148ea15d9f3e2eac",
+                "reference": "1480353f455f9ea3398f71f6148ea15d9f3e2eac",
                 "shasum": ""
             },
             "require": {
+                "ext-dom": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.3"
             },
             "type": "library",
             "autoload": {
@@ -291,8 +463,11 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "description": "neoan3 common string operations helper class",
-            "time": "2019-06-14T20:33:31+00:00"
+            "time": "2019-09-26T23:45:13+00:00"
         },
         {
             "name": "neoan3-apps/session",
@@ -322,17 +497,57 @@
             "time": "2019-08-16T20:55:39+00:00"
         },
         {
+            "name": "neoan3-apps/simple-tracker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sroehrl/neoan3-simple-tracker.git",
+                "reference": "c2b76bf9fddfb5b7a3bbc9bcb1c23e892d9f5849"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-simple-tracker/zipball/c2b76bf9fddfb5b7a3bbc9bcb1c23e892d9f5849",
+                "reference": "c2b76bf9fddfb5b7a3bbc9bcb1c23e892d9f5849",
+                "shasum": ""
+            },
+            "require": {
+                "neoan3-apps/ops": "^1",
+                "tmarois/filebase": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "8.3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "SimpleTracker.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "sroehrl",
+                    "homepage": "http://neoan.us"
+                }
+            ],
+            "description": "Basic analytics for the non-invasive webmaster",
+            "time": "2019-09-29T20:17:47+00:00"
+        },
+        {
             "name": "neoan3-apps/stateless",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-stateless.git",
-                "reference": "f6823ec40a5e6a54368c623c6bf25c69b6e551ab"
+                "reference": "2cf58336afdd37d7250ed0dc667e3a418f19c04e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-stateless/zipball/f6823ec40a5e6a54368c623c6bf25c69b6e551ab",
-                "reference": "f6823ec40a5e6a54368c623c6bf25c69b6e551ab",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-stateless/zipball/2cf58336afdd37d7250ed0dc667e3a418f19c04e",
+                "reference": "2cf58336afdd37d7250ed0dc667e3a418f19c04e",
                 "shasum": ""
             },
             "require": {
@@ -355,7 +570,82 @@
                 }
             ],
             "description": "stateless authentication / verification for neoan3",
-            "time": "2019-06-02T00:36:45+00:00"
+            "time": "2019-08-16T20:53:43+00:00"
+        },
+        {
+            "name": "neoan3-apps/transformer",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sroehrl/neoan3-transformer.git",
+                "reference": "49b825a47159887f17841f9927424a3c3acd419d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-transformer/zipball/49b825a47159887f17841f9927424a3c3acd419d",
+                "reference": "49b825a47159887f17841f9927424a3c3acd419d",
+                "shasum": ""
+            },
+            "require": {
+                "neoan3-apps/db": "^0.2.1",
+                "neoan3-model/index": "^0.0.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Neoan3\\Apps\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stefan Roehrl",
+                    "email": "neoan@neoan.us"
+                }
+            ],
+            "description": "Model abstraction utilizing neoan3's model transformers",
+            "time": "2019-09-28T00:28:18+00:00"
+        },
+        {
+            "name": "neoan3-model/index",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sroehrl/neoan3-indexModel.git",
+                "reference": "3d432ebfd56cbbe794a9f6a6fc912b173d496acf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-indexModel/zipball/3d432ebfd56cbbe794a9f6a6fc912b173d496acf",
+                "reference": "3d432ebfd56cbbe794a9f6a6fc912b173d496acf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "mnsami/composer-custom-directory-installer": "1.1.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.4@dev"
+            },
+            "type": "library",
+            "extra": {
+                "installer-paths": {
+                    "./frame/{$name}": [],
+                    "./model/{$name}": [],
+                    "./component/{$name}": []
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "time": "2019-09-13T23:01:22+00:00"
         },
         {
             "name": "neoan3-model/user",
@@ -363,24 +653,31 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-userModel.git",
-                "reference": "053c12565bbe2a918041eaa391bd9f61aad3f459"
+                "reference": "ddeb1ab73ce5a42213558a4a5824f8414495a782"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-userModel/zipball/053c12565bbe2a918041eaa391bd9f61aad3f459",
-                "reference": "053c12565bbe2a918041eaa391bd9f61aad3f459",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-userModel/zipball/ddeb1ab73ce5a42213558a4a5824f8414495a782",
+                "reference": "ddeb1ab73ce5a42213558a4a5824f8414495a782",
                 "shasum": ""
             },
             "require": {
                 "mnsami/composer-custom-directory-installer": "1.1.*",
-                "neoan3-apps/db": "dev-master",
-                "neoan3-apps/ops": "dev-master"
+                "neoan3-apps/db": "^0.2",
+                "neoan3-apps/ops": "^1.0",
+                "neoan3-apps/transformer": "^1",
+                "neoan3-model/index": "^0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.4@dev"
             },
             "type": "library",
             "extra": {
                 "installer-paths": {
                     "./frame/{$name}": [],
-                    "./model/{$name}": [],
+                    "./model/{$name}": [
+                        "neoan3-model/index"
+                    ],
                     "./component/{$name}": []
                 }
             },
@@ -392,30 +689,32 @@
                 "source": "https://github.com/sroehrl/neoan3-userModel/tree/master",
                 "issues": "https://github.com/sroehrl/neoan3-userModel/issues"
             },
-            "time": "2019-06-16T14:52:32+00:00"
+            "time": "2019-10-07T23:55:48+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "6.0.x-dev",
+            "version": "v6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "ea25dc122d22966b7dd4ca1083c63afeeb50dfcd"
+                "reference": "26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/ea25dc122d22966b7dd4ca1083c63afeeb50dfcd",
-                "reference": "ea25dc122d22966b7dd4ca1083c63afeeb50dfcd",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8",
+                "reference": "26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
+                "ext-filter": "*",
                 "php": ">=5.5.0"
             },
             "require-dev": {
                 "doctrine/annotations": "1.2.*",
+                "friendsofphp/php-cs-fixer": "^2.2",
                 "phpdocumentor/phpdocumentor": "2.*",
-                "phpunit/phpunit": "4.*",
+                "phpunit/phpunit": "^4.8 || ^5.7",
                 "zendframework/zend-eventmanager": "3.0.*",
                 "zendframework/zend-i18n": "2.7.3",
                 "zendframework/zend-serializer": "2.7.*"
@@ -436,16 +735,16 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1"
+                "LGPL-2.1-only"
             ],
             "authors": [
                 {
-                    "name": "Jim Jagielski",
-                    "email": "jimjag@gmail.com"
-                },
-                {
                     "name": "Marcus Bointon",
                     "email": "phpmailer@synchromedia.co.uk"
+                },
+                {
+                    "name": "Jim Jagielski",
+                    "email": "jimjag@gmail.com"
                 },
                 {
                     "name": "Andy Prevost",
@@ -456,20 +755,76 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-08-28T11:42:41+00:00"
+            "time": "2019-09-27T21:33:43+00:00"
+        },
+        {
+            "name": "tmarois/filebase",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tmarois/Filebase.git",
+                "reference": "2801db9d705ef10afb12fd4f27cca36ff8865aec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tmarois/Filebase/zipball/2801db9d705ef10afb12fd4f27cca36ff8865aec",
+                "reference": "2801db9d705ef10afb12fd4f27cca36ff8865aec",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "5.*",
+                "symfony/yaml": "^3.4"
+            },
+            "suggest": {
+                "symfony/yaml": "Allows Yaml format"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Filebase\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Timothy Marois",
+                    "email": "timothymarois@gmail.com"
+                }
+            ],
+            "description": "A Simple but Powerful Flat File Database Storage.",
+            "homepage": "https://github.com/tmarois/Filebase",
+            "keywords": [
+                "database",
+                "document",
+                "file",
+                "file-files",
+                "filebase",
+                "flat",
+                "flat-file",
+                "key-value",
+                "serverless"
+            ],
+            "time": "2019-06-26T19:23:49+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "neoan3-apps/ops": 20,
         "leafo/scssphp": 20,
         "neoan3-apps/stateless": 20,
         "neoan3-apps/cache": 20,
         "neoan3-model/user": 20,
+        "blua-blue/image": 20,
         "neoan3-apps/session": 20,
-        "neoan3-apps/db": 20
+        "neoan3-apps/simple-tracker": 20,
+        "neoan3-apps/hcaptcha": 20,
+        "neoan3-apps/curl": 20,
+        "league/html-to-markdown": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

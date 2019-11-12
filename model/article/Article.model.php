@@ -18,7 +18,9 @@ class ArticleModel extends IndexModel {
             }
             $article['rating'] = self::ratingById($id);
             $article['author'] = parent::first(Db::easy('user.*',['id'=>'$'.$article['author_user_id']]));
+            $article['comments'] = Db::easy('article_comment.*',['article_id'=>'$'.$id,'^delete_date'],['orderBy'=>['insert_date','asc']]);
             $article['category'] = parent::first(Db::easy('category.*',['id'=>'$'.$article['category_id']]));
+            $article['store'] = Db::easy('article_store.*',['article_id'=>'$'.$id,'^delete_date']);
             foreach($tables as $table){
                 $article[$table] = Db::easy('article_'.$table.'.*',['article_id'=>'$'.$id,'^delete_date'],['orderBy'=>['sort','ASC']]);
             }

@@ -13,7 +13,7 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 
 class Write extends Unicore {
-    private $vueElements = ['uploadImage','write'];
+    private $vueElements = ['uploadImage','bluaModal', 'write'];
     function init() {
 
         $this->uni('neoan')->callback($this,'vueElements')
@@ -29,7 +29,7 @@ class Write extends Unicore {
      */
     function vueElements($uni) {
         foreach ($this->vueElements as $vueElement) {
-            $uni->vueComponent($vueElement, ['loadedArticleId' => sub(1)]);
+            $uni->vueComponent($vueElement, ['loadedArticleId' => sub(1), 'base' => base]);
         }
 
     }

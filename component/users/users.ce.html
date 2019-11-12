@@ -6,12 +6,12 @@
     </div>
     <div class="columns" v-bind:class="{'has-background-grey-lighter':$index%2==0}" v-for="(user, $index) in users">
         <div class="column">
-            {{user.user_name}}
+            {{user.userName}}
             <strong v-if="user.user_type !== 'user'">({{user.user_type}})</strong>
         </div>
         <div class="column">
-            {{user.email.email}} (
-            <span v-if="user.email.confirm_date">confirmed</span>
+            {{user.emails[0].email}} (
+            <span v-if="user.emails[0].confirm_date">confirmed</span>
             <span v-else>unconfirmed</span>
             )
         </div>

@@ -56,11 +56,11 @@ class ApiDocumentation extends Unicore {
                 $class = ucfirst($component);
                 if(file_exists($cComponent . '/' . $class . '.ctrl.php')) {
                     $alias = 'Neoan3\\Components\\' . $class;
-                    $c = new $alias();
-                    $methods = get_class_methods($c);
+                    $c = new \ReflectionClass($alias);
+                    $methods = $c->getMethods(ReflectionMethod::IS_PUBLIC);
                     foreach($methods as $method) {
                         foreach($apiIndicators as $apiIndicator) {
-                            if($method == $apiIndicator . $class) {
+                            if ($method->getName() == $apiIndicator . $class) {
                                 if(!isset($this->apiComponents[$component])) {
                                     $this->apiComponents[$component] = [];
                                 }

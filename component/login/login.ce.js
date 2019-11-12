@@ -1,7 +1,7 @@
 Vue.component('loginForm', {
     data: function () {
         return {
-            username: '',
+            userName: '',
             password: '',
             loggedIn: localStorage.token,
             valid: true,
@@ -40,9 +40,12 @@ Vue.component('loginForm', {
             this.valid = true;
 
             api.post(this.state, this._data).then(res => {
-                this.updateStatus(res.data.token);
                 localStorage.setItem('user', JSON.stringify(res.data.user));
+                this.updateStatus(res.data.token);
                 this.localUser = res.data.user;
+                if (res.data.redirect) {
+                    window.location.href = res.data.redirect;
+                }
             }).catch(err => {
                 this.valid = false;
             })
@@ -54,12 +57,14 @@ Vue.component('loginForm', {
             if (token) {
                 localStorage.token = token;
                 this.loggedIn = token;
+                this.$root.$emit('login', true);
             } else {
                 api.delete('login');
                 delete localStorage.user;
                 delete localStorage.token;
                 this.localUser = {};
                 this.loggedIn = false;
+                this.$root.$emit('login', false);
             }
         }
     },

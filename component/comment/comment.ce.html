@@ -1,0 +1,31 @@
+<div id="comment">
+
+    <div class="box" v-if="user.id">
+        <article class="media">
+            <div class="media-left">
+                <figure class="image is-64x64">
+                    <img :src="'{{base}}'+user.image.path" v-if="user.image" alt="profile">
+                    <img src="{{base}}asset/img/blank-profile.png" v-if="!user.image" alt="profile">
+                </figure>
+            </div>
+            <div class="media-content">
+                <div class="content">
+                    <h3 class="subtitle">Write a comment</h3>
+                    <textarea v-model="comment" rows="5" class="textarea"></textarea>
+                    <div class="columns">
+                        <div class="column"></div>
+                        <div class="column is-narrow">
+                            <button class="button is-primary has-margin-top-3" :disabled="!valid" @click="send">
+                                comment
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </article>
+    </div>
+    <div class="box" v-else>
+        <p>Sign in to comment</p>
+    </div>
+</div>

@@ -8,6 +8,7 @@ use Neoan3\Apps\Session;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Frame\Neoan;
+use Neoan3\Model\ImageModel;
 use Neoan3\Model\UserModel;
 
 /**
@@ -25,38 +26,36 @@ class Login extends Neoan {
      * @throws \Neoan3\Apps\DbException
      */
     function postLogin($credentials) {
-        $user = UserModel::find(['user.user_name' => $credentials['username']]);
+        $user = UserModel::login($credentials);
 
-        if(empty($user)) {
-            throw new RouteException('Wrong credentials', 401);
-        }
-        $user = $user[0];
-        $password = Db::easy(
-            'user_password.password',
-            ['^delete_date', 'user_id' => '$' . $user['id'], 'confirm_date'=>'!']
-        );
-
-        if(empty($password) || !password_verify($credentials['password'],$password[0]['password'])){
-            throw new RouteException('Wrong credentials', 401);
-        }
         // prepare roles/scopes
         $scope = ['user'];
         if($user['user_type'] !== 'user'){
             $scope[] = $user['user_type'];
         }
 
+        // attach image
+        if(!empty($user['image_id'])){
+            $user['image'] = ImageModel::byId($user['image_id']);
+        }
 
         $jwt = Stateless::assign($user['id'],$scope,['exp'=>time()+(2*60*60*1000)]);
         // For hybrid auth
         Session::login($user['id'],$user['roles'],$user['user_type']);
-        return ['token'=>$jwt,'user'=>$user];
+        $redirect = false;
+        if (isset($_COOKIE['redirect'])) {
+            $redirect = $_COOKIE['redirect'];
+            unset($_COOKIE['redirect']);
+            setcookie('redirect', '', time() - 3600);
+        }
+
+        return ['token' => $jwt, 'user' => $user, 'redirect' => $redirect];
     }
 
     /**
-     * @throws RouteException
+     * void
      */
     function deleteLogin(){
-        $jwt = Stateless::restrict();
         Session::logout();
     }
 

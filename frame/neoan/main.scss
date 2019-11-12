@@ -22,5 +22,7 @@ $breadcrumb-item-color: hsl(171, 100%, 41%);
 
 $primary: rgb(12, 13, 241);
 
+$navbar-item-color: #FFFFFF;
+$navbar-item-active-background-color: $primary;
 @import "../../node_modules/bulma/bulma";
 

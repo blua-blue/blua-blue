@@ -1,13 +1,15 @@
-new Vue({
-    el: '#admin',
-    data:{
-        tabs:[
-            {name:'Users',hash:'users'},
-            {name:'Categories',hash:'categories'},
-            {name:'Articles',hash:'articles'},
-            {name:'Templates',hash:'templates'},
-        ],
-        currentTab:'users',
+Vue.component('admin', {
+    template: document.querySelector('#admin'),
+    data: function () {
+        return {
+            tabs: [
+                {name: 'Users', hash: 'users'},
+                {name: 'Categories', hash: 'categories'},
+                {name: 'Articles', hash: 'articles'},
+                {name: 'Templates', hash: 'templates'},
+            ],
+            currentTab: 'users',
+        }
     },
     created(){
         this.getHash();

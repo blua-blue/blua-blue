@@ -1,0 +1,14 @@
+<div>
+    <div class="modal" v-bind:class="{'is-active':isActive}">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <article class="message" v-bind:class="[modalClass]">
+                <div class="message-header">
+                    <p>{{headline}}</p>
+                    <button class="delete" aria-label="delete" @click="toggle"></button>
+                </div>
+                <div class="message-body" v-html="content"></div>
+            </article>
+        </div>
+    </div>
+</div>

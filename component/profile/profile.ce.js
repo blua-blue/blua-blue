@@ -1,13 +1,15 @@
-new Vue({
-    el:'#profile',
-    data:{
-        tabs:[
-            {name:'My articles',hash:'articles'},
-            {name:'API',hash:'api'},
-            {name:'Settings',hash:'settings'},
-        ],
-        currentTab:'articles',
-        author:{}
+Vue.component('profile', {
+    template: document.querySelector('#profile'),
+    data: function () {
+        return {
+            tabs: [
+                {name: 'My articles', hash: 'articles'},
+                {name: 'API', hash: 'api'},
+                {name: 'Settings', hash: 'settings'},
+            ],
+            currentTab: 'articles',
+            author: {}
+        }
     },
     created(){
         this.author = JSON.parse(localStorage.user);

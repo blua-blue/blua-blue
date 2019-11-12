@@ -1,4 +1,4 @@
->NOT RELEASED! Current state is stable but lacks certain functionality. Please see Issues.
+>In BETA!
 
 ![blua.blue](asset/img/blua-blue-logo.png)
 # Content Enablement Platform
@@ -21,17 +21,23 @@ PHP7
 
 
 ## Installation
+### For usage & production
+1. `composer create-project blua-blue/blua-blue -s beta`
+2. Create [Credentials](#credentials) (`neoan3 credentials`)
+3. `neoan3 migrate models up`
 
-Download the repository @ https://github.com/blua-blue/blua-blue
+### Collaborators/developers
+Download/clone/fork the repository @ https://github.com/blua-blue/blua-blue
 
 1. Change the "RewriteBase" in the .htaccess file (or create a route-script for Nginx)
 2. Run `composer install`
 3. Run `npm install`
-4. Create [Credentials](#credentials) 
+4. Create [Credentials](#credentials) (`neoan3 credentials`)
 5. Run `neoan3 migrate models up`
 
 ### Credentials
-Credentials are expected to be in a folder "credentials" as a sibling to the web-root. 
+Credentials are expected to be in a folder "credentials" outside the web-root. 
+You can use the command `neoan3 credentials` for generating the following properties.
 Please make changes to the neoan frame (frame/neoan/Neoan.php) in order to provide credentials for:
 
 _neoan3-apps/db_ https://github.com/sroehrl/neoan3-db
@@ -40,21 +46,34 @@ _neoan3-apps/stateless_ https://github.com/sroehrl/neoan3-stateless
 
 _phpmailer_ https://github.com/PHPMailer/PHPMailer
 
+_neoan3-apps/hcaptcha_ https://github.com/sroehrl/neoan3-hcapture
+
 *Example:*
 
 ```JSON
-{"db": {
+{
+"blua_db": {
   "name": "your_db",
   "assumes_uuid": true,
   "password": "yourPassword",
   "user": "phpDbUser"
 
   },
-"stateless": "yourSEcretKey",
-"mail": {
+"blua_stateless": {
+  "secret": "yourSEcretKey"
+  },
+"blua_mail": {
   "host": "mail.example.com",
   "username": "some@example.com",
-  "password": "MailSMTPpassword"
+  "password": "MailSMTPpassword",
+  "fromEmail": "some@example.com",
+  "fromName": "Example-Admin",
+  "port": "25",
+  "secure": "ssl"
+  },
+"blua_hcaptcha": {
+  "secret": "your secret",
+  "siteKey": "site-key"
   }
 }
 ```
@@ -62,11 +81,11 @@ Don't have access outside of the project? Alternatively, you can create a privat
 `$this->credentials` with an array supplying these credentials. However, be aware that when using credentials in your project, sharing the codebase becomes a security consideration.
 ```PHP
 $this->credentials = [
-    'db'=>[...],
+    'blua_db'=>[...],
     ...
 ]
 ```
-
+You can also use `neoan3 credentials` to manage your credentials
 
 > You might have to provide additional settings depending on your services. 
 > Additional mailing-setup can be managed in the function newMail() (in the neoan-frame) and within your credentials when dealing with database-credentials.

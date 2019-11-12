@@ -6,7 +6,10 @@ namespace Neoan3\Frame;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\DbException;
+use Neoan3\Apps\Hcapture;
+use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
+use Neoan3\Apps\SimpleTracker;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\Serve;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -17,46 +20,60 @@ class Neoan extends Serve {
     protected $currentAuth     = false;
 
     function __construct() {
-        if(!$this->developmentMode) {
+        // Hybrid: construct session
+        new Session();
+
+        // tracking
+        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
+        SimpleTracker::init(dirname(path) . '/blua-blue-data/');
+        SimpleTracker::track($identifier);
+
+        if(!$this->developmentMode && !Session::is_logged_in()) {
             Cache::setCaching('+2 hours');
-            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
         } else {
             Cache::invalidateAll();
+        }
+        if($this->developmentMode){
             $this->includeJs(base . 'node_modules/vue/dist/vue.js');
+        } else {
+            $this->includeJs(base . 'node_modules/vue/dist/vue.min.js');
         }
         // SETUP
         /*
          * Sharing projects oe.g via GitHub? Hide credentials and place them OUTSIDE of your server's web-root.
          * Here we are storing credentials in a JSON file.
-         * ['db'=>
+         * ['blua_db'=>
          *  ['name'=>'your_database','assumes_uuid'=>true,'password'=>'Password','user'=>'dbUser'],
-         * 'stateless'=>'SecretKey'
-         * 'mail'=>
+         * 'blua_stateless'=>['secret'=>'SecretKey']
+         * 'blua_mail'=>
          *  ['host'=>'yourSMPThost','username'=>'yourSMTPlogin','password'=>'smtp_password'],
-         * ]
+         * ],
+         * 'blua_hcaptcha' => ['secret'=>'your-secret','siteKey'=>'your-site-key']
          *
+         * THE FOLLOWING LINE MIGHT HAVE TO BE ADJUSTED
          * */
-        $credentialFile = dirname(dirname(path)) . '/credentials/credentials.json';
-        if(file_exists($credentialFile)) {
-            $this->credentials = json_decode(file_get_contents($credentialFile), true);
-        } else {
+        try{
+            $this->credentials = getCredentials();
+        } catch (\Exception $e){
             print('SETUP: No credentials found. Please check README for instructions and/or change '.__FILE__.' starting at line '.(__LINE__-4).' ');
             die();
         }
+
 
 
         // database
         $this->setUpDb();
 
         // JWT/Stateless auth
-        Stateless::setSecret($this->credentials['stateless']);
+        Stateless::setSecret($this->credentials['blua_stateless']['secret']);
 
-        // Hybrid: construct session
-        new Session();
+        // hcaptcha
+        Hcapture::setEnvironment($this->credentials['blua_hcaptcha']);
+
         parent::__construct();
 
         $this->vueComponent('cookieLaw');
-        $this->includeElement('header');
+        $this->vueComponent('header');
         $this->hook('header', 'header');
         $this->hook('footer', 'footer');
 
@@ -85,6 +102,9 @@ class Neoan extends Serve {
     }
 
     function output($params = []) {
+        $this->js .= 'new Vue({el:"#root"});';
+        $this->main = '<div id="root" class="main">' . $this->header . $this->main . '</div>';
+        $this->header = '';
         parent::output($params);
         if(!$this->developmentMode) {
             Cache::write();
@@ -94,18 +114,19 @@ class Neoan extends Serve {
     function newMail() {
         $mail = new PHPMailer(true);
         $mail->isSMTP();
-        $mail->Host = $this->credentials['mail']['host'];
+        $mail->Host = $this->credentials['blua_mail']['host'];
         $mail->SMTPAuth = true;
-        $mail->Username = $this->credentials['mail']['username'];
-        $mail->Password = $this->credentials['mail']['password'];
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = 465;
+        $mail->Username = $this->credentials['blua_mail']['username'];
+        $mail->Password = $this->credentials['blua_mail']['password'];
+        $mail->SMTPSecure = isset($this->credentials['blua_mail']['secure'])? $this->credentials['blua_mail']['secure'] : 'tls';
+        $mail->Port = isset($this->credentials['blua_mail']['port'])? $this->credentials['blua_mail']['port'] : 25;
+        $mail->setFrom($this->credentials['blua_mail']['fromEmail'],$this->credentials['blua_mail']['fromEmail']);
         return $mail;
     }
 
     private function setUpDb() {
         try {
-            Db::setEnvironment($this->credentials['db']);
+            Db::setEnvironment($this->credentials['blua_db']);
         } catch(DbException $e) {
             echo "Warning: Database connection failed.";
         }
@@ -131,7 +152,9 @@ class Neoan extends Serve {
                 ['src' => base . 'asset/tinymce/js/tinymce/tinymce.min.js'],
                 ['src' => base . 'node_modules/axios/dist/axios.min.js'],
                 ['src' => base . 'node_modules/lodash/lodash.min.js'],
+                ['src' => base . 'node_modules/moment/min/moment.min.js'],
                 ['src' => path . '/frame/neoan/axios-wrapper.js', 'data' => ['base' => base]],
+                ['src' => 'https://hcaptcha.com/1/api.js']
             ],
             'stylesheet' => [
                 '' . base . 'frame/neoan/main.css',

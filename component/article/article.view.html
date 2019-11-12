@@ -1,6 +1,4 @@
 <section class="main section " id="article">
-    <!--  render author-id for JS  -->
-    <input type="hidden" id="author-id" value="{{author.id}}">
     <div class="container ">
         <div class="columns">
             <div class="column flex-vertical">
@@ -26,14 +24,19 @@
                     <div class="columns">
                         <div class="column"></div>
                         <div class="column is-narrow">
-                            <a href="{{base}}write/{{id}}/" class="button" v-if="isMine">
-                                <i class="material-icons">edit</i>
-                            </a>
-                        </div>
+                            <blua-article author-id="{{author.id}}" article-id="{{id}}"></blua-article>
 
+                        </div>
                     </div>
                 </article>
-                <login-form></login-form>
+                <div class="has-margin-top-3">
+                    <comment-list article-id="{{id}}">
+                        {{commentString}}
+                    </comment-list>
+
+                </div>
+                <comment class="has-margin-top-3" article-id="{{id}}"></comment>
+                <login-form class="has-margin-top-3"></login-form>
             </div>
             <div class="column is-one-quarter">
 
@@ -52,6 +55,10 @@
                             <article-rating article-id="{{id}}"></article-rating>
                         </div>
                     </div>
+                    <metric slug="{{slug}}" initial-value="{{metrics.unique}}">
+                        <span class="tag is-primary" id="unique-readers">{{metrics.unique}} readers</span>
+                    </metric>
+
                 </div>
                 <div class="border-bottom has-margin-top-3">
                     <span class="title is-5 has-text-primary">Keywords</span>
@@ -64,11 +71,13 @@
                     <span class="title is-5 has-text-primary">On topic</span>
                 </div>
 
-                <div >
+                <div>
                     {{related}}
                 </div>
             </div>
         </div>
     </div>
 </section>
-
+<script type="application/ld+json">
+    {{seo}}
+</script>

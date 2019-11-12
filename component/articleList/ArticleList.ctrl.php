@@ -8,6 +8,7 @@ use Neoan3\Apps\Stateless;
 use Neoan3\Core\RouteException;
 use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
+use Neoan3\Model\MetricsModel;
 use Neoan3\Model\UserModel;
 
 /**
@@ -15,7 +16,8 @@ use Neoan3\Model\UserModel;
  *
  * @package Neoan3\Components
  */
-class ArticleList extends Neoan {
+class ArticleList extends Neoan
+{
     /**
      * @param      $filter
      * @param bool $currentUser
@@ -23,48 +25,57 @@ class ArticleList extends Neoan {
      * @return array
      * @throws \Neoan3\Apps\DbException
      */
-    private function evalFilter($filter,$currentUser=false){
+    private function evalFilter($filter, $currentUser = false)
+    {
         $articles = [];
         $sql = 'SELECT id FROM article WHERE ';
         // filter deleted
         $sql .= ' delete_date IS NULL ';
 
         $variables = [];
-        if(isset($filter['author'])){
-            $authorSearch = UserModel::find(['user_name'=>$filter['author']]);
-            if(empty($authorSearch)){
+        if (isset($filter['author'])) {
+            $authorSearch = UserModel::find(['userName' => $filter['author']]);
+            if (empty($authorSearch)) {
                 return [];
             }
             $author = $authorSearch[0];
             $variables['author'] = $author['id'];
             $sql .= 'AND author_user_id = UNHEX({{author}}) ';
-            if($currentUser != $author['id'] || ( isset($filter['public']) && $filter['public']) ){
+            if ($currentUser != $author['id'] || (isset($filter['is_public']) && $filter['is_public'])) {
                 $sql .= ' AND is_public = 1 AND publish_date IS NOT NULL ';
             }
+        } elseif ($currentUser) {
+            $variables['userId'] = $currentUser;
+            $sql .= 'AND ( author_user_id = UNHEX({{userId}}) OR (is_public = 1 AND publish_date IS NOT NULL) )';
+        } else {
+            $sql .= ' AND is_public = 1 AND publish_date IS NOT NULL ';
         }
 
         // modifiers
-        if(isset($filter['orderBy'])){
-            $parts = explode(',',$filter['orderBy']);
+        if (isset($filter['orderBy'])) {
+            $parts = explode(',', $filter['orderBy']);
             $what = strtolower(trim($parts[0]));
             $how = isset($parts[1]) ? strtoupper(trim($parts[1])) : 'ASC';
             $possible = [
-                'date'=>'publish_date',
-                'title'=>'name'
+                'date'  => 'publish_date',
+                'title' => 'name'
             ];
-            if(isset($possible[$what]) && ($how == 'ASC' || $how == 'DESC')){
-                $sql .= 'ORDER BY '.$possible[$what].' '.$how . ' ';
+            if (isset($possible[$what]) && ($how == 'ASC' || $how == 'DESC')) {
+                $sql .= 'ORDER BY ' . $possible[$what] . ' ' . $how . ' ';
             }
 
         }
-        if(isset($filter['limit'])){
+        if (isset($filter['limit'])) {
 
         } else {
             $sql .= ' LIMIT 300';
         }
-        $list = Db::ask('>'.$sql,$variables);
-        foreach ($list as $item){
-            $articles[] = ArticleModel::byId($item['id']);
+        $list = Db::ask('>' . $sql, $variables);
+        foreach ($list as $item) {
+            $article = ArticleModel::byId($item['id']);
+
+            $article['metrics'] = MetricsModel::visits(parse_url(base)['path'] . '/article/' . $article['slug']);
+            $articles[] = $article;
         }
         return $articles;
     }
@@ -75,15 +86,16 @@ class ArticleList extends Neoan {
      * @return array
      * @throws \Neoan3\Apps\DbException
      */
-    function getArticleList($filter){
+    function getArticleList($filter)
+    {
 
-        try{
+        try {
             $jwt = Stateless::validate();
             $userId = $jwt['jti'];
-        } catch (RouteException $e){
+        } catch (RouteException $e) {
             $userId = false;
         }
-        $articles = $this->evalFilter($filter,$userId);
+        $articles = $this->evalFilter($filter, $userId);
         return $articles;
     }
 
