@@ -20,6 +20,7 @@
                     <a href="{{base}}profile/" class="navbar-item" v-if="loggedIn">Manage</a>
                     <a href="{{base}}api-documentation/" class="navbar-item" v-if="loggedIn">API documentation</a>
                     <a class="navbar-item" v-if="loggedIn" @click="logOut()">Logout</a>
+                    <a class="navbar-item" v-if="!loggedIn" href="{{base}}login">Login</a>
                 </div>
             </div>
             <div class="navbar-item" style="flex:1">
