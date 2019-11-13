@@ -66,7 +66,8 @@ class WebhookTransformer implements IndexTransformer
                     $token = $input ? $input : Ops::randomString(18);
                     return $token;
                 }
-            ]
+            ],
+            'delete_date' =>[]
 
         ];
     }
