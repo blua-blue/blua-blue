@@ -9,6 +9,7 @@ use Neoan3\Frame\Neoan;
 class Home extends Unicore {
     function init() {
         $this->uni('neoan')
+             ->addHead('title', 'blua.blue - CMS')
              ->hook('main', 'home')
              ->callback($this,'loadComponent')
              ->output();
