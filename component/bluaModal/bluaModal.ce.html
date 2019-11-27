@@ -8,7 +8,13 @@
                     <button class="delete" aria-label="delete" @click="toggle"></button>
                 </div>
                 <div class="message-body" v-html="content"></div>
+                <footer class="card-footer" v-if="confirmable">
+                    <button @click="confirm" class="card-footer-item is-success">OK</button>
+                    <button @click="deny" class="card-footer-item is-warning">Cancel</button>
+
+                </footer>
             </article>
+
         </div>
     </div>
 </div>
