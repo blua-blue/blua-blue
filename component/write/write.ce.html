@@ -29,12 +29,42 @@
                     </div>
                     <h3 class="subtitle">Content</h3>
                     <hr>
-                    <div v-for="section in article.content">
-                        <editor id="new-post-editor" v-model="section.content"
-                                :init="{plugins: 'link media codesample code anchor fullscreen'}"
-                                style="min-height: 500px"></editor>
-                    </div>
+                    <div class="columns" v-for="section in article.content">
+                        <div class="column is-narrow columns" v-if="article.content.length > 1">
+                            <div class="column is-narrow">
+                                {{section.sort}}
+                            </div>
+                            <div class="column">
+                                <div>
+                                    <button type="button" @click="moveContent(section.sort, 'up')" class="button is-small"><i class="material-icons">arrow_drop_up</i></button>
+                                </div>
+                                <div>
+                                    <button type="button" class="button is-small is-danger" @click.prevent="removeContent(section.sort)"><i class="material-icons">remove_circle_outline</i></button>
+                                </div>
+                                <div>
+                                    <button type="button" @click="moveContent(section.sort, 'down')" class="button is-small"><i class="material-icons">arrow_drop_down</i></button>
+                                </div>
 
+
+                            </div>
+
+                        </div>
+                        <div class="column">
+                            <tiny-mce v-if="section.content_type === 'html'" v-bind:content.sync="section"></tiny-mce>
+                            <upload-image @uploaded="addPicture" max-size="400" v-if="section.content_type === 'img'"></upload-image>
+                            <textarea v-if="section.content_type === 'markdown'" class="textarea" v-model="section.content" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="has-margin-top-3 columns is-centered">
+                        <div class="select ">
+                            <select v-model="newContent" @change="addContent">
+                                <option disabled value="">add new content</option>
+                                <option value="html">WYSIWYG (HTML)</option>
+                                <option value="markdown">Markdown</option>
+                                <option value="img">Image</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="column is-one-third">
                     <label for="category" class="label">Category</label>
@@ -71,6 +101,7 @@
                             Appear in search & make public
                         </label>
                     </div>
+
                     <article class="message is-primary">
                         <div class="message-body">
                             This article is currently:
