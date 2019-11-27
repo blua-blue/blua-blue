@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59a89d4ba65e8e41fb9040f8e934d369",
+    "content-hash": "de179d4a689f2d2303e811bba96d9aec",
     "packages": [
         {
             "name": "blua-blue/image",
@@ -49,19 +49,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "bac0422822b92fe7a0ed1fc7b1b633d9efa37bae"
+                "reference": "bc324de7381586cfbbfbe1214b2de10108fbc210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/bac0422822b92fe7a0ed1fc7b1b633d9efa37bae",
-                "reference": "bac0422822b92fe7a0ed1fc7b1b633d9efa37bae",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/bc324de7381586cfbbfbe1214b2de10108fbc210",
+                "reference": "bc324de7381586cfbbfbe1214b2de10108fbc210",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": " 4.8.35"
+                "phpunit/phpunit": "^4.8|^5"
             },
             "type": "library",
             "autoload": {
@@ -87,7 +87,7 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2018-01-26T19:13:29+00:00"
+            "time": "2019-11-12T19:18:35+00:00"
         },
         {
             "name": "leafo/scssphp",
@@ -142,6 +142,433 @@
                 "stylesheet"
             ],
             "time": "2019-06-18T21:15:44+00:00"
+        },
+        {
+            "name": "league/commonmark",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark.git",
+                "reference": "1a28e6e68171a7286018b9832b15c674777a8636"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/1a28e6e68171a7286018b9832b15c674777a8636",
+                "reference": "1a28e6e68171a7286018b9832b15c674777a8636",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.1"
+            },
+            "replace": {
+                "colinodell/commonmark-php": "*"
+            },
+            "require-dev": {
+                "cebe/markdown": "~1.0",
+                "commonmark/commonmark.js": "0.29.0",
+                "erusev/parsedown": "~1.0",
+                "ext-json": "*",
+                "michelf/php-markdown": "~1.4",
+                "mikehaertl/php-shellcommand": "^1.4",
+                "phpstan/phpstan-shim": "^0.11.5",
+                "phpunit/phpunit": "^7.5",
+                "scrutinizer/ocular": "^1.5",
+                "symfony/finder": "^4.2"
+            },
+            "suggest": {
+                "league/commonmark-extras": "Library of useful extensions including smart punctuation"
+            },
+            "bin": [
+                "bin/commonmark"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "PHP Markdown parser based on the CommonMark spec",
+            "homepage": "https://commonmark.thephpleague.com",
+            "keywords": [
+                "commonmark",
+                "markdown",
+                "parser"
+            ],
+            "time": "2019-11-11T23:02:19+00:00"
+        },
+        {
+            "name": "league/commonmark-ext-autolink",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark-ext-autolink.git",
+                "reference": "14627519d1595fdc6dad3dbe11199b0e1cbc7bb2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-autolink/zipball/14627519d1595fdc6dad3dbe11199b0e1cbc7bb2",
+                "reference": "14627519d1595fdc6dad3dbe11199b0e1cbc7bb2",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^1.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "commonmark-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\Ext\\Autolink\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Extension for league/commonmark which autolinks URLs, emails, and @-mentions",
+            "homepage": "https://github.com/thephpleague/commonmark-ext-autolink",
+            "keywords": [
+                "autolink",
+                "commonmark",
+                "extension",
+                "gfm",
+                "github",
+                "markdown",
+                "twitter"
+            ],
+            "time": "2019-10-11T20:14:50+00:00"
+        },
+        {
+            "name": "league/commonmark-ext-smartpunct",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark-ext-smartpunct.git",
+                "reference": "163529a46fb22f586d10085aca895589b9428d11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-smartpunct/zipball/163529a46fb22f586d10085aca895589b9428d11",
+                "reference": "163529a46fb22f586d10085aca895589b9428d11",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^1.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "jgm/smartpunct": "0.29",
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "commonmark-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\Ext\\SmartPunct\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Intelligently converts ASCII quotes, dashes, and ellipses in Markdown to their Unicode equivalents",
+            "homepage": "https://github.com/thephpleague/commonmark-ext-smartpunct",
+            "keywords": [
+                "commonmark",
+                "extension",
+                "markdown",
+                "punctuation",
+                "smartpunct"
+            ],
+            "time": "2019-10-11T20:12:48+00:00"
+        },
+        {
+            "name": "league/commonmark-ext-strikethrough",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark-ext-strikethrough.git",
+                "reference": "99892ad549e101fe1fbe424ff71224efc32d2d68"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-strikethrough/zipball/99892ad549e101fe1fbe424ff71224efc32d2d68",
+                "reference": "99892ad549e101fe1fbe424ff71224efc32d2d68",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "league/commonmark": "^1.0",
+                "php": "^7.1"
+            },
+            "replace": {
+                "uafrica/commonmark-ext": ">=0.1.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "commonmark-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\Ext\\Strikethrough\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com"
+                },
+                {
+                    "name": "Johan Meiring",
+                    "email": "johan@uafrica.com"
+                }
+            ],
+            "description": "Strikethrough support for the PHP League's CommonMark Markdown parser",
+            "homepage": "https://github.com/thephpleague/commonmark-ext-strikethrough",
+            "keywords": [
+                "commonmark",
+                "extension",
+                "markdown",
+                "strikeout",
+                "strikethrough"
+            ],
+            "time": "2019-06-29T11:34:00+00:00"
+        },
+        {
+            "name": "league/commonmark-ext-table",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark-ext-table.git",
+                "reference": "3228888ea69636e855efcf6636ff8e6316933fe7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-table/zipball/3228888ea69636e855efcf6636ff8e6316933fe7",
+                "reference": "3228888ea69636e855efcf6636ff8e6316933fe7",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "~0.19.3|^1.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.14",
+                "phpstan/phpstan": "~0.11",
+                "phpunit/phpunit": "^7.0|^8.0",
+                "symfony/var-dumper": "^4.0",
+                "vimeo/psalm": "^3.0"
+            },
+            "type": "commonmark-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\Ext\\Table\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Hasoň",
+                    "email": "martin.hason@gmail.com"
+                },
+                {
+                    "name": "Webuni s.r.o.",
+                    "homepage": "https://www.webuni.cz"
+                },
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com"
+                }
+            ],
+            "description": "Table extension for league/commonmark",
+            "homepage": "https://github.com/thephpleague/commonmark-ext-table",
+            "keywords": [
+                "commonmark",
+                "extension",
+                "markdown",
+                "table"
+            ],
+            "time": "2019-09-26T13:28:33+00:00"
+        },
+        {
+            "name": "league/commonmark-ext-task-list",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark-ext-task-list.git",
+                "reference": "b3c0c50863b73ae080407010223657b84d522db4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-task-list/zipball/b3c0c50863b73ae080407010223657b84d522db4",
+                "reference": "b3c0c50863b73ae080407010223657b84d522db4",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^0.19|^1.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "commonmark-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\Ext\\TaskList\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Extension for league/commonmark which supports GFM-style task lists",
+            "homepage": "https://github.com/thephpleague/commonmark-ext-task-list",
+            "keywords": [
+                "Lists",
+                "commonmark",
+                "extension",
+                "gfm",
+                "github",
+                "markdown",
+                "task"
+            ],
+            "time": "2019-10-11T20:15:14+00:00"
+        },
+        {
+            "name": "league/commonmark-extras",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark-extras.git",
+                "reference": "a7d49a2bcaf47951fd0c91c3a69d12a4fdd4d0e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-extras/zipball/a7d49a2bcaf47951fd0c91c3a69d12a4fdd4d0e3",
+                "reference": "a7d49a2bcaf47951fd0c91c3a69d12a4fdd4d0e3",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^1.0",
+                "league/commonmark-ext-autolink": "^1.0",
+                "league/commonmark-ext-smartpunct": "^1.0",
+                "league/commonmark-ext-strikethrough": "^1.0",
+                "league/commonmark-ext-table": "^2.0",
+                "league/commonmark-ext-task-list": "^1.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "commonmark-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\Extras\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Useful extensions for customizing the league/commonmark Markdown parser",
+            "homepage": "https://github.com/thephpleague/commonmark-extras",
+            "keywords": [
+                "Extras",
+                "commonmark",
+                "extensions",
+                "gfm",
+                "markdown"
+            ],
+            "time": "2019-10-11T20:14:33+00:00"
         },
         {
             "name": "league/html-to-markdown",
@@ -435,16 +862,16 @@
         },
         {
             "name": "neoan3-apps/ops",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-ops.git",
-                "reference": "1480353f455f9ea3398f71f6148ea15d9f3e2eac"
+                "reference": "00e1f9939f59e0e3e6d1f1fa5ad72ebc07334174"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-ops/zipball/1480353f455f9ea3398f71f6148ea15d9f3e2eac",
-                "reference": "1480353f455f9ea3398f71f6148ea15d9f3e2eac",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-ops/zipball/00e1f9939f59e0e3e6d1f1fa5ad72ebc07334174",
+                "reference": "00e1f9939f59e0e3e6d1f1fa5ad72ebc07334174",
                 "shasum": ""
             },
             "require": {
@@ -467,7 +894,7 @@
                 "MIT"
             ],
             "description": "neoan3 common string operations helper class",
-            "time": "2019-09-26T23:45:13+00:00"
+            "time": "2019-11-17T02:03:42+00:00"
         },
         {
             "name": "neoan3-apps/session",
@@ -693,16 +1120,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.1.1",
+            "version": "v6.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8"
+                "reference": "a25ae38e03de4ee4031725498a600012364787c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8",
-                "reference": "26bd96350b0b2fcbf0ef4e6f0f9cf3528302a9d8",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a25ae38e03de4ee4031725498a600012364787c7",
+                "reference": "a25ae38e03de4ee4031725498a600012364787c7",
                 "shasum": ""
             },
             "require": {
@@ -711,13 +1138,9 @@
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "doctrine/annotations": "1.2.*",
+                "doctrine/annotations": "^1.2",
                 "friendsofphp/php-cs-fixer": "^2.2",
-                "phpdocumentor/phpdocumentor": "2.*",
-                "phpunit/phpunit": "^4.8 || ^5.7",
-                "zendframework/zend-eventmanager": "3.0.*",
-                "zendframework/zend-i18n": "2.7.3",
-                "zendframework/zend-serializer": "2.7.*"
+                "phpunit/phpunit": "^4.8 || ^5.7"
             },
             "suggest": {
                 "ext-mbstring": "Needed to send email in multibyte encoding charset",
@@ -755,7 +1178,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2019-09-27T21:33:43+00:00"
+            "time": "2019-11-21T09:37:46+00:00"
         },
         {
             "name": "tmarois/filebase",
@@ -824,7 +1247,9 @@
         "neoan3-apps/simple-tracker": 20,
         "neoan3-apps/hcaptcha": 20,
         "neoan3-apps/curl": 20,
-        "league/html-to-markdown": 20
+        "league/html-to-markdown": 20,
+        "league/commonmark": 20,
+        "league/commonmark-extras": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
