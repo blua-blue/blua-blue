@@ -5,7 +5,6 @@ namespace Neoan3\Components;
 
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\Db;
-use Neoan3\Apps\Jwt;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
 use Neoan3\Apps\SimpleTracker;
@@ -19,7 +18,9 @@ use Neoan3\Model\IndexModel;
 use Neoan3\Model\MetricsModel;
 use Neoan3\Model\UserModel;
 use Neoan3\Model\WebhookModel;
-
+use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Environment;
+use League\CommonMark\Extras\CommonMarkExtrasExtension;
 /**
  * Class Article
  *
@@ -100,12 +101,25 @@ class Article extends Unicore
             return $uni;
         }
 
-        // get metrics
+        // get metricscom
         $article['metrics'] = MetricsModel::visits();
 
         $article['renderedContent'] = '';
+        $environment = Environment::createCommonMarkEnvironment();
+        $environment->addExtension(new CommonMarkExtrasExtension());
+        $markdownConverter = new CommonMarkConverter(['html_input' => 'strip'], $environment);
         foreach ($article['content'] as $content) {
-            $article['renderedContent'] .= $content['content'];
+            switch ($content['content_type']){
+                case 'markdown':
+                    $article['renderedContent'] .= $markdownConverter->convertToHtml($content['content']);
+                    break;
+                case 'img':
+                    $article['renderedContent'] .= '<img class="content-image" src="' . $content['content'] . '"/>';
+                    break;
+                default: $article['renderedContent'] .= $content['content'];
+                    break;
+            }
+
         }
         $article['imageTag'] = '';
         if (isset($article['image']['path'])) {
@@ -270,6 +284,8 @@ class Article extends Unicore
             if (empty($oldArticle) || $oldArticle['author_user_id'] !== $jwt['jti']) {
                 throw new RouteException('no permission', 403);
             }
+            // delete possible outdated content blocks
+            $this->removeDeletedContent($oldArticle['content'], $article['content']);
             // published?
             if (empty($oldArticle['publish_date']) && !$article['isDraft']) {
                 Db::article(['publish_date' => '.'], ['id' => '$' . $article['id']]);
@@ -305,6 +321,7 @@ class Article extends Unicore
             $contentRow = [
                 'article_id' => '$' . $articleId,
                 'sort'       => $i + 1,
+                'content_type' => $content['content_type'],
                 'content'    => '=' . $content['content']
             ];
             if (isset($content['id'])) {
@@ -348,6 +365,19 @@ class Article extends Unicore
         Cache::invalidate('article');
         WebhookModel::send($jwt['jti'], ['id' => $body['id']], 'deleted');
         return true;
+    }
+    private function removeDeletedContent($oldContent, $newContent){
+        foreach ($oldContent as $oldBlock){
+            $found = false;
+            foreach ($newContent as $newBlock){
+                if(isset($newBlock['id']) && $newBlock['id'] === $oldBlock['id']){
+                    $found = true;
+                }
+            }
+            if(!$found){
+                Db::delete('article_content', $oldBlock['id']);
+            }
+        }
     }
 
 }

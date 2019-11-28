@@ -11,7 +11,6 @@ Vue.component('metric', {
         load: function () {
             api.get('metric?slug=' + this.slug).then((d) => {
                 this.unique = d.data.unique;
-                console.log(this.unique);
             }).catch(err => {
             })
         }

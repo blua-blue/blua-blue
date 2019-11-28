@@ -13,12 +13,12 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\ArticleModel;
 
 class Write extends Unicore {
-    private $vueElements = ['uploadImage','bluaModal', 'write'];
+    private $vueElements = ['uploadImage','bluaModal', 'write', 'tinyMce'];
     function init() {
 
         $this->uni('neoan')->callback($this,'vueElements')
-//             ->includeElement('write', ['loadedArticleId' => sub(1)])
              ->includeJs('node_modules/@tinymce/tinymce-vue/lib/browser/tinymce-vue.min.js')
+             ->includeJs('node_modules/vuedraggable/dist/vuedraggable.umd.js')
              ->hook('main', 'write')
              ->callback($this, 'secure')
              ->output();

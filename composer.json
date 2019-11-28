@@ -19,7 +19,9 @@
         "neoan3-apps/hcaptcha": "dev-master",
         "neoan3-apps/transformer": "1.1.1",
         "neoan3-apps/curl": "dev-master",
-        "league/html-to-markdown": "^4.10@dev"
+        "league/html-to-markdown": "^4.10@dev",
+        "league/commonmark": "^1.2@dev",
+        "league/commonmark-extras": "^1.2@dev"
     },
     "license": "MIT",
     "authors": [
