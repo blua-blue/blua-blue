@@ -3,10 +3,8 @@
 
 namespace Neoan3\Components;
 
-use League\CommonMark\Extension\CommonMarkCoreExtension;
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\Db;
-use Neoan3\Apps\Jwt;
 use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
 use Neoan3\Apps\SimpleTracker;
@@ -112,9 +110,11 @@ class Article extends Unicore
         $markdownConverter = new CommonMarkConverter(['html_input' => 'strip'], $environment);
         foreach ($article['content'] as $content) {
             switch ($content['content_type']){
-                case 'markdown': $article['renderedContent'] .= $markdownConverter->convertToHtml($content['content']);
+                case 'markdown':
+                    $article['renderedContent'] .= $markdownConverter->convertToHtml($content['content']);
                     break;
                 case 'img':
+                    $article['renderedContent'] .= '<img class="content-image" src="' . $content['content'] . '"/>';
                     break;
                 default: $article['renderedContent'] .= $content['content'];
                     break;

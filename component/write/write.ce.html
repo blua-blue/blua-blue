@@ -15,7 +15,7 @@
 
                     </div>
                     <img :src="article.image.path" alt=""/>
-                    <upload-image @uploaded="changePic" max-size="400"></upload-image>
+                    <upload-image identifier="main" @uploaded="changePic" max-size="400"></upload-image>
                     <div class="field">
                         <div class="control">
                             <label for="teaser" class="label">Teaser</label>
@@ -51,7 +51,11 @@
                         </div>
                         <div class="column">
                             <tiny-mce v-if="section.content_type === 'html'" v-bind:content.sync="section"></tiny-mce>
-                            <upload-image @uploaded="addPicture" max-size="400" v-if="section.content_type === 'img'"></upload-image>
+
+                            <div v-if="section.content_type === 'img'">
+                                <img :src="section.content" />
+                                <upload-image v-bind:identifier="section.sort" @uploaded="changePic" max-size="400" ></upload-image>
+                            </div>
                             <textarea v-if="section.content_type === 'markdown'" class="textarea" v-model="section.content" cols="30" rows="10"></textarea>
                         </div>
                     </div>

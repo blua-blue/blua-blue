@@ -80,19 +80,35 @@ Vue.component('write', {
                 this.permission = false;
             })
         },
-        changePic(imgId) {
-            this.article.image.id = imgId;
-            api.get('uploadImage?id=' + imgId).then(res => {
-                if (res.data.path.substring(0, 4) !== 'http') {
-                    this.article.image.path = '{{base}}' + res.data.path;
-                } else {
-                    this.article.image = res.data;
-                }
-
-            })
-
+        loadImage(id){
+            return api.get('uploadImage?id=' + id)
         },
+        changePic(uploadObject) {
+            if(uploadObject.identifier === 'main'){
+                this.article.image.id = uploadObject.imgId;
+                this.loadImage(uploadObject.imgId).then(res => {
+                    if (res.data.path.substring(0, 4) !== 'http') {
+                        this.article.image.path = '{{base}}' + res.data.path;
+                    } else {
+                        this.article.image = res.data;
+                    }
 
+                })
+            } else {
+                this.loadImage(uploadObject.imgId).then(res =>{
+                    this.article.content.forEach( (content, i) =>{
+                        if(content.sort === uploadObject.identifier){
+                            if (res.data.path.substring(0, 4) !== 'http') {
+                                this.article.content[i].content = '{{base}}' + res.data.path;
+                            } else {
+                                this.article.content[i].content = res.data;
+                            }
+                        }
+                    });
+                    console.log(this.article.content);
+                })
+            }
+        },
         addContent(){
             this.article.content.push({
                 article_id: this.article.id,
