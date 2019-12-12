@@ -1,0 +1,205 @@
+<div>
+    <div class="tabs">
+        <ul>
+            <li v-for="tab in tabs" v-bind:class="{'is-active':currentTab===tab.hash}">
+                <a v-on:click.prevent="setHash(tab.hash)">{{tab.name}}</a>
+            </li>
+        </ul>
+    </div>
+    <div v-if="currentTab == 'hosting'">
+        <h2 class="subtitle">Self hosting & Installation</h2>
+
+        <div class="content">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                    <h3 class="subtitle">Considerations</h3>
+                    <p>
+                        Blua.blue can be run from a private network or a single machine and distribute content via webhooks. Depending on your organisation,
+                        this might offer additional security (e.g. if employees connect via VPN into high-security systems). However, the API & the SDKs require public endpoints to operate.
+                        On a basic level, blua.blue can run combinations of pull and push distribution. <br>
+                        If you want applications to be able to "ask for content", you should consider hosting blua.blue on a public domain.
+                        <br>
+                        If your applications only "receive content", then local installations might be sufficient.
+                    </p>
+                    <h3 class="subtitle">Support</h3>
+                    <p>
+                        Having problems getting it to run after following the instructions below? We gladly help.
+                        As far as reasonable, we will guide you through the process. <br>
+                        However, please understand that we reserve the right to end free consultation and offer you payed support at any time.
+                        We are also happily accepting requests for installation services.
+                        <br><a href="{{base}}contact-us">Contact</a>
+                    </p>
+                    <h3 class="subtitle">Prerequisites</h3>
+                    <p>Please ensure the following requirements are met before proceeding. Blua.blue might work in different environments as well,
+                        but no sufficient testing was conducted to verify and we might only be able to give limited support for other environments or setups.
+                    </p>
+                        <ul>
+                            <li>Apache</li>
+                            <li>PHP 7.2 or above</li>
+                            <li>MySQL database</li>
+                            <li>composer</li>
+                            <li>node & npm</li>
+                            <li>neoan3-cli</li>
+                        </ul>
+                    <p>
+                        As a contributor/open source developer, please visit <a
+                            href="https://github.com/blua-blue/blua-blue">the github repository</a> instead of following this guide.
+                    </p>
+                    <h3 class="subtitle">Installation</h3>
+                    <p>
+                        These instructions assume familiarity with your target system's OS and right management as well as with familiarity with the technologies mentioned in "Prerequisites".
+                    </p>
+                    <ol>
+                        <li>In the destination folder (e.g. public_html), run <code>composer create-project blua-blue/blua-blue -s beta</code></li>
+                        <li>Run <code>npm install</code> to install dependencies</li>
+                        <li>Run <code>neoan3 migrate models up</code> to execute database migration (create a dedicated database first)</li>
+                        <li>Modify line 5 of the file .htaccess to represent your public root (e.g. "/")</li>
+                        <li>Run <code>neoan3 credentials</code> and create the credentials described below</li>
+                    </ol>
+                    <h3 class="subtitle">Credentials</h3>
+                    <p>
+                        The credentials you require are dependent on the plugins and addons you install. The minimum requirement to operate blua.blue is to provide the following credentials:
+                    </p>
+                    <h4>blua_db</h4>
+                    <p>This entity requires the properties "name" (database name), "assumes_uuid" (must be set to <code>true</code>),
+                        "password" (your database password), "host" (usually "localhost") and "user" (database user name). For additional information visit
+                        <a href="https://github.com/sroehrl/neoan3-db#environment-variables" target="_blank">neoan3-apps/db's environment variables</a>
+                    </p>
+                    <h4>blua_stateless</h4>
+                    <p>This entity requires the property "secret". As this string will be the basis of your authentication encryption, we recommend a minimum length of 16 characters. For additional information visit
+                        <a href="https://github.com/sroehrl/neoan3-stateless" target="_blank">neoan3-apps/stateless</a>
+                    </p>
+                    <h4>blua_mail</h4>
+                    <p>This entity requires the properties "host" (e.g. mail.your-domain.com), "username" (e.g. me@your-domain.com), "password" (e.g. myMailPassword),
+                        "fromEmail" (e.g. me@your-domain.com), "fromName" (e.g. John Doe), "port" (e.g. 25) and "secure" (e.g. ssl). Blua.blue uses PHPMailer.
+                        For additional information visit
+                        <a href="https://github.com/PHPMailer/PHPMailer" target="_blank">PHPMailer</a>
+                    </p>
+                    <h4>blua_hcaptcha</h4>
+                    <p>To protect you from spam, we recommend signing up with hCaptcha <a href="https://hCaptcha.com/?r=20737c4f354f">here</a> and adding the following properties to blua_hcaptcha:
+                        "secret" (Secret provided by hcaptcha), "siteKey" (site-key provided after registering your site). <strong>Note:</strong>
+                        Due to the nature of the captcha mechanism, the contact forms do not work out of the box on local systems and adjustments have to be made.
+
+                    </p>
+                </div>
+                <div class="column">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            Important
+                        </div>
+                        <div class="message-body">
+                            <p>
+                                The blua.blue domain is nothing but an installation of the actual project itself.
+                                After looking into commercial products to fulfill content distribution needs, unreasonably high pricing made two things abundantly clear:
+                                <br>
+                                The market recognizes the advantages of a headless approach <strong>and</strong> is in dire need of open source alternatives.
+                                <br>
+                                In order to enable the free use of the tool, ongoing development and enough resources to offer free testing,
+                                limitations on the blua.blue domain had to be implemented. These limitations are based on our fair-usage clause and ultimately mean:
+                                <br>
+                                We want you to use blua.blue for free and in an unlimited capacity. <strong>We therefore recommend to host blua.blue yourself</strong>.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="currentTab == 'sdk'">
+        <div >
+            <h2 class="subtitle">SDKs & Integrations</h2>
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                    <div class="content">
+                        <p>blua.blue makes it easy to develop your integrations via the integrated API.
+                            Additionally, we currently offer the following SDKs:</p>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="notification is-primary">
+                                <a href="https://www.npmjs.com/package/blua-blue-node-sdk"><i class="material-icons">cloud_download</i> NodeJS SDK</a>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="notification is-primary">
+                                <a href="https://packagist.org/packages/blua-blue/blua-blue-php-sdk"><i class="material-icons">cloud_download</i> PHP SDK</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div v-if="currentTab == 'api'">
+        <h2 class="subtitle">RESTful JSON API</h2>
+        <div class="columns">
+            <div class="column is-half is-offset-one-quarter">
+                <div class="content">
+                    <h3 class="title">The principle</h3>
+                    <p>
+                        Every method used by blua.blue's frontend is achieved by using the API endpoints.
+                        As stated before, blua.blue's frontend is nothing but a demo of the "real product" - a completely decoupled CMS.
+                    </p>
+                    <h3 class="title">Authentication flow</h3>
+                    <p>
+                        Due to the architecture of blua.blue, there is no difference in grant type or authentication flow between
+                        "implicit flow" and "client credential flow". Granting third party access is intentionally not possible.
+                        As such, blua.blue does not strictly follow oAuth specifications.
+                    </p>
+                    <img src="{{base}}asset/img/authflow.svg" alt="authentication flow">
+                    <h3 class="subtitle">Javascript example</h3>
+                    <pre>
+let headers = {
+    'Content-Type': 'application/json'
+};
+fetch({{base}}/api.v1/login, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({username:'coolDude99', password:'S0m3Security'})
+}).then(response =>{
+    // use token for subsequent calls
+    headers.Authorization = `Bearer ${response.data.token}`
+    ...
+})
+                    </pre>
+
+                    <h3 class="subtitle">Restricted endpoints</h3>
+                    <p>
+                        With the exception of POST /register, POST /login and POST /reset-password all endpoints have limited or restricted access.
+                    </p>
+                    <h3 class="subtitle">API documentation</h3>
+                    <p>Please find a full list of available endpoints <a href="{{base}}api-documentation">here</a></p>
+                </div>
+
+            </div>
+            <div class="column">
+                <div class="content">
+
+                    <article class="message is-info">
+                        <div class="message-body">
+                            <p>
+                                The API enables you to
+                            </p>
+                            <ul>
+                                <li>Request content to deliver elsewhere (your app & site)</li>
+                                <li>Create your own front-end</li>
+                                <li>Create your own back-end</li>
+                            </ul>
+
+                            The current API base url is <strong>{{base}}api.v1</strong> <br><br>
+                            Request payloads are expected to be <strong>JSON</strong> <br><br>
+                            <a class="button is-outlined is-warning is-large" href="{{base}}api-documentation">Endpoints</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="currentTab == 'marketplace'">
+        <h2 class="subtitle">Marketplace</h2>
+        <p>Not yet integrated</p>
+    </div>
+</div>
