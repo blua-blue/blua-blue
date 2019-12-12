@@ -18,7 +18,8 @@
                     <a href="{{base}}article/" class="navbar-item">Read</a>
                     <a href="{{base}}write/" class="navbar-item" v-if="loggedIn">Write</a>
                     <a href="{{base}}profile/" class="navbar-item" v-if="loggedIn">Manage</a>
-                    <a href="{{base}}api-documentation/" class="navbar-item" v-if="loggedIn">API documentation</a>
+                    <a href="{{base}}developer/" class="navbar-item">For developers</a>
+                    <a href="{{base}}api-documentation/" class="navbar-item" v-if="loggedIn">API endpoints</a>
                     <a class="navbar-item" v-if="loggedIn" @click="logOut()">Logout</a>
                     <a class="navbar-item" v-if="!loggedIn" href="{{base}}login">Login</a>
                 </div>

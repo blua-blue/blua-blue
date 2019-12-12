@@ -1,65 +1,9 @@
 <section class="section">
     <h1 class="title">Documentation</h1>
-    <h2 class="subtitle">General</h2>
-    <p>
-        blua.blue offers a REST-API you may use to
-    </p>
     <div class="content">
-        <ul>
-            <li>Request content to deliver elsewhere (your app & site)</li>
-            <li>Create your own front-end</li>
-            <li>Create your own back-end</li>
-        </ul>
-        <p>
-            If you don't have an account, please <a href="{{base}}/register/">register</a>. <br>
-
-        </p>
-        <article class="message is-info">
-            <div class="message-body">
-                The current API base url is <strong>{{base}}api.v1</strong> <br><br>
-                Request payloads are expected to be <strong>JSON</strong>
-            </div>
-        </article>
+        <p>For installation, authentication flow and existing SDKs, please visit the <a href="{{base}}developer">developer guide</a></p>
     </div>
 
-    <h2 class="subtitle">Authentication & Flow</h2>
-    <h3>Obtaining a JWT</h3>
-    <div class="content">
-        <p>To obtain a valid token, send a <strong>POST</strong> request to <strong>{{base}}api.v1/login</strong> including <i>username</i> & <i>password</i></p>
-        JavaScript example:
-        <pre>
-            fetch({{base}}api.v1/login, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({username:'coolDude99', password:'S0m3Security'})
-            }).then(response =>{
-                // use  response.data.token
-            })
-        </pre>
-        <article class="message is-warning">
-            <div class="message-body">
-                We are currently experimenting with the lifetime of JWTs. You can use GET /register to validate existing tokens.
-            </div>
-        </article>
-    </div>
-    <h3>Making authenticated calls</h3>
-    <div class="content">
-        <p>Other than POST /resetPassword, POST /login, and PUT /register, you will need to send a valid token with all requests.</p>
-        JavaScript example:
-        <pre>
-            fetch({{base}}api.v1/article?slug=my-cool-article, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer '+ myToken,
-                    'Content-Type': 'application/json',
-                }
-            }).then(response =>{
-                let article = response.data;
-            })
-        </pre>
-    </div>
     <h2 class="subtitle">API Methods</h2>
     {{content}}
 </section>
