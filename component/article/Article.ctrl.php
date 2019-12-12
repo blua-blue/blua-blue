@@ -220,7 +220,7 @@ class Article extends Unicore
     }
 
     /**
-     * Retrieves  an article with
+     * Retrieves  an article
      * by various possible filters
      *
      * @param object $condition

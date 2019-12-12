@@ -21,11 +21,18 @@ class ApiDocumentation extends Unicore {
 
     function generateDocumentation() {
         $columns = ['docs','param', 'return'];
+        $this->docString .= '<div class="content">';
+        foreach($this->apiComponents as $component => $methods) {
+            $this->docString .= '<a class="button" href="'.base.'api-documentation/#endpoint-' . $component . '">' . $component . '</a>';
+        }
+        $this->docString .= '</div>';
         foreach($this->apiComponents as $component => $methods) {
             $this->docString .= '<div class="box">';
-            $this->docString .= '<h2 class="subtitle">' . $component . '</h2>';
+            $this->docString .= '<a class="subtitle has-text-primary" name="endpoint-' . $component . '">' . $component . '</a>';
             foreach($methods as $method) {
-                $this->docString .= '<div ><strong>' . strtoupper($method) . '</strong> /' . $component . '</div>';
+                $color = ($method == 'get' ? 'has-background-primary' : ($method == 'delete' ? 'has-background-danger' : ($method == 'post' ? 'has-background-success' : 'has-background-warning')));
+                $this->docString .= '<div class="box"><span class="tag has-text-white '.$color.'"> ' . strtoupper($method) . ' </span> /' . $component . '</div>';
+                //
                 $this->docString .= '<div class="columns"><div class="column"><strong>Function:</strong></div>';
                 $this->docString .= '<div class="column"><strong>Param:</strong></div>';
                 $this->docString .= '<div class="column"><strong>returns:</strong></div> </div>';
@@ -44,6 +51,7 @@ class ApiDocumentation extends Unicore {
                 $this->docString .= '</div>';
             }
             $this->docString .= '</div>';
+            //
         }
     }
 
