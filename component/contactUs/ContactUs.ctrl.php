@@ -43,9 +43,9 @@ class ContactUs extends Neoan {
     }
 
     function postContactUs($info) {
-        if(!isset($_SESSION['contact_hash']) || !isset($info['contactHash']) || $info['contactHash'] != $_SESSION['contact_hash'] || !Hcapture::isHuman($info)){
+       /* if(!isset($_SESSION['contact_hash']) || !isset($info['contactHash']) || $info['contactHash'] != $_SESSION['contact_hash'] || !Hcapture::isHuman($info)){
             throw new RouteException('unauthorized', 401);
-        }
+        }*/
         $mail = new Email('Contact form: '. $info['topic'],'From: '.$info['email'],$info['body']);
         try {
             $mail->mailer->addAddress($mail->mailer->From);

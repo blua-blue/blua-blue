@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "de179d4a689f2d2303e811bba96d9aec",
@@ -49,12 +49,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "bc324de7381586cfbbfbe1214b2de10108fbc210"
+                "reference": "20f37291b90ddcad3e9a56b6bd1798bd80336055"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/bc324de7381586cfbbfbe1214b2de10108fbc210",
-                "reference": "bc324de7381586cfbbfbe1214b2de10108fbc210",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/20f37291b90ddcad3e9a56b6bd1798bd80336055",
+                "reference": "20f37291b90ddcad3e9a56b6bd1798bd80336055",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2019-11-12T19:18:35+00:00"
+            "time": "2019-12-17T20:19:28+00:00"
         },
         {
             "name": "leafo/scssphp",
@@ -149,12 +149,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "1a28e6e68171a7286018b9832b15c674777a8636"
+                "reference": "e773ad55d59183cf16b4e99a3807a453b1c7aed8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/1a28e6e68171a7286018b9832b15c674777a8636",
-                "reference": "1a28e6e68171a7286018b9832b15c674777a8636",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/e773ad55d59183cf16b4e99a3807a453b1c7aed8",
+                "reference": "e773ad55d59183cf16b4e99a3807a453b1c7aed8",
                 "shasum": ""
             },
             "require": {
@@ -212,7 +212,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2019-11-11T23:02:19+00:00"
+            "time": "2019-12-19T15:32:20+00:00"
         },
         {
             "name": "league/commonmark-ext-autolink",
@@ -220,12 +220,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-autolink.git",
-                "reference": "14627519d1595fdc6dad3dbe11199b0e1cbc7bb2"
+                "reference": "c13eefe68e809b1760b013974009f5468eb40fb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-autolink/zipball/14627519d1595fdc6dad3dbe11199b0e1cbc7bb2",
-                "reference": "14627519d1595fdc6dad3dbe11199b0e1cbc7bb2",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-autolink/zipball/c13eefe68e809b1760b013974009f5468eb40fb3",
+                "reference": "c13eefe68e809b1760b013974009f5468eb40fb3",
                 "shasum": ""
             },
             "require": {
@@ -269,7 +269,7 @@
                 "markdown",
                 "twitter"
             ],
-            "time": "2019-10-11T20:14:50+00:00"
+            "time": "2019-12-03T13:04:35+00:00"
         },
         {
             "name": "league/commonmark-ext-smartpunct",
@@ -277,12 +277,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-smartpunct.git",
-                "reference": "163529a46fb22f586d10085aca895589b9428d11"
+                "reference": "91f807435fdec41880ccdb32a75b4996a2c4d8e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-smartpunct/zipball/163529a46fb22f586d10085aca895589b9428d11",
-                "reference": "163529a46fb22f586d10085aca895589b9428d11",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-smartpunct/zipball/91f807435fdec41880ccdb32a75b4996a2c4d8e9",
+                "reference": "91f807435fdec41880ccdb32a75b4996a2c4d8e9",
                 "shasum": ""
             },
             "require": {
@@ -325,7 +325,7 @@
                 "punctuation",
                 "smartpunct"
             ],
-            "time": "2019-10-11T20:12:48+00:00"
+            "time": "2019-12-03T13:08:29+00:00"
         },
         {
             "name": "league/commonmark-ext-strikethrough",
@@ -333,12 +333,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-strikethrough.git",
-                "reference": "99892ad549e101fe1fbe424ff71224efc32d2d68"
+                "reference": "c79c667405290858d28ae5f44f0078583f4ccceb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-strikethrough/zipball/99892ad549e101fe1fbe424ff71224efc32d2d68",
-                "reference": "99892ad549e101fe1fbe424ff71224efc32d2d68",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-strikethrough/zipball/c79c667405290858d28ae5f44f0078583f4ccceb",
+                "reference": "c79c667405290858d28ae5f44f0078583f4ccceb",
                 "shasum": ""
             },
             "require": {
@@ -386,7 +386,7 @@
                 "strikeout",
                 "strikethrough"
             ],
-            "time": "2019-06-29T11:34:00+00:00"
+            "time": "2019-12-03T13:09:10+00:00"
         },
         {
             "name": "league/commonmark-ext-table",
@@ -394,12 +394,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-table.git",
-                "reference": "3228888ea69636e855efcf6636ff8e6316933fe7"
+                "reference": "5113a6b62e01252dc68ede71ee10afe1a27bf820"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-table/zipball/3228888ea69636e855efcf6636ff8e6316933fe7",
-                "reference": "3228888ea69636e855efcf6636ff8e6316933fe7",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-table/zipball/5113a6b62e01252dc68ede71ee10afe1a27bf820",
+                "reference": "5113a6b62e01252dc68ede71ee10afe1a27bf820",
                 "shasum": ""
             },
             "require": {
@@ -451,7 +451,7 @@
                 "markdown",
                 "table"
             ],
-            "time": "2019-09-26T13:28:33+00:00"
+            "time": "2019-12-03T13:10:14+00:00"
         },
         {
             "name": "league/commonmark-ext-task-list",
@@ -516,12 +516,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-extras.git",
-                "reference": "a7d49a2bcaf47951fd0c91c3a69d12a4fdd4d0e3"
+                "reference": "8bcf188c02f09f60a5a1be3ac49f667d17833a1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-extras/zipball/a7d49a2bcaf47951fd0c91c3a69d12a4fdd4d0e3",
-                "reference": "a7d49a2bcaf47951fd0c91c3a69d12a4fdd4d0e3",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-extras/zipball/8bcf188c02f09f60a5a1be3ac49f667d17833a1e",
+                "reference": "8bcf188c02f09f60a5a1be3ac49f667d17833a1e",
                 "shasum": ""
             },
             "require": {
@@ -568,7 +568,7 @@
                 "gfm",
                 "markdown"
             ],
-            "time": "2019-10-11T20:14:33+00:00"
+            "time": "2019-12-03T13:10:49+00:00"
         },
         {
             "name": "league/html-to-markdown",
@@ -576,12 +576,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/html-to-markdown.git",
-                "reference": "71319108e3db506250b8987721b13568fd9fa446"
+                "reference": "1dcd0f85de786f46a7f224a27cc3d709ddd2a68c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/71319108e3db506250b8987721b13568fd9fa446",
-                "reference": "71319108e3db506250b8987721b13568fd9fa446",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/1dcd0f85de786f46a7f224a27cc3d709ddd2a68c",
+                "reference": "1dcd0f85de786f46a7f224a27cc3d709ddd2a68c",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +632,7 @@
                 "html",
                 "markdown"
             ],
-            "time": "2019-11-02T14:54:14+00:00"
+            "time": "2019-12-28T01:32:28+00:00"
         },
         {
             "name": "mnsami/composer-custom-directory-installer",
@@ -725,17 +725,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-curl.git",
-                "reference": "b6fd562f99f31877f7102cf5a18a35e175b5d8b7"
+                "reference": "423cf4ee668419841633544fab0206a65a4650bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-curl/zipball/b6fd562f99f31877f7102cf5a18a35e175b5d8b7",
-                "reference": "b6fd562f99f31877f7102cf5a18a35e175b5d8b7",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-curl/zipball/423cf4ee668419841633544fab0206a65a4650bc",
+                "reference": "423cf4ee668419841633544fab0206a65a4650bc",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "ext-json": "*"
+                "ext-json": "*",
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5"
             },
             "type": "library",
             "autoload": {
@@ -744,8 +748,11 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "description": "neoan3 curl class",
-            "time": "2019-11-10T20:13:57+00:00"
+            "time": "2019-12-11T20:34:45+00:00"
         },
         {
             "name": "neoan3-apps/db",
@@ -862,16 +869,16 @@
         },
         {
             "name": "neoan3-apps/ops",
-            "version": "1.0.2",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-ops.git",
-                "reference": "00e1f9939f59e0e3e6d1f1fa5ad72ebc07334174"
+                "reference": "d06fb935eb04b517b783003128ff8579e17e151c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-ops/zipball/00e1f9939f59e0e3e6d1f1fa5ad72ebc07334174",
-                "reference": "00e1f9939f59e0e3e6d1f1fa5ad72ebc07334174",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-ops/zipball/d06fb935eb04b517b783003128ff8579e17e151c",
+                "reference": "d06fb935eb04b517b783003128ff8579e17e151c",
                 "shasum": ""
             },
             "require": {
@@ -894,7 +901,7 @@
                 "MIT"
             ],
             "description": "neoan3 common string operations helper class",
-            "time": "2019-11-17T02:03:42+00:00"
+            "time": "2019-12-07T22:14:58+00:00"
         },
         {
             "name": "neoan3-apps/session",
@@ -1120,16 +1127,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.1.3",
+            "version": "v6.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "a25ae38e03de4ee4031725498a600012364787c7"
+                "reference": "c5e61d0729507049cec9673aa1a679f9adefd683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a25ae38e03de4ee4031725498a600012364787c7",
-                "reference": "a25ae38e03de4ee4031725498a600012364787c7",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/c5e61d0729507049cec9673aa1a679f9adefd683",
+                "reference": "c5e61d0729507049cec9673aa1a679f9adefd683",
                 "shasum": ""
             },
             "require": {
@@ -1178,7 +1185,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2019-11-21T09:37:46+00:00"
+            "time": "2019-12-10T11:17:38+00:00"
         },
         {
             "name": "tmarois/filebase",

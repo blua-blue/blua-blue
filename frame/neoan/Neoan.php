@@ -13,6 +13,8 @@ use Neoan3\Apps\SimpleTracker;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\Serve;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 class Neoan extends Serve {
     private   $credentials     = [];
@@ -112,15 +114,19 @@ class Neoan extends Serve {
     }
 
     function newMail() {
+
         $mail = new PHPMailer(true);
-        $mail->isSMTP();
+        if(strpos('mail.blua.blue',$this->credentials['blua_mail']['host'])===false){
+            $mail->isSMTP();
+        }
         $mail->Host = $this->credentials['blua_mail']['host'];
+        $mail->CharSet = 'utf-8';
         $mail->SMTPAuth = true;
+        $mail->SMTPSecure = isset($this->credentials['blua_mail']['secure'])? $this->credentials['blua_mail']['secure'] : 'tls';
         $mail->Username = $this->credentials['blua_mail']['username'];
         $mail->Password = $this->credentials['blua_mail']['password'];
-        $mail->SMTPSecure = isset($this->credentials['blua_mail']['secure'])? $this->credentials['blua_mail']['secure'] : 'tls';
         $mail->Port = isset($this->credentials['blua_mail']['port'])? $this->credentials['blua_mail']['port'] : 25;
-        $mail->setFrom($this->credentials['blua_mail']['fromEmail'],$this->credentials['blua_mail']['fromEmail']);
+        $mail->setFrom($this->credentials['blua_mail']['fromEmail'],$this->credentials['blua_mail']['fromName']);
         return $mail;
     }
 
