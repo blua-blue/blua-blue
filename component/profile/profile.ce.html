@@ -10,9 +10,17 @@
             <div class="column">
                 <a href="{{base}}write/" class="button is-primary"><span class="icon is-small"><i
                         class="material-icons">add</i></span> <span>new article</span></a>
+                <div class="select">
+                    <select name="sort" v-model="sortArticles.orderBy">
+                        <option value="inserted">Sort by date</option>
+                        <option value="name">Sort by name</option>
+                        <option value="unique">Sort by unique viewers</option>
+                    </select>
+                </div>
+
             </div>
         </div>
-        <article-list v-bind:author="author"></article-list>
+        <article-list v-bind:author="author" v-bind:filter="sortArticles"></article-list>
     </div>
     <div v-if="currentTab==='api'">
         <webhooks></webhooks>

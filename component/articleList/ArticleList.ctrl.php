@@ -57,11 +57,18 @@ class ArticleList extends Neoan
             $what = strtolower(trim($parts[0]));
             $how = isset($parts[1]) ? strtoupper(trim($parts[1])) : 'ASC';
             $possible = [
-                'date'  => 'publish_date',
+                'date'  => ['publish_date','insert_date'],
                 'title' => 'name'
             ];
             if (isset($possible[$what]) && ($how == 'ASC' || $how == 'DESC')) {
-                $sql .= 'ORDER BY ' . $possible[$what] . ' ' . $how . ' ';
+                if(is_array($possible[$what])){
+                    $sql .= 'ORDER BY ';
+                    foreach ($possible[$what] as $i=> $column){
+                        $sql .= $column . ' ' . $how . (count($possible[$what])>$i+1 ? ', ':' ');
+                    }
+                } else {
+                    $sql .= 'ORDER BY ' . $possible[$what] . ' ' . $how . ' ';
+                }
             }
 
         }
