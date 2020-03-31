@@ -21,7 +21,6 @@ Vue.component('articleList', {
         filter: {
             deep: true,
             handler(newV, oldV) {
-                console.log(this.filter.orderBy)
                 if (this.articles.length > 0) {
                     this.applySort();
                 }
