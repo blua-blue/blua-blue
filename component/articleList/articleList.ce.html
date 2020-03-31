@@ -5,6 +5,9 @@
 
                 <a v-bind:href="'{{base}}article/'+article.slug+'/'">{{article.name}}</a>
             </div>
+            <div class="column">
+                {{article.inserted | formatDate}}
+            </div>
             <div class="column is-one-fifth">
                 {{article.metrics.total}} total views /
                 {{article.metrics.unique}} unique views

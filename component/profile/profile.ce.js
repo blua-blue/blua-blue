@@ -8,12 +8,14 @@ Vue.component('profile', {
                 {name: 'Settings', hash: 'settings'},
             ],
             currentTab: 'articles',
-            author: {}
+            author: {},
+            sortArticles:{
+                orderBy:'inserted'
+            }
         }
     },
     created(){
         this.author = JSON.parse(localStorage.user);
-        console.log(this.author);
         this.getHash();
     },
     methods:{
