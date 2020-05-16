@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de179d4a689f2d2303e811bba96d9aec",
+    "content-hash": "02145e38b9076802a00f27c1f7b4acbc",
     "packages": [
         {
             "name": "blua-blue/image",
@@ -49,19 +49,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "20f37291b90ddcad3e9a56b6bd1798bd80336055"
+                "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/20f37291b90ddcad3e9a56b6bd1798bd80336055",
-                "reference": "20f37291b90ddcad3e9a56b6bd1798bd80336055",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/feb0e820b8436873675fd3aca04f3728eb2185cb",
+                "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8|^5"
+                "phpunit/phpunit": ">=4.8 <=9"
             },
             "type": "library",
             "autoload": {
@@ -87,7 +87,11 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2019-12-17T20:19:28+00:00"
+            "keywords": [
+                "jwt",
+                "php"
+            ],
+            "time": "2020-03-25T18:49:23+00:00"
         },
         {
             "name": "leafo/scssphp",
@@ -141,20 +145,21 @@
                 "scss",
                 "stylesheet"
             ],
+            "abandoned": "scssphp/scssphp",
             "time": "2019-06-18T21:15:44+00:00"
         },
         {
             "name": "league/commonmark",
-            "version": "dev-master",
+            "version": "1.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "e773ad55d59183cf16b4e99a3807a453b1c7aed8"
+                "reference": "61cba137de849ac5c49762991511f5e0af16a1a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/e773ad55d59183cf16b4e99a3807a453b1c7aed8",
-                "reference": "e773ad55d59183cf16b4e99a3807a453b1c7aed8",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/61cba137de849ac5c49762991511f5e0af16a1a0",
+                "reference": "61cba137de849ac5c49762991511f5e0af16a1a0",
                 "shasum": ""
             },
             "require": {
@@ -166,7 +171,7 @@
             },
             "require-dev": {
                 "cebe/markdown": "~1.0",
-                "commonmark/commonmark.js": "0.29.0",
+                "commonmark/commonmark.js": "0.29.1",
                 "erusev/parsedown": "~1.0",
                 "ext-json": "*",
                 "michelf/php-markdown": "~1.4",
@@ -185,7 +190,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -212,7 +217,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2019-12-19T15:32:20+00:00"
+            "time": "2020-01-16T01:17:34+00:00"
         },
         {
             "name": "league/commonmark-ext-autolink",
@@ -269,6 +274,7 @@
                 "markdown",
                 "twitter"
             ],
+            "abandoned": "league/commonmark",
             "time": "2019-12-03T13:04:35+00:00"
         },
         {
@@ -325,6 +331,7 @@
                 "punctuation",
                 "smartpunct"
             ],
+            "abandoned": "league/commonmark",
             "time": "2019-12-03T13:08:29+00:00"
         },
         {
@@ -386,6 +393,7 @@
                 "strikeout",
                 "strikethrough"
             ],
+            "abandoned": "league/commonmark",
             "time": "2019-12-03T13:09:10+00:00"
         },
         {
@@ -394,12 +402,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark-ext-table.git",
-                "reference": "5113a6b62e01252dc68ede71ee10afe1a27bf820"
+                "reference": "ff2202325aeabbde8089befea8acd327ab82502c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-table/zipball/5113a6b62e01252dc68ede71ee10afe1a27bf820",
-                "reference": "5113a6b62e01252dc68ede71ee10afe1a27bf820",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-table/zipball/ff2202325aeabbde8089befea8acd327ab82502c",
+                "reference": "ff2202325aeabbde8089befea8acd327ab82502c",
                 "shasum": ""
             },
             "require": {
@@ -451,7 +459,8 @@
                 "markdown",
                 "table"
             ],
-            "time": "2019-12-03T13:10:14+00:00"
+            "abandoned": "league/commonmark",
+            "time": "2020-04-04T15:53:18+00:00"
         },
         {
             "name": "league/commonmark-ext-task-list",
@@ -508,6 +517,7 @@
                 "markdown",
                 "task"
             ],
+            "abandoned": "league/commonmark",
             "time": "2019-10-11T20:15:14+00:00"
         },
         {
@@ -568,6 +578,7 @@
                 "gfm",
                 "markdown"
             ],
+            "abandoned": "league/commonmark",
             "time": "2019-12-03T13:10:49+00:00"
         },
         {
@@ -576,12 +587,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/html-to-markdown.git",
-                "reference": "1dcd0f85de786f46a7f224a27cc3d709ddd2a68c"
+                "reference": "a1ddbf1a275287eb6ea1dfa21964cda2ca5b921a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/1dcd0f85de786f46a7f224a27cc3d709ddd2a68c",
-                "reference": "1dcd0f85de786f46a7f224a27cc3d709ddd2a68c",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/a1ddbf1a275287eb6ea1dfa21964cda2ca5b921a",
+                "reference": "a1ddbf1a275287eb6ea1dfa21964cda2ca5b921a",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +643,25 @@
                 "html",
                 "markdown"
             ],
-            "time": "2019-12-28T01:32:28+00:00"
+            "funding": [
+                {
+                    "url": "https://www.colinodell.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.paypal.me/colinpodell/10.00",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/colinodell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/colinodell",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-04-08T13:53:39+00:00"
         },
         {
             "name": "mnsami/composer-custom-directory-installer",
@@ -1087,12 +1116,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-userModel.git",
-                "reference": "ddeb1ab73ce5a42213558a4a5824f8414495a782"
+                "reference": "ff27950ccf43cffd04f97855f69450bca758f787"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-userModel/zipball/ddeb1ab73ce5a42213558a4a5824f8414495a782",
-                "reference": "ddeb1ab73ce5a42213558a4a5824f8414495a782",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-userModel/zipball/ff27950ccf43cffd04f97855f69450bca758f787",
+                "reference": "ff27950ccf43cffd04f97855f69450bca758f787",
                 "shasum": ""
             },
             "require": {
@@ -1123,7 +1152,7 @@
                 "source": "https://github.com/sroehrl/neoan3-userModel/tree/master",
                 "issues": "https://github.com/sroehrl/neoan3-userModel/issues"
             },
-            "time": "2019-10-07T23:55:48+00:00"
+            "time": "2020-03-09T21:20:25+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -1188,6 +1217,133 @@
             "time": "2019-12-10T11:17:38+00:00"
         },
         {
+            "name": "phpoption/phpoption",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/php-option.git",
+                "reference": "be3ba85c4c0e1543233df1feaafd7fe31ea26584"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/be3ba85c4c0e1543233df1feaafd7fe31ea26584",
+                "reference": "be3ba85c4c0e1543233df1feaafd7fe31ea26584",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.3",
+                "phpunit/phpunit": "^4.8.35 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpOption\\": "src/PhpOption/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                },
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com"
+                }
+            ],
+            "description": "Option Type for PHP",
+            "keywords": [
+                "language",
+                "option",
+                "php",
+                "type"
+            ],
+            "time": "2020-05-02T14:39:07+00:00"
+        },
+        {
+            "name": "symfony/polyfill-ctype",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "1aab00e39cebaef4d8652497f46c15c1b7e45294"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/1aab00e39cebaef4d8652497f46c15c1b7e45294",
+                "reference": "1aab00e39cebaef4d8652497f46c15c1b7e45294",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-ctype": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.16-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for ctype functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "ctype",
+                "polyfill",
+                "portable"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-05-08T16:50:20+00:00"
+        },
+        {
             "name": "tmarois/filebase",
             "version": "1.0.x-dev",
             "source": {
@@ -1239,6 +1395,80 @@
                 "serverless"
             ],
             "time": "2019-06-26T19:23:49+00:00"
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": "539bb6927c101a5605d31d11a2d17185a2ce2bf1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/539bb6927c101a5605d31d11a2d17185a2ce2bf1",
+                "reference": "539bb6927c101a5605d31d11a2d17185a2ce2bf1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9 || ^7.0 || ^8.0",
+                "phpoption/phpoption": "^1.7.2",
+                "symfony/polyfill-ctype": "^1.9"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.3",
+                "ext-filter": "*",
+                "ext-pcre": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "suggest": {
+                "ext-filter": "Required to use the boolean validator.",
+                "ext-pcre": "Required to use most of the library."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dotenv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com",
+                    "homepage": "https://gjcampbell.co.uk/"
+                },
+                {
+                    "name": "Vance Lucas",
+                    "email": "vance@vancelucas.com",
+                    "homepage": "https://vancelucas.com/"
+                }
+            ],
+            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/vlucas/phpdotenv",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-05-02T14:08:57+00:00"
         }
     ],
     "packages-dev": [],
@@ -1256,7 +1486,8 @@
         "neoan3-apps/curl": 20,
         "league/html-to-markdown": 20,
         "league/commonmark": 20,
-        "league/commonmark-extras": 20
+        "league/commonmark-extras": 20,
+        "vlucas/phpdotenv": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -1264,5 +1495,6 @@
         "php": "^7.0",
         "ext-json": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

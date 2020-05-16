@@ -3,6 +3,8 @@
 
 namespace Neoan3\Frame;
 
+require_once 'Setup.php';
+
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\DbException;
@@ -19,16 +21,13 @@ use PHPMailer\PHPMailer\Exception;
 class Neoan extends Serve {
     private   $credentials     = [];
     private   $developmentMode = true;
+    private   $credentialType  = 'env';
     protected $currentAuth     = false;
 
     function __construct() {
         // Hybrid: construct session
         new Session();
 
-        // tracking
-        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
-        SimpleTracker::init(dirname(path) . '/blua-blue-data/');
-        SimpleTracker::track($identifier);
 
         if(!$this->developmentMode && !Session::is_logged_in()) {
             Cache::setCaching('+2 hours');
@@ -42,8 +41,11 @@ class Neoan extends Serve {
         }
         // SETUP
         /*
-         * Sharing projects oe.g via GitHub? Hide credentials and place them OUTSIDE of your server's web-root.
-         * Here we are storing credentials in a JSON file.
+         * Sharing projects oe.g via GitHub? Hide credentials and place them OUTSIDE of your server's web-root or using a .env file.
+         * Set your strategy in $credentialType
+         *
+         * 1. VIA CREDENTIAL JSON
+         *
          * ['blua_db'=>
          *  ['name'=>'your_database','assumes_uuid'=>true,'password'=>'Password','user'=>'dbUser'],
          * 'blua_stateless'=>['secret'=>'SecretKey']
@@ -52,25 +54,33 @@ class Neoan extends Serve {
          * ],
          * 'blua_hcaptcha' => ['secret'=>'your-secret','siteKey'=>'your-site-key']
          *
-         * THE FOLLOWING LINE MIGHT HAVE TO BE ADJUSTED
+         * 2. VIA .env FILE (default)
+         *
+         * rename the file .env_example to .env
          * */
-        try{
-            $this->credentials = getCredentials();
-        } catch (\Exception $e){
-            print('SETUP: No credentials found. Please check README for instructions and/or change '.__FILE__.' starting at line '.(__LINE__-4).' ');
-            die();
+
+        if($this->credentialType == 'env'){
+            $this->credentials = Setup::envSetup();
+        } else {
+            try{
+                $this->credentials = getCredentials();
+            } catch (\Exception $e){
+                print('SETUP: No credentials found. Please check README for instructions and/or change '.__FILE__.' starting at line '.(__LINE__-4).' ');
+                die();
+            }
         }
 
-
+        // tracking
+        Setup::tracker();
 
         // database
-        $this->setUpDb();
+        Setup::db($this->credentials['blua_db']);
 
         // JWT/Stateless auth
-        Stateless::setSecret($this->credentials['blua_stateless']['secret']);
+        Setup::stateless($this->credentials['blua_stateless']['secret']);
 
         // hcaptcha
-        Hcapture::setEnvironment($this->credentials['blua_hcaptcha']);
+        Setup::hCaptcha($this->credentials['blua_hcaptcha']);
 
         parent::__construct();
 
@@ -128,14 +138,6 @@ class Neoan extends Serve {
         $mail->Port = isset($this->credentials['blua_mail']['port'])? $this->credentials['blua_mail']['port'] : 25;
         $mail->setFrom($this->credentials['blua_mail']['fromEmail'],$this->credentials['blua_mail']['fromName']);
         return $mail;
-    }
-
-    private function setUpDb() {
-        try {
-            Db::setEnvironment($this->credentials['blua_db']);
-        } catch(DbException $e) {
-            echo "Warning: Database connection failed.";
-        }
     }
 
 

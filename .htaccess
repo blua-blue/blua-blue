@@ -63,7 +63,10 @@ ModPagespeedEnableFilters extend_cache
 
 ModPagespeedDisallow "*"
 </IfModule>
-
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
 
 #override htpasswd of possible higher folder
 #Satisfy Any
