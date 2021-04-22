@@ -25,7 +25,7 @@ class Setup
 
     static function tracker()
     {
-        $identifier = Session::is_logged_in() ? Session::user_id() : substr(session_id(), 0, 7);
+        $identifier = Session::isLoggedIn() ? Session::userId() : substr(session_id(), 0, 7);
         SimpleTracker::init(dirname(path) . '/blua-blue-data/');
         SimpleTracker::track($identifier);
     }

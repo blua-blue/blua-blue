@@ -82,7 +82,7 @@ class Register extends Unicore
         }
 
         $verify = new Verify();
-        $send = $verify->confirmEmail(trim($credentials['email']), $user['emails'][0]['confirm_code']);
+        $send = $verify->confirmEmail(trim($credentials['email']), $user['emails'][0]['confirm_code'], $user['userName']);
         if($send['success']){
             $jwt = Stateless::assign($user['id'], 'user', ['exp' => time() + (2 * 60 * 60)]);
             return ['token' => $jwt];

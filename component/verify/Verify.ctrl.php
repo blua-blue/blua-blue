@@ -10,6 +10,10 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\IndexModel;
 use Neoan3\Model\UserModel;
 use PHPMailer\PHPMailer\Exception;
+use SendGrid;
+use SendGrid\Mail\From;
+use SendGrid\Mail\To;
+use SendGrid\Mail\Mail;
 
 class Verify extends Neoan {
     function init(){
@@ -37,19 +41,35 @@ class Verify extends Neoan {
         }
         exit();
     }
-    function confirmEmail($to, $hash) {
+    function confirmEmail($to, $hash, $userName) {
         $link = base . 'verify/'.$hash.'/?email='.$to;
-        $content = '<p>In order to activate your account, please use the following link:</p>';
-        $content .= '<a href="'.$link.'" style="color:#aaaaaa">'.$link.'</a>';
 
-        $mail = new Email('Email confirmation request','Welcome to blua.blue',$content);
+        $content = [
+            'verify_link'=>$link,
+            'Sender_Name' => 'Blue.Blue',
+        ];
+
+        $sendgrid = new SendGrid(getenv('SENDGRID_API_KEY'));
+        $from = new From("noreply@corpscrypt.com", "Blua.Blue via Corpscrypt");
+        $to = new To($to, $userName,$content);
+        $email = new Mail($from, [$to]);
+        $email->setTemplateId(getenv('SENDGRID_VERIFICATION_TEMPLATE'));
+        try {
+            $response = $sendgrid->send($email);
+            return ['success'=>$response->statusCode()];
+        } catch (Exception $e) {
+            return ['success'=>false,'error'=>$e->getMessage()];
+        }
+
+
+        /*$mail = new Email('Email confirmation request','Welcome to blua.blue',$content);
         try {
             $mail->mailer->addAddress($to);
             $mail->mailer->send();
         } catch (Exception $e) {
             return ['success'=>false,'error'=>$e->getMessage()];
         }
-        return ['success'=>true];
+        return ['success'=>true];*/
     }
 
 

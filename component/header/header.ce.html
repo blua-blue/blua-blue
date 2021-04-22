@@ -20,8 +20,6 @@
                     <a href="{{base}}profile/" class="navbar-item" v-if="loggedIn">Manage</a>
                     <a href="{{base}}developer/" class="navbar-item">For developers</a>
                     <a href="{{base}}api-documentation/" class="navbar-item" v-if="loggedIn">API endpoints</a>
-                    <a class="navbar-item" v-if="loggedIn" @click="logOut()">Logout</a>
-                    <a class="navbar-item" v-if="!loggedIn" href="{{base}}login">Login</a>
                 </div>
             </div>
             <div class="navbar-item" style="flex:1">
@@ -36,7 +34,11 @@
             </div>
 
         </div>
-
+        <div class="navbar-item">
+            <a class="navbar-link is-arrowless" v-if="!loggedIn" href="{{base}}login">Login</a>
+            <a class="navbar-link is-arrowless" v-if="loggedIn" @click="logOut()">Logout</a>
+        </div>
+        <blua-modal></blua-modal>
     </nav>
     <section class="section" v-if="searchResults.length>0&&text!==''" v-bind:style="{display:'block'}"
              style="display: none">
@@ -63,5 +65,6 @@
         </div>
 
     </section>
+
     <cookie-law></cookie-law>
 </div>

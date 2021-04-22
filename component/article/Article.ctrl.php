@@ -299,7 +299,7 @@ class Article extends Unicore
                 $slug = $slug . '-' . (count($exists) + 1);
             }
             $articleId = Db::uuid()->uuid;
-            Db::article([
+            $d = Db::article([
                 'id'             => '$' . $articleId,
                 'author_user_id' => '$' . $jwt['jti'],
                 'slug'           => $slug,
@@ -355,7 +355,7 @@ class Article extends Unicore
         // is admin?
         $user = UserModel::get($jwt['jti']);
         if ($user['user_type'] !== 'admin') {
-            $condition['author_user_id'] = $jwt['jti'];
+            $condition['author_user_id'] = '$' . $jwt['jti'];
         }
         $find = Db::easy('article.id', $condition);
         if (empty($find)) {

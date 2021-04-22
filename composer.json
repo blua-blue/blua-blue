@@ -3,26 +3,24 @@
     "description": "Headless / Hybrid CMS enablement platform",
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.0",
+        "php": "^7||^8",
         "ext-json": "*",
-        "mnsami/composer-custom-directory-installer": "1.1.*",
+        "mnsami/composer-custom-directory-installer": "2.0.0",
         "neoan3-apps/ops": "^1",
-        "leafo/scssphp": "dev-master",
         "neoan3-apps/stateless": "dev-master",
         "neoan3-apps/cache": "dev-master",
         "neoan3-model/user": "dev-master",
         "blua-blue/image": "dev-master",
         "neoan3-apps/session": "dev-master",
-        "neoan3-apps/db": "^0.2",
+        "neoan3-apps/db": "0.3.*",
         "phpmailer/phpmailer": "~6.1",
         "neoan3-apps/simple-tracker": "dev-master",
         "neoan3-apps/hcaptcha": "dev-master",
-        "neoan3-apps/transformer": "1.1.1",
-        "neoan3-apps/curl": "dev-master",
+        "neoan3-apps/transformer": "1.1.4",
         "league/html-to-markdown": "^4.10@dev",
-        "league/commonmark": "^1.2@dev",
-        "league/commonmark-extras": "^1.2@dev",
-        "vlucas/phpdotenv": "^4.1@dev"
+        "league/commonmark": "^1.5.8",
+        "vlucas/phpdotenv": "^4.1@dev",
+        "sendgrid/sendgrid": "dev-main"
     },
     "license": "MIT",
     "authors": [
@@ -51,6 +49,5 @@
             "type": "vcs",
             "url": "https://github.com/blua-blue/image-model.git"
         }
-    ],
-    "require-dev": {}
+    ]
 }
