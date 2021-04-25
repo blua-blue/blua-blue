@@ -107,7 +107,10 @@ function frame($input = '', $web = false)
 function redirect($where = base, $method = 'php', $get = false)
 {
     if ($method == 'php') {
-        header('location: ' . base . '/' . $where . ($get ? '?' . $get : ''));
+        $destination = base . '/' . $where;
+//        var_dump($destination);
+        header('Location:' .$destination . ($get ? '?' . $get : ''));
+        exit();
     } elseif ($method == 'js') {
         return 'window.location = "' . base . '/' . $where . ($get ? '?' . $get : '') . '";';
     }

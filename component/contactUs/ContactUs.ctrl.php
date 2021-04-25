@@ -11,6 +11,8 @@ use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 use PHPMailer\PHPMailer\Exception;
+use SendGrid\Mail\EmailAddress;
+use SendGrid\Mail\To;
 
 class ContactUs extends Neoan {
     private $uniCore;
@@ -38,22 +40,27 @@ class ContactUs extends Neoan {
      */
     function session($uni){
         $hash = Ops::randomString(5);
-        Session::add_session(['contact_hash'=>$hash]);
+        Session::addToSession(['contact_hash'=>$hash]);
         $uni->js .= 'let contactHash = "' . $hash .'";';
     }
 
     function postContactUs($info) {
-       /* if(!isset($_SESSION['contact_hash']) || !isset($info['contactHash']) || $info['contactHash'] != $_SESSION['contact_hash'] || !Hcapture::isHuman($info)){
+        if(!isset($_SESSION['contact_hash']) || !isset($info['contactHash']) || $info['contactHash'] != $_SESSION['contact_hash'] || !Hcapture::isHuman($info)){
             throw new RouteException('unauthorized', 401);
-        }*/
-        $mail = new Email('Contact form: '. $info['topic'],'From: '.$info['email'],$info['body']);
+        }
+
+        $to = new To(getenv('SENDGRID_ADMIN_EMAIL'), "Blua.Blue Admin");
+        $mail = new SendgridTemplate(getenv('SENDGRID_PASSWORD_RESET_TEMPLATE'));
+        return $mail->sendCustom([$to], "Message from Blua.Blue via " . $info['email'] . " on " . $info['topic'], $info['body']);
+
+        /*$mail = new Email('Contact form: '. $info['topic'],'From: '.$info['email'],$info['body']);
         try {
             $mail->mailer->addAddress($mail->mailer->From);
             $mail->mailer->send();
         } catch (Exception $e) {
             return ['success'=>false,'error'=>$e->getMessage()];
         }
-        return ['success'=>true];
+        return ['success'=>true];*/
     }
 
 }

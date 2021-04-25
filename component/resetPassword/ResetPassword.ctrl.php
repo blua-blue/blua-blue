@@ -11,6 +11,9 @@ use Neoan3\Model\IndexModel;
 use Neoan3\Model\UserModel;
 use PHPMailer\PHPMailer\Exception;
 use Neoan3\Core\Unicore;
+use SendGrid\Mail\EmailAddress;
+use SendGrid\Mail\Mail;
+use SendGrid\Mail\To;
 
 class ResetPassword extends Neoan
 {
@@ -50,26 +53,28 @@ class ResetPassword extends Neoan
 
     /**
      * @param array $body
-     *
-     * @throws Exception
      * @throws RouteException
-     * @throws \Neoan3\Apps\DbException
+     * @throws \SendGrid\Mail\TypeException
      */
     function postResetPassword(array $body)
     {
         $user = IndexModel::first(UserModel::find(['userName'=>$body['userName']]));
 
         if (!empty($user)) {
+
+
             $hash = Ops::randomString(36);
             // insert into password
             Db::user_password(['user_id' => '$' . $user['id'], 'confirm_code' => $hash]);
 
-            $mailBody =
-                Ops::embraceFromFile('component/resetPassword/mailContent.html', ['base' => base, 'hash' => $hash]);
-            $mail = new Email('Password reset request', 'You requested a new password', $mailBody);
-            $mail->mailer->addAddress($user['emails'][0]['email']);
-            $mail->mailer->send();
 
+            $content = [
+                'verify_link'=>base . 'reset-password/' . $hash,
+                'Sender_Name' => 'Blue.Blue',
+            ];
+            $to = new To($user['emails'][0]['email'], $user['userName'],$content);
+            $mail = new SendgridTemplate(getenv('SENDGRID_PASSWORD_RESET_TEMPLATE'));
+            return $mail->send([$to]);
         }
         throw new RouteException('If possible, it worked', 405);
     }

@@ -24,7 +24,7 @@ class Neoan extends Serve {
         new Session();
 
 
-        if(!$this->developmentMode && !Session::is_logged_in()) {
+        if(!$this->developmentMode && !Session::isLoggedIn()) {
             Cache::setCaching('+2 hours');
         } else {
             Cache::invalidateAll();

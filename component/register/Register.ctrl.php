@@ -52,7 +52,7 @@ class Register extends Unicore
     function getRegister()
     {
         $jwt = Stateless::validate();
-        $hasSession = Session::is_logged_in();
+        $hasSession = Session::isLoggedIn();
         $user = UserModel::get($jwt['jti']);
         if(!empty($user['image_id'])){
             $user['image'] = ImageModel::byId($user['image_id']);

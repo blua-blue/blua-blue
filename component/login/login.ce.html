@@ -5,9 +5,9 @@
             <label for="username" class="label">Username</label>
             <input type="text" class="input" id="username" required v-model="userName">
         </div>
-        <div class="field" v-show="state==='login'">
+        <div class="field" v-if="state==='login'">
             <label for="ped" class="label">Password</label>
-            <input type="password" class="input" id="ped" required minlength="8" v-model="password">
+            <input type="password" class="input" id="ped" required minlength="6" v-model="password">
         </div>
         <div class="columns">
             <div class="column">

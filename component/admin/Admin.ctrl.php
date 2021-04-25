@@ -4,6 +4,7 @@
 namespace Neoan3\Components;
 
 use Neoan3\Apps\Session;
+use Neoan3\Core\RouteException;
 use Neoan3\Core\Unicore;
 use Neoan3\Frame\Neoan;
 
@@ -11,16 +12,20 @@ class Admin extends Unicore {
     private $components = ['categories','users','articleList','admin'];
     function init() {
         $this->uni('neoan')
-            ->callback($this,'setup')
+             ->callback($this,'setup')
              ->hook('main', 'admin')
              ->output();
     }
 
     /**
      * @param Neoan $frame
+     * @throws \Exception
      */
     function setup($frame){
-        Session::admin_restricted();
+        if($_SESSION['user']['user_type'] !== 'admin'){
+            throw new RouteException('unauthorized', 401);
+        }
+        Session::restrict();
         foreach ($this->components as $component){
             $frame->vueComponent($component);
         }

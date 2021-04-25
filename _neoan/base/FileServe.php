@@ -1,10 +1,13 @@
 <?php
 require_once(dirname(__FILE__) . '/_includes.php');
 
+
+
+use Neoan3\Apps\Ops;
+use Neoan3\Core\Route;
+
 $route = new Route();
 $serve = new FileServe($_GET['action']);
-
-use \Neoan3\Apps\Ops;
 
 class FileServe
 {

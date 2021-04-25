@@ -11,7 +11,6 @@ class Metric extends Neoan
 {
     function getMetric(array $body)
     {
-        Stateless::restrict();
         if (isset($body['slug'])) {
             return MetricsModel::visits(parse_url(base)['path'] . '/article/' . $body['slug']);
         }

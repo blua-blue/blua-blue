@@ -34,7 +34,7 @@ class Verify extends Neoan {
         if(!empty($unconfirmedEmail) && $unconfirmedEmail['confirm_code'] == sub(1) ){
             Db::user_email(['confirm_date'=>'.'],['id'=>'$'.$unconfirmedEmail['id']]);
             Session::logout();
-            redirect('profile/#settings');
+            redirect('login');
         } else {
             echo "Invalid url";
 
@@ -48,28 +48,9 @@ class Verify extends Neoan {
             'verify_link'=>$link,
             'Sender_Name' => 'Blue.Blue',
         ];
-
-        $sendgrid = new SendGrid(getenv('SENDGRID_API_KEY'));
-        $from = new From("noreply@corpscrypt.com", "Blua.Blue via Corpscrypt");
         $to = new To($to, $userName,$content);
-        $email = new Mail($from, [$to]);
-        $email->setTemplateId(getenv('SENDGRID_VERIFICATION_TEMPLATE'));
-        try {
-            $response = $sendgrid->send($email);
-            return ['success'=>$response->statusCode()];
-        } catch (Exception $e) {
-            return ['success'=>false,'error'=>$e->getMessage()];
-        }
-
-
-        /*$mail = new Email('Email confirmation request','Welcome to blua.blue',$content);
-        try {
-            $mail->mailer->addAddress($to);
-            $mail->mailer->send();
-        } catch (Exception $e) {
-            return ['success'=>false,'error'=>$e->getMessage()];
-        }
-        return ['success'=>true];*/
+        $email = new \sendgridTemplate(getenv('SENDGRID_VERIFICATION_TEMPLATE'));
+        return $email->send([$to]);
     }
 
 

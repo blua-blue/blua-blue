@@ -35,7 +35,11 @@ class Write extends Unicore {
     }
 
     function secure($uni) {
-        Session::restricted();
+        try{
+            Session::restrict();
+        } catch (\Exception $e){
+            redirect('login');
+        }
     }
 
     private function asApi() {
