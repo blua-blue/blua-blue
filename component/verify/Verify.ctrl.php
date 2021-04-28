@@ -10,6 +10,10 @@ use Neoan3\Frame\Neoan;
 use Neoan3\Model\IndexModel;
 use Neoan3\Model\UserModel;
 use PHPMailer\PHPMailer\Exception;
+use SendGrid;
+use SendGrid\Mail\From;
+use SendGrid\Mail\To;
+use SendGrid\Mail\Mail;
 
 class Verify extends Neoan {
     function init(){
@@ -30,26 +34,23 @@ class Verify extends Neoan {
         if(!empty($unconfirmedEmail) && $unconfirmedEmail['confirm_code'] == sub(1) ){
             Db::user_email(['confirm_date'=>'.'],['id'=>'$'.$unconfirmedEmail['id']]);
             Session::logout();
-            redirect('profile/#settings');
+            redirect('login');
         } else {
             echo "Invalid url";
 
         }
         exit();
     }
-    function confirmEmail($to, $hash) {
+    function confirmEmail($to, $hash, $userName) {
         $link = base . 'verify/'.$hash.'/?email='.$to;
-        $content = '<p>In order to activate your account, please use the following link:</p>';
-        $content .= '<a href="'.$link.'" style="color:#aaaaaa">'.$link.'</a>';
 
-        $mail = new Email('Email confirmation request','Welcome to blua.blue',$content);
-        try {
-            $mail->mailer->addAddress($to);
-            $mail->mailer->send();
-        } catch (Exception $e) {
-            return ['success'=>false,'error'=>$e->getMessage()];
-        }
-        return ['success'=>true];
+        $content = [
+            'verify_link'=>$link,
+            'Sender_Name' => 'Blue.Blue',
+        ];
+        $to = new To($to, $userName,$content);
+        $email = new \sendgridTemplate(getenv('SENDGRID_VERIFICATION_TEMPLATE'));
+        return $email->send([$to]);
     }
 
 

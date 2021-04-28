@@ -39,7 +39,7 @@ Vue.component('profileSettings',{
         },
         updateProfilePicture:function(uploadId){
             if(uploadId){
-                this.user.image_id = uploadId;
+                this.user.image_id = uploadId.imgId;
                 this.disabled = true;
                 api.put('profile',this.user).then(res=>{
                     api.get('register').then(x=>{

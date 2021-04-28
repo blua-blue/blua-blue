@@ -5,13 +5,8 @@ namespace Neoan3\Frame;
 
 require_once 'Setup.php';
 
-use Neoan3\Apps\Db;
 use Neoan3\Apps\Cache;
-use Neoan3\Apps\DbException;
-use Neoan3\Apps\Hcapture;
-use Neoan3\Apps\Ops;
 use Neoan3\Apps\Session;
-use Neoan3\Apps\SimpleTracker;
 use Neoan3\Apps\Stateless;
 use Neoan3\Core\Serve;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -29,7 +24,7 @@ class Neoan extends Serve {
         new Session();
 
 
-        if(!$this->developmentMode && !Session::is_logged_in()) {
+        if(!$this->developmentMode && !Session::isLoggedIn()) {
             Cache::setCaching('+2 hours');
         } else {
             Cache::invalidateAll();
@@ -86,6 +81,7 @@ class Neoan extends Serve {
 
         $this->vueComponent('cookieLaw');
         $this->vueComponent('header');
+        $this->vueComponent('bluaModal');
         $this->hook('header', 'header');
         $this->hook('footer', 'footer');
 

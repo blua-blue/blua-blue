@@ -20,7 +20,6 @@ use Neoan3\Model\UserModel;
 use Neoan3\Model\WebhookModel;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
-use League\CommonMark\Extras\CommonMarkExtrasExtension;
 /**
  * Class Article
  *
@@ -91,8 +90,8 @@ class Article extends Unicore
 
         // Is current viewer author?
         $loggedIn = false;
-        if(Session::is_logged_in()){
-            $loggedIn = Session::user_id();
+        if(Session::isLoggedIn()){
+            $loggedIn = Session::userId();
         }
 
         if ((!$loggedIn || $article['author']['id'] !== $loggedIn) &&
@@ -100,13 +99,11 @@ class Article extends Unicore
             $this->general();
             return $uni;
         }
-
         // get metricscom
         $article['metrics'] = MetricsModel::visits();
 
         $article['renderedContent'] = '';
         $environment = Environment::createCommonMarkEnvironment();
-        $environment->addExtension(new CommonMarkExtrasExtension());
         $markdownConverter = new CommonMarkConverter(['html_input' => 'strip'], $environment);
         foreach ($article['content'] as $content) {
             switch ($content['content_type']){
@@ -233,7 +230,11 @@ class Article extends Unicore
     function getArticle($condition)
     {
         $this->asApi();
-        $jwt = Stateless::restrict();
+        try{
+            $jwt = Stateless::validate();
+        } catch (\Exception $e){
+            $jwt = ['jti' => 'no'];
+        }
         $article = IndexModel::first(ArticleModel::find($condition));
         if (!empty($article)) {
             $this->content = $article;
@@ -299,7 +300,7 @@ class Article extends Unicore
                 $slug = $slug . '-' . (count($exists) + 1);
             }
             $articleId = Db::uuid()->uuid;
-            Db::article([
+            $d = Db::article([
                 'id'             => '$' . $articleId,
                 'author_user_id' => '$' . $jwt['jti'],
                 'slug'           => $slug,
@@ -355,7 +356,7 @@ class Article extends Unicore
         // is admin?
         $user = UserModel::get($jwt['jti']);
         if ($user['user_type'] !== 'admin') {
-            $condition['author_user_id'] = $jwt['jti'];
+            $condition['author_user_id'] = '$' . $jwt['jti'];
         }
         $find = Db::easy('article.id', $condition);
         if (empty($find)) {

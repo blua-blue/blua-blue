@@ -34,7 +34,11 @@ class Profile extends Unicore {
     }
 
     function secure($uni) {
-        Session::restricted();
+        try{
+            Session::restrict();
+        } catch (\Exception $e){
+            redirect('login');
+        }
     }
     private function asApi(){
         new Neoan();
@@ -55,7 +59,7 @@ class Profile extends Unicore {
                 'confirm_code'=>$hash
             ]);
             $verify = new Verify();
-            $trySending = $verify->confirmEmail($user['emails'][0]['email'],$hash);
+            $trySending = $verify->confirmEmail($user['emails'][0]['email'],$hash, $user['userName']);
             if(!$trySending['success']){
                 throw new RouteException('Email could not be sent',500);
             }

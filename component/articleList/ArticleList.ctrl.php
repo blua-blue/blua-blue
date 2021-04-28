@@ -99,7 +99,7 @@ class ArticleList extends Neoan
         try {
             $jwt = Stateless::validate();
             $userId = $jwt['jti'];
-        } catch (RouteException $e) {
+        } catch (\Exception $e) {
             $userId = false;
         }
         $articles = $this->evalFilter($filter, $userId);
