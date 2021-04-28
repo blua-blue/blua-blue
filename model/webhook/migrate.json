@@ -28,11 +28,18 @@
       "default": false,
       "a_i": false
     },
+    "name": {
+      "type": "varchar(255)",
+      "key": false,
+      "nullable": true,
+      "default": false,
+      "a_i": false
+    },
     "insert_date": {
       "type": "timestamp",
       "key": false,
       "nullable": false,
-      "default": "CURRENT_TIMESTAMP",
+      "default": "current_timestamp()",
       "a_i": false
     },
     "delete_date": {

@@ -31,11 +31,14 @@ class WebhookModel extends IndexModel
      * @return array
      * @throws \Neoan3\Apps\DbException
      */
-    static function send($userId, $payload, $event)
+    static function send($userId, $payload, $event, $passedWebhooks=[])
     {
         $webhooks = Db::easy('webhook.*', ['user_id' => '$' . $userId, '^delete_date']);
         $answers = [];
         foreach ($webhooks as $webhook) {
+            if(!self::findPassedIn($webhook, $passedWebhooks)){
+                continue;
+            }
             $auth = empty($webhook['token']) ? false : $webhook['token'];
             $answers[] = [
                 'id' => $webhook['id'],
@@ -43,6 +46,16 @@ class WebhookModel extends IndexModel
             ];
         }
         return $answers;
+    }
+    private static function findPassedIn($dbWebhook, $passedWebhooks): bool
+    {
+        $letThrough = true;
+        foreach($passedWebhooks as $passedWebhook){
+            if($dbWebhook['id'] === $passedWebhook['id'] && !$passedWebhook['active']){
+                $letThrough = false;
+            }
+        }
+        return $letThrough;
     }
 
 }

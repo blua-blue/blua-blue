@@ -3,7 +3,7 @@
 
 namespace Neoan3\Frame;
 
-require_once 'Setup.php';
+require_once __DIR__ . '/Setup.php';
 
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\Session;
@@ -18,6 +18,7 @@ class Neoan extends Serve {
     private   $developmentMode = true;
     private   $credentialType  = 'env';
     protected $currentAuth     = false;
+    private $loadedComponents  = [];
 
     function __construct() {
         // Hybrid: construct session
@@ -88,6 +89,9 @@ class Neoan extends Serve {
     }
 
     function vueComponent($element, $params = []) {
+        if(in_array($element, $this->loadedComponents)){
+            return $this;
+        }
         $params['base'] = base;
         $path = path . '/component/' . $element . '/' . $element . '.ce.';
         if(file_exists($path . $this->viewExt)) {
@@ -100,7 +104,7 @@ class Neoan extends Serve {
         if(file_exists($path . 'js')) {
             $this->js .= $this->fileContent($path . 'js', $params);
         }
-
+        $this->loadedComponents[] = $element;
         return $this;
     }
 
