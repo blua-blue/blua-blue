@@ -116,9 +116,22 @@
                             </div>
                         </div>
                     </article>
+                    <div style="margin: 10px 0">
+                        <p v-if="webhooks.length>0">Webhooks</p>
+                        <section v-for="webhook in webhooks">
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" v-model="webhook.active">
+                                    {{webhook.name}}
+                                </label>
+                            </div>
+                        </section>
+                    </div>
+
                     <div>
                         <button type="submit" v-on:click="article.isDraft = true" class="button is-info">
-                            <span>Save</span></button>
+                            <span>Save</span>
+                        </button>
                         <button v-if="article.isDraft" type="submit" v-on:click="article.isDraft = false"
                                 class="button is-primary">Save &
                             publish

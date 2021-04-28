@@ -15,7 +15,9 @@ Vue.component('write', {
                 },
                 content: [],
                 keywords: [],
+                webhooks: []
             },
+            webhooks:[],
             newContent:'',
             categories: [
                 {name: 'Other'}
@@ -38,7 +40,7 @@ Vue.component('write', {
             }
         }
     },
-    mounted() {
+    async mounted() {
         this.permission = true;
         if ('{{loadedArticleId}}' !== '') {
             this.loadArticle('{{loadedArticleId}}');
@@ -46,6 +48,13 @@ Vue.component('write', {
         api.get('categories?all').then(res => {
             this.categories = res.data
         });
+        const {data} = await api.get('webhooks');
+        const elevated = [];
+        data.forEach(webhook =>{
+            webhook.active = true;
+            elevated.push(webhook);
+        })
+        this.webhooks = elevated;
         /* Content block deletion?*/
         this.$root.$on('modalConfirmed',args =>{
             if(typeof args.sort !== 'undefined' && typeof args.action !== 'undefined' && args.action === 'removeContent'){
@@ -142,6 +151,7 @@ Vue.component('write', {
         },
         create() {
             let obj = this.article;
+            obj.webhooks = this.webhooks;
             api.post('article', obj).then(res => {
                 this.loadArticle(res.data.id);
                 this.$root.$emit('toggleModal', {content: 'Saved', modalClass: 'is-success'});

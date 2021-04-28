@@ -16,6 +16,9 @@
     <h3 class="subtitle">Registered webhooks</h3>
     <div class="columns">
         <div class="column">
+            <strong>Reference Name</strong>
+        </div>
+        <div class="column">
             <strong>Endpoint</strong>
         </div>
         <div class="column">
@@ -27,6 +30,9 @@
 
     </div>
     <div v-for="webhook in webhooks" class="columns">
+        <div class="column">
+            {{webhook.name}}
+        </div>
         <div class="column">
             {{webhook.target_url}}
         </div>
@@ -40,6 +46,9 @@
         </div>
     </div>
     <form @submit.prevent="addWebhook" class="columns">
+        <div class="column field">
+            <input type="text" class="input" placeholder="Name" v-model="newWebhook.name" required>
+        </div>
         <div class="column field">
             <input type="text" class="input" placeholder="Endpoint" v-model="newWebhook.target_url" required>
         </div>

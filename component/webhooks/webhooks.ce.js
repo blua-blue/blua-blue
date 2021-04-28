@@ -4,7 +4,8 @@ Vue.component('webhooks', {
             webhooks:[],
             newWebhook:{
                 target_url:'',
-                token:''
+                token:'',
+                name:''
             }
         }
     },

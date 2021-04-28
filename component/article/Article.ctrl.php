@@ -244,7 +244,6 @@ class Article extends Unicore
                 return $article;
             }
         }
-
         throw new RouteException('Not found or no permission', 404);
     }
 
@@ -333,7 +332,7 @@ class Article extends Unicore
 
         }
         Cache::invalidate('article');
-        $webhooks = WebhookModel::send($jwt['jti'], ArticleModel::byId($articleId), $event);
+        $webhooks = WebhookModel::send($jwt['jti'], ArticleModel::byId($articleId), $event, $article['webhooks']);
 
         return ['id' => $articleId, 'webhooks' => $webhooks];
     }
