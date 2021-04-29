@@ -3,6 +3,7 @@
 
 namespace Neoan3\Components;
 
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use Neoan3\Apps\Cache;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Ops;
@@ -104,6 +105,7 @@ class Article extends Unicore
 
         $article['renderedContent'] = '';
         $environment = Environment::createCommonMarkEnvironment();
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
         $markdownConverter = new CommonMarkConverter(['html_input' => 'strip'], $environment);
         foreach ($article['content'] as $content) {
             switch ($content['content_type']){
