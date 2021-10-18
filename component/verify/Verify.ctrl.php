@@ -42,6 +42,7 @@ class Verify extends Neoan {
         exit();
     }
     function confirmEmail($to, $hash, $userName) {
+        require_once path . '/component/sendGridTemplate/SendgridTemplate.ctrl.php';
         $link = base . 'verify/'.$hash.'/?email='.$to;
 
         $content = [
@@ -49,7 +50,7 @@ class Verify extends Neoan {
             'Sender_Name' => 'Blue.Blue',
         ];
         $to = new To($to, $userName,$content);
-        $email = new \sendgridTemplate(getenv('SENDGRID_VERIFICATION_TEMPLATE'));
+        $email = new SendgridTemplate(getenv('SENDGRID_VERIFICATION_TEMPLATE'));
         return $email->send([$to]);
     }
 
