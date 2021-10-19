@@ -5,6 +5,7 @@ namespace Neoan3\Model;
 
 
 use Neoan3\Apps\Curl;
+use Neoan3\Apps\CurlException;
 use Neoan3\Apps\Db;
 use Neoan3\Apps\Transformer;
 
@@ -40,9 +41,15 @@ class WebhookModel extends IndexModel
                 continue;
             }
             $auth = empty($webhook['token']) ? false : $webhook['token'];
+            $webhookCall = false;
+            try{
+                $webhookCall = Curl::post($webhook['target_url'], ['event' => $event, 'payload' => $payload], $auth);
+            } catch (CurlException $e){
+                $webhookCall = $e->getMessage();
+            }
             $answers[] = [
                 'id' => $webhook['id'],
-                'result' => Curl::post($webhook['target_url'], ['event' => $event, 'payload' => $payload], $auth)
+                'result' => $webhookCall
             ];
         }
         return $answers;
