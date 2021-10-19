@@ -97,6 +97,7 @@ class Article extends Unicore
 
         if ((!$loggedIn || $article['author']['id'] !== $loggedIn) &&
             (empty($article) || $article['is_public'] !== 1 || empty($article['publish_date']))) {
+            header('HTTP/1.0 404 Not Found');
             $this->general();
             return $uni;
         }
