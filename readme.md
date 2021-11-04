@@ -1,4 +1,4 @@
->Phase 1: meanwhile, [phase 2](https://github.com/blua-blue/blua-blue2) is in production
+>Phase 1: meanwhile, [phase 2](https://github.com/blua-blue/blua-blue-v2) is in production
 
 ![blua.blue](asset/img/blua-blue-logo.png)
 # Content Enablement Platform
